@@ -1,0 +1,68 @@
+library(tidyverse)
+
+#### Ouverture de Final_ARG_species.tsv (ou de Final_New_ARG_species.tsv) & récupération des données ####
+taxo <- read_tsv('W:/ninon-species/output/Final_ARG_species.tsv') %>% 
+#taxo <- read_tsv('W:/ninon-species/output/Final_New_ARG_species.tsv') %>% 
+  as.data.frame()
+
+#### On génère 6 nouvelles colonnes des partages de centroides du niveau 'species' au niveau 'Phylum' ####
+# N.B. : Le niveau 'Domain' n'est pas traité car cette étude ne porte que sur un seul et unique domaine, celui des 'bacteria' (== bactérie)
+taxo %>%
+  arrange(Centroid) %>%
+  group_by(Centroid) %>%
+  mutate(species_shared_by = length(unique(species))) %>% # Partages inter-espèces
+  mutate(genus_shared_by = length(unique(Genus))) %>% # Partages inter-génus
+  mutate(family_shared_by = length(unique(Family))) %>% # Partages inter-familles
+  mutate(order_shared_by = length(unique(Order))) %>% # Partages inter-ordres
+  mutate(class_shared_by = length(unique(Class))) %>% # Partages inter-classes
+  mutate(phylum_shared_by = length(unique(Phylum))) %>% # Partages inter-phyla (N.B. : phyla == pluriel de phylum)
+  identity() -> taxo
+
+taxo <- taxo[, -3] # On supprime la colonne des 'shared_by' car elle est identique à celle des 'species_shared_by' et donc redondante
+
+#### Enregistrement de la dataframe complète dans le fichier Taxo_result.tsv (ou de celle slicée dans le fichier New_Taxo_result.tsv) ####
+write.table(taxo, "W:/ninon-species/output/Taxo_result.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#write.table(taxo, "W:/ninon-species/output/New_Taxo_result.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+
+#### Slice de la dataframe sur les centroides de façon à n'avoir plus qu'une seule occurrence par centroid  ####
+taxo %>% 
+  ungroup() %>% 
+  group_by(Centroid) %>%
+  arrange(pident, qcovhsp) %>%
+  slice_tail() -> taxo_small
+
+# On réarrange les données en vue des plots
+taxo_small %>% 
+  arrange(phylum_shared_by, class_shared_by, order_shared_by, family_shared_by, genus_shared_by, species_shared_by) %>%
+  identity() -> taxo_small
+
+#### Plot des histogrames des partages des centroides du niveau 'species' au niveau 'phylum' ####
+species_share <- taxo_small['species_shared_by']
+species_num <- nrow(unique(species_share)) # Donne le nombre de barre que doit contenir l'histogramme
+splot <- ggplot(species_share, aes(species_shared_by)) + geom_histogram(bins = (max(species_share)*2 - 1))
+splot + ggtitle("Partage inter-espèces")
+
+genus_share <- taxo_small['genus_shared_by']
+genus_num <- nrow(unique(genus_share)) # Donne le nombre de barre que doit contenir l'histogramme
+gplot <- ggplot(genus_share, aes(genus_shared_by)) + geom_histogram(bins = (max(genus_share)*2 - 1))
+gplot + ggtitle("Partage inter-génus")
+
+family_share <- taxo_small['family_shared_by']
+family_num <- nrow(unique(family_share)) # Donne le nombre de barre que doit contenir l'histogramme
+fplot <- ggplot(family_share, aes(family_shared_by)) + geom_histogram(bins = (max(family_share)*2 - 1))
+fplot + ggtitle("Partage inter-familles")
+
+order_share <- taxo_small['order_shared_by']
+order_num <- nrow(unique(order_share)) # Donne le nombre de barre que doit contenir l'histogramme
+oplot <- ggplot(order_share, aes(order_shared_by)) + geom_histogram(bins = (max(order_share)*2 - 1))
+oplot + ggtitle("Partage inter-ordres")
+
+class_share <- taxo_small['class_shared_by']
+class_num <- nrow(unique(class_share)) # Donne le nombre de barre que doit contenir l'histogramme
+cplot <- ggplot(class_share, aes(class_shared_by)) + geom_histogram(bins = (max(class_share)*2 - 1))
+cplot + ggtitle("Partage inter-classes")
+
+phylum_share <- taxo_small['phylum_shared_by']
+phylum_num <- nrow(unique(phylum_share)) # Donne le nombre de barre que doit contenir l'histogramme
+pplot <- ggplot(phylum_share, aes(phylum_shared_by)) + geom_histogram(bins = (max(phylum_share)*2 - 1))
+pplot + ggtitle("Partage inter-phyla")
