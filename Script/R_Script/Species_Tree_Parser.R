@@ -3,11 +3,11 @@ library(tidytree)
 library(ape)
 library(ggtree) 
 
-#### Ouverture de Species.tree et de taxo_result.tsv (ou de New_Taxo_result.tsv) & récupération des données ####
+#### Ouverture de Species.tree et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & récupération des données ####
 tree <- read.tree('W:/ninon-species/output/Species_tree.tree')
 tibble_tree <- as_tibble(tree)
 
-all_species <- read_tsv('W:/ninon-species/output/taxo_result.tsv') %>%
+all_species <- read_tsv('W:/ninon-species/output/Taxo_result.tsv') %>%
 #all_species <- read_tsv('W:/ninon-species/output/New_Taxo_result.tsv') %>% 
   as.data.frame()
 
