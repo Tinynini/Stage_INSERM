@@ -1,6 +1,6 @@
 library(tidyverse)
 
-#### Ouverture de all_species_clust.tsv et de M_Genus_ARG.tsv (ou de Sliced_all_species_clust.tsv et de New_M_Genus_ARG.tsv) & récupération des données ####
+#### Ouverture de all_species_clust.tsv et de M_Genus_ARG.tsv (ou de Sliced_all_species_clust.tsv et de New_M_Genus_ARG.tsv) & rÃ©cupÃ©ration des donnÃ©es ####
 Genus_matrix <- read_tsv('W:/ninon-species/output/M_Genus_ARG.tsv') 
 #Genus_matrix <- read_tsv('W:/ninon-species/output/New_M_Genus_ARG.tsv') 
 
@@ -13,18 +13,18 @@ Genus_matrix <- as.matrix(Genus_matrix)
 gene <- sort(str_replace(unique(all_species$qseqid), pattern = '(.*)_(.*)_(.*)', replacement = "\\1"))
 rownames(Genus_matrix) <- gene
 
-#### Exemple des barplots d'absence/présence que l'on obtient pour un ARG de la famille des 'aad' ####
+#### Exemple des barplots d'absence/prÃ©sence que l'on obtient pour un ARG de la famille des 'aad' ####
 barplot(Genus_matrix[100,], axisnames = FALSE)
-#barplot(Genus_matrix[68,])
+#barplot(Genus_matrix[67,])
 
-# Là, on ne conserve que les présences pour pouvoir voir les nom de génus se partageant l'ARG (avec le zoom en plein écran ou en étirant suffisement la zone de plot)
+# LÃ , on ne conserve que les prÃ©sences pour pouvoir voir les nom de gÃ©nus se partageant l'ARG (avec le zoom en plein Ã©cran ou en Ã©tirant suffisement la zone de plot)
 to_set <- which(Genus_matrix[100,] != 0)
-#to_set <- which(Genus_matrix[68,] != 0)
+#to_set <- which(Genus_matrix[67,] != 0)
 m <- Genus_matrix[100, c(to_set)]
-#m <- Genus_matrix[68, c(to_set)]
+#m <- Genus_matrix[67, c(to_set)]
 barplot(m)
 
-#### Exemple de calcul des distances et du plot du dendrogramme associé pour la famille des 'aad' ####
+#### Exemple de calcul des distances et du plot du dendrogramme associÃ© pour la famille des 'aad' ####
 aad_ARG <- Genus_matrix
 j <- 1
 
