@@ -2,9 +2,9 @@ library(tidyverse)
 library(tidytree)
 library(ape)
 
-#### Ouverture de bac120_r95.tree, de New_Parsed_taxonomy.tsv et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & récupération des données ####
+#### Ouverture de bac120_r95.tree, de New_Parsed_taxonomy.tsv et de taxo_result.tsv (ou de New_Taxo_result.tsv) & rÃ©cupÃ©ration des donnÃ©es ####
 tree <- read.tree('W:/ninon-species/data/bac120_r95.tree')
-tree_df <- as_tibble(tree) # On passe au format tibble, plus pratique à manipuler
+tree_df <- as_tibble(tree) # On passe au format tibble, plus pratique Ã  manipuler
 
 all_species <- read_tsv('W:/ninon-species/output/taxo_result.tsv') %>%
 #all_species <- read_tsv('W:/ninon-species/output/New_Taxo_result.tsv') %>% 
@@ -21,9 +21,9 @@ taxo <- read_tsv('W:/ninon-species/output/New_Parsed_taxonomy.tsv') %>%
 # On extrait les colonnes 'sseqid' et 'Species' de la table de taxonomie
 small_taxo <- taxo[, c(1, 8)]
 
-#### Join de l'abre avec les espèces de la table de taxonomie (== remplacer les labels par les noms des espèces associées) ####
-taxo_tree <- left_join(tree_df, small_taxo, by = c('label' = 'sseqid')) # On join sur les labels de séquences bactériennes
-taxo_tree[1:Ntip(tree), 'label'] <- taxo_tree[1:Ntip(tree), 'Species'] # On remplace les labels de tips (pas de nodes) par les noms d'espèces associés 
+#### Join de l'abre avec les espÃ¨ces de la table de taxonomie (== remplacer les labels par les noms des espÃ¨ces associÃ©es) ####
+taxo_tree <- left_join(tree_df, small_taxo, by = c('label' = 'sseqid')) # On join sur les labels de sÃ©quences bactÃ©riennes
+taxo_tree[1:Ntip(tree), 'label'] <- taxo_tree[1:Ntip(tree), 'Species'] # On remplace les labels de tips (pas de nodes) par les noms d'espÃ¨ces associÃ©s 
 taxo_tree <- taxo_tree[, -5]
 
 Label <- taxo_tree[1:Ntip(tree),] # On travail sur les labels de tips uniquement 
@@ -47,33 +47,33 @@ labels %>%
 tips <- which((Label[, 'node'] %>% pull()) %in% (labels[, 'node'] %>% pull()) == FALSE) 
 
 new_tree <- as.phylo(taxo_tree) # On passe au format phylo pour pouvoir pruner l'arbre
-new_tree <- drop.tip(new_tree, tips) # On prune l'arbre en suppriment les tips associés aux doublons
-taxo_tree <- as_tibble(new_tree) # On passe au format tibble, plus pratique à manipuler
+new_tree <- drop.tip(new_tree, tips) # On prune l'arbre en suppriment les tips associÃ©s aux doublons
+taxo_tree <- as_tibble(new_tree) # On passe au format tibble, plus pratique Ã  manipuler
 
-#### Join de l'abre avec les espèces de notre dataframe (== pruner l'arbre en ne gardant que les espèces présentes dans notre dataframe) ####
-phylo_tree <- left_join(taxo_tree, uni_species, by = c('label' = 'species')) # On join sur les noms d'espèces
+#### Join de l'abre avec les espÃ¨ces de notre dataframe (== pruner l'arbre en ne gardant que les espÃ¨ces prÃ©sentes dans notre dataframe) ####
+phylo_tree <- left_join(taxo_tree, uni_species, by = c('label' = 'species')) # On join sur les noms d'espÃ¨ces
 n_tips <- nrow(phylo_tree) - Nnode(new_tree)
 
-na_label <- is.na(phylo_tree[1:n_tips, 'species_shared_by']) # On extrait les labels des tips matchés lors du join
+na_label <- is.na(phylo_tree[1:n_tips, 'species_shared_by']) # On extrait les labels des tips matchÃ©s lors du join
 species <- which(na_label == FALSE)
 
 phylo_tree[species, 'species_shared_by'] <- 1 # On standardise la valeur de la colonne 'species_shared_by' pour ces tips 
 phylo_tree <- unique(phylo_tree) # On supprime les doublons
 
-na_label <- is.na(phylo_tree[1:Ntip(new_tree), 'species_shared_by']) # On extrait les labels des tips non-matchés
+na_label <- is.na(phylo_tree[1:Ntip(new_tree), 'species_shared_by']) # On extrait les labels des tips non-matchÃ©s
 na_species <- which(na_label == TRUE)
 
 next_tree <- as.phylo(phylo_tree) # On passe au format phylo pour pouvoir pruner l'arbre
-next_tree <- drop.tip(next_tree, na_species) # On prune l'arbre en suppriment les tips non-matchés
-phylo_tree <- as_tibble(next_tree) # On passe au format tibble, plus pratique à manipuler
+next_tree <- drop.tip(next_tree, na_species) # On prune l'arbre en suppriment les tips non-matchÃ©s
+phylo_tree <- as_tibble(next_tree) # On passe au format tibble, plus pratique Ã  manipuler
 
-#### Modification de la nomenclature des labels des nodes de l'abres en vue des plots à venir ####
+#### Modification de la nomenclature des labels des nodes de l'abres en vue des plots Ã  venir ####
 phylo_tree %>%
   arrange(label) %>%
   identity -> phylo_tree
 
 j <- 1
-# On ajoute une numérotation aux labels de certains nodes pour qu'ils soient tous uniques
+# On ajoute une numÃ©rotation aux labels de certains nodes pour qu'ils soient tous uniques
 for (i in 329:Nnode(next_tree)) 
 {
   if(phylo_tree[i + 1, 'label'] == phylo_tree[i, 'label'])
@@ -94,5 +94,5 @@ phylo_tree %>%
 
 next_tree <- as.phylo(phylo_tree) # On repasse au format phylo pour pouvoir enregistrer l'arbre sans risquer de l'abimer
 
-#### Enregistrement de l'arbre au format 'phylo' dans le fichier Species_tree.tree (même résultat qu'on parte de Taxo_result.tsv ou de New_Taxo_result.tsv) ####
+#### Enregistrement de l'arbre au format 'phylo' dans le fichier Species_tree.tree (mÃªme rÃ©sultat qu'on parte de Taxo_result.tsv ou de New_Taxo_result.tsv) ####
 write.tree(next_tree, "W:/ninon-species/output/Species_tree.tree")
