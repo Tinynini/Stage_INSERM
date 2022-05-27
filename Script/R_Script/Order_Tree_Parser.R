@@ -3,15 +3,15 @@ library(tidytree)
 library(ape)
 library(ggtree) 
 
-#### Ouverture de Order.tree et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & récupération des données ####
+#### Ouverture de Order.tree et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & rÃ©cupÃ©ration des donnÃ©es ####
 tree <- read.tree('W:/ninon-species/output/Order_tree.tree')
 tibble_tree <- as_tibble(tree)
 
-all_species <- read_tsv('W:/ninon-species/output/taxo_result.tsv') %>%
+all_species <- read_tsv('W:/ninon-species/output/Taxo_result.tsv') %>%
 #all_species <- read_tsv('W:/ninon-species/output/New_Taxo_result.tsv') %>% 
   as.data.frame()
 
-#### Prétraitement des données en vue de la création d'une matrice d'absence/présence CentroidexOrdre ####
+#### PrÃ©traitement des donnÃ©es en vue de la crÃ©ation d'une matrice d'absence/prÃ©sence CentroidexOrdre ####
 uni_centro <- sort(unique(all_species$Centroid))
 n_centro <- length(uni_centro)
 
@@ -19,7 +19,7 @@ uni_order <- as.data.frame(sort(unique(all_species$Order)))
 colnames(uni_order) <- 'Order'
 n_order <- nrow(uni_order)
 
-#### Créaction d'une matrice binaire (0/1) d'absence/présence des centroides au niveau des ordres ####
+#### CrÃ©action d'une matrice binaire (0/1) d'absence/prÃ©sence des centroides au niveau des ordres ####
 centro_matrix <- matrix(data = 0, nrow = n_centro, ncol = n_order)
 rownames(centro_matrix) <- uni_centro
 
@@ -35,7 +35,7 @@ centro_matrix <- t(centro_matrix)
 centro_matrix <- as.data.frame(centro_matrix)
 centro_matrix <- cbind(uni_order, centro_matrix)
 
-#### Join de l'arbre et de la matrice & préparation de nouvelles listes ####
+#### Join de l'arbre et de la matrice & prÃ©paration de nouvelles listes ####
 tibble_tree <- left_join(tibble_tree, centro_matrix, by = c('label' = 'Order'))
 
 n_ARG <- ncol(tibble_tree)
@@ -46,7 +46,7 @@ uni_centro <- cbind(uni_centro, length) # Future dataframe des longueurs totales
 colnames(uni_centro) <- c('centroid', 'length')
 j <- 1
 
-#### Création des listes des sous-arbres et de leurs longueurs par centroides ####
+#### CrÃ©ation des listes des sous-arbres et de leurs longueurs par centroides ####
 for (i in 5:n_ARG)  
 {
   wanted_ARG <- colnames(tibble_tree[, i])
