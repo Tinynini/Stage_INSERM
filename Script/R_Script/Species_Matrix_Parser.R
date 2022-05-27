@@ -1,6 +1,6 @@
 library(tidyverse)
 
-#### Ouverture de all_species_clust.tsv et de Matrix.tsv (ou de Sliced_all_species_clust.tsv et de New_Matrix.tsv) & récupération des données ####
+#### Ouverture de all_species_clust.tsv et de Matrix.tsv (ou de Sliced_all_species_clust.tsv et de New_Matrix.tsv) & rÃ©cupÃ©ration des donnÃ©es ####
 matrix <- read_tsv('W:/ninon-species/output/Matrix.tsv')
 #matrix <- read_tsv('W:/ninon-species/output/New_Matrix.tsv') 
 
@@ -13,18 +13,18 @@ matrix <- as.matrix(matrix)
 gene <- sort(str_replace(unique(all_species$qseqid), pattern = '(.*)_(.*)_(.*)', replacement = "\\1"))
 rownames(matrix) <- gene
 
-#### Exemple des barplots d'absence/présence que l'on obtient pour un ARG de la famille des 'aad' ####
+#### Exemple des barplots d'absence/prÃ©sence que l'on obtient pour un ARG de la famille des 'aad' ####
 barplot(matrix[100,], axisnames = FALSE)
-#barplot(matrix[68,])
+#barplot(matrix[67,])
 
-# Là, on ne conserve que les présences pour pouvoir voir les nom d'espèces se partageant l'ARG (avec le zoom en plein écran ou en étirant suffisement la zone de plot)
+# LÃ , on ne conserve que les prÃ©sences pour pouvoir voir les nom d'espÃ¨ces se partageant l'ARG (avec le zoom en plein Ã©cran ou en Ã©tirant suffisement la zone de plot)
 to_set <- which(matrix[100,] != 0)
-#to_set <- which(matrix[68,] != 0)
+#to_set <- which(matrix[67,] != 0)
 m <- matrix[100, c(to_set)]
-#m <- matrix[68, c(to_set)]
+#m <- matrix[67, c(to_set)]
 barplot(m)
 
-#### Exemple de calcul des distances et du plot du dendrogramme associé pour la famille des 'aad' ####
+#### Exemple de calcul des distances et du plot du dendrogramme associÃ© pour la famille des 'aad' ####
 aad_ARG <- matrix
 j <- 1
 
