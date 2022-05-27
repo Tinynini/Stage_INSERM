@@ -3,7 +3,7 @@ library(tidytree)
 library(ape)
 library(ggtree) 
 
-#### Ouverture de Genus.tree et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & récupération des données ####
+#### Ouverture de Genus.tree et de taxo_result.tsv (ou de New_Taxo_result.tsv) & rÃ©cupÃ©ration des donnÃ©es ####
 tree <- read.tree('W:/ninon-species/output/Genus_tree.tree')
 tibble_tree <- as_tibble(tree)
 
@@ -11,7 +11,7 @@ all_species <- read_tsv('W:/ninon-species/output/taxo_result.tsv') %>%
 #all_species <- read_tsv('W:/ninon-species/output/New_Taxo_result.tsv') %>% 
   as.data.frame()
 
-#### Prétraitement des données en vue de la création d'une matrice d'absence/présence CentroidexGénus ####
+#### PrÃ©traitement des donnÃ©es en vue de la crÃ©ation d'une matrice d'absence/prÃ©sence CentroidexGÃ©nus ####
 uni_centro <- sort(unique(all_species$Centroid))
 n_centro <- length(uni_centro)
 
@@ -19,7 +19,7 @@ uni_genus <- as.data.frame(sort(unique(all_species$Genus)))
 colnames(uni_genus) <- 'Genus'
 n_genus <- nrow(uni_genus)
 
-#### Créaction d'une matrice binaire (0/1) d'absence/présence des centroides au niveau des génus ####
+#### CrÃ©action d'une matrice binaire (0/1) d'absence/prÃ©sence des centroides au niveau des gÃ©nus ####
 centro_matrix <- matrix(data = 0, nrow = n_centro, ncol = n_genus)
 rownames(centro_matrix) <- uni_centro
 
@@ -35,7 +35,7 @@ centro_matrix <- t(centro_matrix)
 centro_matrix <- as.data.frame(centro_matrix)
 centro_matrix <- cbind(uni_genus, centro_matrix)
 
-#### Join de l'arbre et de la matrice & préparation de nouvelles listes ####
+#### Join de l'arbre et de la matrice & prÃ©paration de nouvelles listes ####
 tibble_tree <- left_join(tibble_tree, centro_matrix, by = c('label' = 'Genus'))
 
 n_ARG <- ncol(tibble_tree)
@@ -46,7 +46,7 @@ uni_centro <- cbind(uni_centro, length) # Future dataframe des longueurs totales
 colnames(uni_centro) <- c('centroid', 'length')
 j <- 1
 
-#### Création des listes des sous-arbres et de leurs longueurs par centroides ####
+#### CrÃ©ation des listes des sous-arbres et de leurs longueurs par centroides ####
 for (i in 5:n_ARG)  
 {
   wanted_ARG <- colnames(tibble_tree[, i])
@@ -77,7 +77,7 @@ splot + ggtitle("Distance inter-genus")
 #### Exemple de plot d'un sous_arbre avec le 2eme centroid de la liste ####
 plot.phylo(tree_list[[2]], show.node.label = TRUE, main = uni_centro[2, 1], sub = uni_centro[2, 2])
 
-#### Plot des sous-arbres des génus par centroides sur l'arbre complet ####
+#### Plot des sous-arbres des gÃ©nus par centroides sur l'arbre complet ####
 liste <- vector(mode = 'list', length = n_centro)
 
 for (i in 1:n_centro)
@@ -94,4 +94,4 @@ liste <- cbind(liste, type)
 names(liste) <- c('node', 'type')
 
 gtree <- ggtree(tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
-gtree + ggtitle("sous-arbres des génus par centroides")
+gtree + ggtitle("sous-arbres des gÃ©nus par centroides")
