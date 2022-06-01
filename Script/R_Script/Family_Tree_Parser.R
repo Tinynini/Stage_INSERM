@@ -93,5 +93,8 @@ type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol 
 liste <- cbind(liste, type)
 names(liste) <- c('node', 'type')
 
+ftree <- ggtree(tree) 
+ftree + ggtitle("arbres des familles par centroides")
+
 ftree <- ggtree(tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
 ftree + ggtitle("sous-arbres des familles par centroides")
