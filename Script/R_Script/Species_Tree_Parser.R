@@ -95,7 +95,7 @@ liste <- cbind(liste, type)
 names(liste) <- c('node', 'type')
 
 stree <- ggtree(tree) 
-stree + ggtitle("arbres des espèces par centroides")
+stree + ggtitle("arbre des espèces")
 
 stree <- ggtree(tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
-stree + ggtitle("sous-arbres des espèces par centroides")
+stree + ggtitle("sous-arbres des espèces par gènes")
