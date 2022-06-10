@@ -1,4 +1,4 @@
-Ce github vous donne accès à l'ensembles des scripts R et bash que j'ai codé lors de mon stage de M1, ainsi que les fichiers contenant les datasets de départ et les outputs générés au fur et à mesure de l'utilisation de ces scripts. Par respect de la confidentialité qu'implique toute recherche scientifique, ces fichiers ne doivent pas être difusés.
+Ce github vous donne accès à l'ensembles des scripts R et bash que j'ai codé lors de mon stage de M1. En revanche, par respect de la confidentialité qu'implique toutes recherches scientifiques, les données de départ et les outputs n'y figurent pas. Vous ne pourrez donc pas tester les codes par vous même, mais les scripts R sont duement légendés pour compenser cela. Quant aux scripts bash, leur fonctionnement est décrit dans mon rapport dans la partie "1) Happy cluster à l’école des scripts bash" (sous-partie de la partie "III – Partie expérimentale, quand l’affaire tourne aux codes…").
 
 Le fichier "Doc de travail.pdf" au début de ce github contient la description de l'ensemble des datasets, scripts et outputs.
 
