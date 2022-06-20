@@ -11,7 +11,7 @@ Quant aux scripts bash, leurs fonctionnements est décrit dans mon rapport dans 
 
 Vous pouvez ouvrir les scripts bash en passant par un serveur LINUX, ou plus simplement dans Visual Code Studio ou toute autre plateforme permettant l'ouverture de fichier.txt (ou équivalent à ce format).
 
-Vous pouvez retrouver les descriptions de tous ces scripts en annexe de mon rapport de stage dans la partie "Demandez le programme".
+Vous pouvez retrouver les descriptions de tous ces scripts en annexe de mon rapport de stage dans la partie "Tout ce que vous avez toujours voulu savoir sur mes scripts ...".
 
 **N.B. :**
 
