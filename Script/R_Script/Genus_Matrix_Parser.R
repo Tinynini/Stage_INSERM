@@ -13,26 +13,26 @@ Genus_matrix <- as.matrix(Genus_matrix)
 gene <- sort(str_replace(unique(all_species$qseqid), pattern = '(.*)_(.*)_(.*)', replacement = "\\1"))
 rownames(Genus_matrix) <- gene
 
-#### Exemple des barplots d'absence/présence que l'on obtient pour un ARG de la famille des 'aad' ####
+#### Exemple des barplots d'absence/présence que l'on obtient pour un ARG de la famille des 'aph' (aph(3')-XV) ####
 barplot(Genus_matrix[100,], axisnames = FALSE)
-#barplot(Genus_matrix[67,])
+#barplot(Genus_matrix[67,]) # Version Réduite
 
 # Là, on ne conserve que les présences pour pouvoir voir les nom de génus se partageant l'ARG (avec le zoom en plein écran ou en étirant suffisement la zone de plot)
 to_set <- which(Genus_matrix[100,] != 0)
-#to_set <- which(Genus_matrix[67,] != 0)
+#to_set <- which(Genus_matrix[67,] != 0) # Version Réduite
 m <- Genus_matrix[100, c(to_set)]
-#m <- Genus_matrix[67, c(to_set)]
+#m <- Genus_matrix[67, c(to_set)] # Version Réduite
 barplot(m)
 
-#### Exemple de calcul des distances et du plot du dendrogramme associé pour la famille des 'aad' ####
-aad_ARG <- Genus_matrix
+#### Exemple de calcul des distances et du plot du dendrogramme associé pour la famille des 'aph' ####
+aph_ARG <- Genus_matrix
 j <- 1
 
 for (i in 1:nrow(Genus_matrix)) 
 {
-  if (startsWith(gene[i], 'aad') != TRUE)
+  if (startsWith(gene[i], 'aph') != TRUE)
   {
-    aad_ARG <- aad_ARG[-j,]
+    aph_ARG <- aph_ARG[-j,]
   }
   else
   {
@@ -40,7 +40,7 @@ for (i in 1:nrow(Genus_matrix))
   }
 }
 
-all_dist <- dist(aad_ARG, method = 'binary')
+all_dist <- dist(aph_ARG, method = 'binary')
 
 clust <- hclust(all_dist, "complete")
 plot(clust, labels = FALSE)
