@@ -15,13 +15,13 @@ rownames(matrix) <- gene
 
 #### Exemple des barplots d'absence/présence que l'on obtient pour un ARG de la famille des 'aph' (aph(3')-XV) ####
 barplot(matrix[100,], axisnames = FALSE)
-#barplot(matrix[67,])
+#barplot(matrix[67,]) # Version Réduite
 
 # Là, on ne conserve que les présences pour pouvoir voir les nom d'espèces se partageant l'ARG (avec le zoom en plein écran ou en étirant suffisement la zone de plot)
 to_set <- which(matrix[100,] != 0)
-#to_set <- which(matrix[67,] != 0)
+#to_set <- which(matrix[67,] != 0) # Version Réduite
 m <- matrix[100, c(to_set)]
-#m <- matrix[67, c(to_set)]
+#m <- matrix[67, c(to_set)] # Version Réduite
 barplot(m)
 
 #### Exemple de calcul des distances et du plot du dendrogramme associé pour la famille des 'aph' ####
