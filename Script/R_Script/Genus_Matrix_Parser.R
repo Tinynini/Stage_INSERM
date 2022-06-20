@@ -14,13 +14,13 @@ gene <- sort(str_replace(unique(all_species$qseqid), pattern = '(.*)_(.*)_(.*)',
 rownames(Genus_matrix) <- gene
 
 #### Exemple des barplots d'absence/présence que l'on obtient pour un ARG de la famille des 'aph' (aph(3')-XV) ####
-barplot(Genus_matrix[257,], main = "Partage inter-génus de aph(3')-XV", axisnames = FALSE) 
+barplot(Genus_matrix[258,], main = "Partage inter-génus de aph(3')-XV", axisnames = FALSE) 
 #barplot(Genus_matrix[121,], main = "Partage inter-génus de aph(3')-XV") # Version réduite 
 
 # Là, on ne conserve que les présences pour pouvoir voir les nom de génus se partageant l'ARG (avec le zoom en plein écran ou en étirant suffisement la zone de plot)
-to_set <- which(Genus_matrix[257,] != 0)
+to_set <- which(Genus_matrix[258,] != 0)
 #to_set <- which(Genus_matrix[121,] != 0) # Version réduite
-m <- Genus_matrix[257, c(to_set)]
+m <- Genus_matrix[258, c(to_set)]
 #m <- Genus_matrix[121, c(to_set)] # Version réduite
 barplot(m, main = "Partage inter-génus de aph(3')-XV")
 
