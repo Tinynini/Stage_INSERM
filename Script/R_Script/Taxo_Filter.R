@@ -45,7 +45,7 @@ splot + ggtitle("Nombres d'occurrences des valeurs de partages inter-espèces") 
 genus_share <- taxo_small['genus_shared_by']
 genus_num <- nrow(unique(genus_share)) # Donne le nombre de barre que doit contenir l'histogramme
 gplot <- ggplot(genus_share, aes(genus_shared_by)) + geom_histogram(bins = (max(genus_share)*2 - 1))
-gplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-génus") + xlab("valeurs des partages") + ylab("Nombres d'occurences")
+gplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-genres") + xlab("valeurs des partages") + ylab("Nombres d'occurences")
 
 family_share <- taxo_small['family_shared_by']
 family_num <- nrow(unique(family_share)) # Donne le nombre de barre que doit contenir l'histogramme
