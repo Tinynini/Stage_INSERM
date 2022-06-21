@@ -71,11 +71,11 @@ n_centro <- nrow(uni_centro)
 
 #### Plot de l'histogramme des distances ####
 order_length <- uni_centro['length']
-splot <- ggplot(order_length, aes(length)) + geom_histogram(bins = n_centro)
-splot + ggtitle("Distance inter-ordres")
+oplot <- ggplot(order_length, aes(length)) + geom_histogram(bins = n_centro)
+oplot + ggtitle("Nombres d'occurrences des valeurs de distances inter-ordres") + xlab("valeurs des distances") + ylab("Nombres d'occurrences")
 
-#### Exemple de plot d'un sous_arbre avec le 2eme centroid de la liste ####
-plot.phylo(tree_list[[2]], show.node.label = TRUE, main = uni_centro[2, 1], sub = uni_centro[2, 2])
+#### Exemple de plot d'un sous_arbre avec "mef(B)_1_FJ196385" ####
+plot.phylo(tree_list[[1251]], show.node.label = TRUE, main = uni_centro[1251, 1], sub = uni_centro[1251, 2])
 
 #### Plot des sous-arbres des ordres par centroides sur l'arbre complet ####
 liste <- vector(mode = 'list', length = n_centro)
