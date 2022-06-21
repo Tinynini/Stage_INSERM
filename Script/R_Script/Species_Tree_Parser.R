@@ -71,12 +71,12 @@ names(tree_list) <- uni_centro[, 'centroid']
 n_centro <- nrow(uni_centro)
 
 #### Plot de l'histogramme des distances ####
-genus_length <- uni_centro['length']
-gplot <- ggplot(genus_length, aes(length)) + geom_histogram(bins = n_centro)
-gplot + ggtitle("Nombres d'occurrences des valeurs de distances inter-genres") + xlab("valeurs des distances") + ylab("Nombres d'occurrences")
+species_length <- uni_centro['length']
+splot <- ggplot(species_length, aes(length)) + geom_histogram(bins = n_centro)
+splot + ggtitle("Nombres d'occurrences des valeurs de distances inter-espèces") + xlab("valeurs des distances") + ylab("Nombres d'occurrences")
 
 #### Exemple de plot d'un sous_arbre avec "mef(B)_1_FJ196385" ####
-plot.phylo(tree_list[[1228]], show.node.label = TRUE, main = uni_centro[1228, 1], sub = uni_centro[1228, 2])
+plot.phylo(tree_list[[1209]], show.node.label = TRUE, main = uni_centro[1209, 1], sub = uni_centro[1209, 2])
 
 #### Plot des sous-arbres des espèces par centroides sur l'arbre complet ####
 liste <- vector(mode = 'list', length = n_centro)
