@@ -1,38 +1,36 @@
 library(tidyverse)
 
-#### Ouverture de Parsed_taxonomy.tsv et de ARG_Species.tsv (ou de New_ARG_Species.tsv) & récupération des données ####
+#### Ouverture de Parsed_taxonomy.tsv et de ARG_Species.tsv (ou de New_ARG_Species.tsv) & rÃ©cupÃ©ration des donnÃ©es ####
 Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Parsed_taxonomy.tsv') 
 
 ARG_species <- read_tsv('W:/ninon-species/output/ARG_species.tsv') %>% 
 #ARG_species <- read_tsv('W:/ninon-species/output/New_ARG_species.tsv') %>% 
   as.data.frame()
 
-#### Extraction des espèces qui n'ont pas pû être matchées lors du join précédent ####
+#### Extraction des espÃ¨ces qui n'ont pas pÃ» Ãªtre matchÃ©es lors du join prÃ©cÃ©dent ####
 NA_Genus <- is.na(ARG_species[, 'Genus'])
 J <- 1
 
-for (i in 1:nrow(ARG_species)) # /!\ On exclus les espèces 'bacterium' (!= 'Bacterium') dont les 1ères partie de nom d'espèce correspondent à d'autres niveaux taxonomiques que le génus
+for (i in 1:nrow(ARG_species)) # /!\ On exclus les espÃ¨ces 'bacterium' (!= 'Bacterium') dont les 1Ã¨res partie de nom d'espÃ¨ce correspondent Ã  d'autres niveaux taxonomiques que le gÃ©nus
 {
   if (NA_Genus[i] == TRUE & grepl('(.*) (bacterium)', ARG_species[i, 'species']) == FALSE) 
   {
-    # On complète la colonne des génusen récupérant les 1ère parties de nom d'espèce (== génus)
+    # On complÃ¨te la colonne des gÃ©nusen rÃ©cupÃ©rant les 1Ã¨re parties de nom d'espÃ¨ce (== gÃ©nus)
     ARG_species[i, 'Genus'] <- str_replace(ARG_species[i, 'species'], '(.*) (.*)', '\\1')
     J <- J + 1
   }
 }
 
-# Suppression préventive de certaine lignes de la table de taxonomie pour éviter la création de certains doublons lors du join et de la colonne des espèces 
-Parsed_taxonomy <- Parsed_taxonomy[-2051,]
-Parsed_taxonomy <- Parsed_taxonomy[-4091,]
-Parsed_taxonomy <- Parsed_taxonomy[-9605,]
-Parsed_taxonomy <- Parsed_taxonomy[,-1]
+# Suppression prÃ©ventive de certaine lignes de la table de taxonomie pour Ã©viter la crÃ©ation de certains doublons lors du join  
+Parsed_taxonomy <- Parsed_taxonomy[,-c(1)]
+Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),]
 
-#### Création d'une nouvelle dataframe contenant uniquement les espèces extraite précédemment & join de celle-ci avec la table de la taxonomie ####
+#### CrÃ©ation d'une nouvelle dataframe contenant uniquement les espÃ¨ces extraite prÃ©cÃ©demment & join de celle-ci avec la table de la taxonomie ####
 ARG_Genus <- as.data.frame(ARG_species[c(NA_Genus), c('qseqid', 'Centroid', 'shared_by', 'pident', 'qcovhsp', 'sseqid', 'species', 'Genus')])
 colnames(ARG_Genus) <- c('qseqid', 'Centroid', 'shared_by', 'pident', 'qcovhsp', 'sseqid', 'species', 'genus')
-ARG_Genus <- left_join(ARG_Genus, Parsed_taxonomy, by = c('genus' = 'Genus')) # Cette fois on join directement sur les génus
+ARG_Genus <- left_join(ARG_Genus, Parsed_taxonomy, by = c('genus' = 'Genus')) # Cette fois on join directement sur les gÃ©nus
 
-#### Traitements successifs visant à supprimer les nombreux doublons générés par le join (On ne peut pas systématiser l'opération) ####
+#### Traitements successifs visant Ã  supprimer les nombreux doublons gÃ©nÃ©rÃ©s par le join (On ne peut pas systÃ©matiser l'opÃ©ration) ####
 ARG_Genus <- unique(ARG_Genus)
 
 double1 <- which(ARG_Genus[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme'))
@@ -89,18 +87,11 @@ ARG_Genus[c(double14),] <- ARG_double7[-c(double15),]
 
 ARG_Genus <- unique(ARG_Genus) 
 
-double16 <- which(ARG_Genus[, 'genus'] == 'Paenibacillus')
-double17 <- which(ARG_Genus[c(double16), 'Family'] != 'Paenibacillaceae')
-ARG_double8 <- ARG_Genus[c(double16),]
-ARG_Genus[c(double16),] <- ARG_double8[-c(double17),]
-
-ARG_Genus <- unique(ARG_Genus) 
-
-#### Remplacement dans notre dataframe initiale des lignes associées aux espèces non-matchées par celles de la nouvelle dataframe 
+#### Remplacement dans notre dataframe initiale des lignes associÃ©es aux espÃ¨ces non-matchÃ©es par celles de la nouvelle dataframe 
 less_NA_genus <- which(ARG_species[, 'species'] %in% ARG_Genus[, 'species'])
 ARG_species[c(less_NA_genus),] <- ARG_Genus
-na_species <- as.data.frame(unique(ARG_species[is.na(ARG_species[, 'Family']), 'species'])) # Especes encore non-matchées après ce 2ème join
+na_species <- as.data.frame(unique(ARG_species[is.na(ARG_species[, 'Family']), 'species'])) # Especes encore non-matchÃ©es aprÃ¨s ce 2Ã¨me join
 
-#### Enregistrement de la dataframe complète dans le fichier Best_ARG_Species.tsv (ou de celle slicée dans le fichier Best_New_ARG_Species.tsv) ####
+#### Enregistrement de la dataframe complÃ¨te dans le fichier Best_ARG_Species.tsv (ou de celle slicÃ©e dans le fichier Best_New_ARG_Species.tsv) ####
 write.table(ARG_species, "W:/ninon-species/output/Best_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
 #write.table(ARG_species, "W:/ninon-species/output/Best_New_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
