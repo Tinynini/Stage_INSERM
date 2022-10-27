@@ -1,12 +1,13 @@
 library(tidyverse)
 
-Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Parsed_taxonomy.tsv') 
+Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Parsed_taxonomy.tsv')
 Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),]
 
 level_name <- unlist(colnames(Parsed_taxonomy[, c(1:4)]))
 level_name[1] <- 'species'
 
-suffix <- c('', '', 'ceae', 'ales')
+suffix <- c('', '(.*) (bacterium)', '(.*)(ceae) (bacterium)', '(.*)(ales) (bacterium)')
+cond <- c('', FALSE, TRUE, TRUE)
 
 all_species <- read_tsv('W:/ninon-species/output/all_species_clust.tsv') %>%
   #all_species <- read_tsv('W:/ninon-species/output/sliced_all_species_clust.tsv') %>%
@@ -32,116 +33,90 @@ all_species %>%
   identity() -> all_species
 
 all_species <- all_species[, c('qseqid', 'Centroid', 'shared_by', 'pident', 'qcovhsp', 'sseqid', 'species')]
+all_species <- left_join(all_species, Parsed_taxonomy, by = c('species' = 'Species'))
+na_species <- as.data.frame(unique(all_species[is.na(all_species[, 'Genus']), 'species']))
 
-for (i in 1:4)
+Genus_cleaner <- function(df, level, doublon, ref)
 {
-  NA_level <- is.na(all_species[, level_name[i]])
+  double1 <- which(df[, level] %in% doublon)
+  double2 <- which(df[c(double1), 'Family'] != ref)
+  ARG_double <- df[c(double1),]
+  df[c(double1),] <- ARG_double[-c(double2),]
+  
+  df <- unique(df)
+}
+
+Genus_cleaning <- function(df)
+{
+  df <- Genus_cleaner(df, 'species', c('Clostridium aldenense', 'Clostridium clostridioforme'), 'Lachnospiraceae')
+  df <- Genus_cleaner(df, 'species', 'Clostridium difficile', 'Peptostreptococcaceae')
+  df <- Genus_cleaner(df, 'species', 'Clostridium phoceensis', 'Acutalibacteraceae')
+  df <- Genus_cleaner(df, 'Genus', 'Ruminococcus', 'Ruminococcaceae')
+  df <- Genus_cleaner(df, 'Genus', 'Eubacterium', 'Eubacteriaceae')
+  df <- Genus_cleaner(df, 'Genus', 'Mycoplasma', 'Mycoplasmataceae')
+  
+  double <- grep('Clostridium', df[, 'Genus'])
+  ARG_Clos <- df[c(double),]
+  
+  double1 <- which(ARG_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
+  ARG_Target <- ARG_Clos[-c(double1),]
+  double2 <- which(df[, 'species'] %in% ARG_Target[, 'species'])
+  double3 <- which(df[c(double2), 'Family'] != 'Clostridiaceae')
+  ARG_double <- df[c(double2),]
+  df[c(double2),] <- ARG_double[-c(double3),]
+  
+  df <- unique(df)
+}
+
+NA_level <- is.na(all_species[, level_name[2]])
+
+for (i in 2:4)
+{
+  Parsed_taxonomy <- Parsed_taxonomy[,-c(1)]
+
   l <- 1
 
   for (k in 1:nrow(all_species))
   {
-    if (is.null(NA_level) == FALSE) ## Problem avec suffix, utiliser fonctions str à la place de grepl ??
+    if (NA_level[k] == TRUE & grepl(suffix[i], all_species[k, 'species']) == cond[i])
     {
-      if (NA_level[k] == TRUE & grepl("(.*)(suffix[i]) (bacterium)", all_species[k, level_name[i - 1]]) == FALSE)
-      {
-        all_species[k, level_name[i]] <- str_replace(all_species[k, level_name[i - 1]], '(.*) (.*)', '\\1')
-        l <- l + 1
-      }
+      all_species[k, level_name[i]] <- str_replace(all_species[k, 'species'], '(.*) (.*)', '\\1')
+      l <- l + 1
     }
   }
 
-  ARG_level <- as.data.frame(all_species[c(NA_level),])
-  colnames(ARG_level) <- colnames(all_species)
-  ARG_level <- left_join(ARG_level, Parsed_taxonomy, by = c(level_name[i] = colnames(Parsed_taxonomy[, 1])))
+  ARG_level <- as.data.frame(all_species[c(NA_level), c(1:(i + 6))])
+  colnames(ARG_level) <- colnames(all_species[, c(1:(i + 6))])
+  ARG_level <- left_join(ARG_level, Parsed_taxonomy, by = NULL)
 
-  if (i > 1)
+  ARG_level <- unique(ARG_level)
+
+  if (i == 2)
   {
-    less_NA_level <- which(all_species[, level_name[i - 1]] %in% ARG_level[, level_name[i - 1]])
-    all_species[c(less_NA_level),] <- ARG_level
+    ARG_level <- Genus_cleaning(ARG_level)
   }
 
-  else
-  {
-    all_species <- ARG_level
-  }
-
-  Parsed_taxonomy <- Parsed_taxonomy[,-c(1)]
+  less_NA_level <- which(all_species[, level_name[i - 1]] %in% ARG_level[, level_name[i - 1]])
+  all_species[c(less_NA_level),] <- ARG_level
+  NA_level <- is.na(all_species[, level_name[i]])
 }
 
-#### Traitements Genus non automatisables ?? ####
+#### cas post-ordre traitÃ©s manuellement ####
 
-# all_species <- unique(all_species)
-# 
-# double1 <- which(all_species[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme'))
-# double2 <- which(all_species[c(double1), 'Family'] != 'Lachnospiraceae')
-# ARG_double <- all_species[c(double1),]
-# all_species[c(double1),] <- ARG_double[-c(double2),]
-# 
-# all_species <- unique(all_species)
-# 
-# double3 <- which(all_species[, 'species'] == 'Clostridium difficile')
-# double4 <- which(all_species[c(double3), 'Family'] != 'Peptostreptococcaceae')
-# ARG_double2 <- all_species[c(double3),]
-# all_species[c(double3),] <- ARG_double2[-c(double4),]
-# 
-# all_species <- unique(all_species)
-# 
-# double5 <- which(all_species[, 'species'] == 'Clostridium phoceensis')
-# double6 <- which(all_species[c(double5), 'Family'] != 'Acutalibacteraceae')
-# ARG_double3 <- all_species[c(double5),]
-# all_species[c(double5),] <- ARG_double3[-c(double6),]
-# 
-# all_species <- unique(all_species)
-# 
-# double <- grep('Clostridium', all_species[, 'genus'])
-# ARG_Clos <- all_species[c(double),]
-# 
-# double7 <- which(ARG_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
-# ARG_Target <- ARG_Clos[-c(double7),]
-# double8 <- which(all_species[, 'species'] %in% ARG_Target[, 'species'])
-# double9 <- which(all_species[c(double8), 'Family'] != 'Clostridiaceae')
-# ARG_double4 <- all_species[c(double8),]
-# all_species[c(double8),] <- ARG_double4[-c(double9),]
-# 
-# all_species <- unique(all_species)
-# 
-# double10 <- which(all_species[, 'genus'] == 'Ruminococcus')
-# double11 <- which(all_species[c(double10), 'Family'] != 'Ruminococcaceae')
-# ARG_double5 <- all_species[c(double10),]
-# all_species[c(double10),] <- ARG_double5[-c(double11),]
-# 
-# all_species <- unique(all_species)
-# 
-# double12 <- which(all_species[, 'genus'] == 'Eubacterium')
-# double13 <- which(all_species[c(double12), 'Family'] != 'Eubacteriaceae')
-# ARG_double6 <- all_species[c(double12),]
-# all_species[c(double12),] <- ARG_double6[-c(double13),]
-# 
-# all_species <- unique(all_species)
-# 
-# double14 <- which(all_species[, 'genus'] == 'Mycoplasma')
-# double15 <- which(all_species[c(double14), 'Family'] != 'Mycoplasmataceae')
-# ARG_double7 <- all_species[c(double14),]
-# all_species[c(double14),] <- ARG_double7[-c(double15),]
-# 
-# all_species <- unique(all_species)
-# 
-# #### cas post-ordre traités manuellement ####
-# 
-# ex1 <- which(all_species[, 'species'] == 'Bacillus bacterium')
-# all_species[ex1, c('Genus', 'Family', 'Order', 'Class', 'Phylum', 'Domain')] <-
-#   c('Baccilus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
-# 
-# ex2 <- which(all_species[, 'species'] == 'Clostridia bacterium')
-# all_species[ex2, 'Class'] <- 'Clostridia'
-# all_species[ex2, 'Phylum'] <- 'Firmicutes'
-# all_species[ex2, 'Domain'] <- 'Bacteria'
-# 
-# ex3 <- which(all_species[, 'species'] == 'Firmicutes bacterium')
-# all_species[ex3, 'Phylum'] <- 'Firmicutes'
-# all_species[ex3, 'Domain'] <- 'Bacteria'
-# 
-# na_species <- as.data.frame(unique(all_species[is.na(all_species[, 'Domain']), 'species']))
+ex1 <- which(all_species[, 'species'] == 'Bacillus bacterium')
+all_species[ex1, c('Genus', 'Family', 'Order', 'Class', 'Phylum', 'Domain')] <-
+  c('Baccilus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
 
-# write.table(all_Species, "W:/ninon-species/output/Total_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-# #write.table(all_Species, "W:/ninon-species/output/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+ex2 <- which(all_species[, 'species'] == 'Clostridia bacterium')
+all_species[ex2, 'Class'] <- 'Clostridia'
+all_species[ex2, 'Phylum'] <- 'Firmicutes'
+all_species[ex2, 'Domain'] <- 'Bacteria'
+
+ex3 <- which(all_species[, 'species'] == 'Firmicutes bacterium')
+all_species[ex3, 'Phylum'] <- 'Firmicutes'
+all_species[ex3, 'Domain'] <- 'Bacteria'
+
+na_species <- as.data.frame(unique(all_species[is.na(all_species[, 'Domain']), 'species']))
+
+write.table(all_species, "W:/ninon-species/output/Total_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#write.table(all_species, "W:/ninon-species/output/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
