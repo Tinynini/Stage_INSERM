@@ -14,7 +14,6 @@ all_species <- read_tsv('W:/ninon-species/output/all_species_clust.tsv') %>%
   as.data.frame()
 
 all_species[, 'species'] <- str_replace(all_species[, 'species'], pattern = '(.*)(_)(.*)', replacement = "\\1\\ \\3")
-
 Species <- unlist(all_species['species'])
 
 for (j in 1:nrow(all_species))
@@ -105,7 +104,7 @@ ex1 <- which(all_species[, 'species'] == 'Bacillus bacterium')
 all_species[ex1, c('Genus', 'Family', 'Order', 'Class', 'Phylum', 'Domain')] <-
   c('Bacillus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
 
-ex2 <- which(all_species[, 'species'] == 'Clostridia bacterium')
+ex2 <- which(all_species[, 'species'] %in% c('Clostridia bacterium', 'Lachnospiraceae oral'))
 all_species[ex2, 'Class'] <- 'Clostridia'
 all_species[ex2, 'Phylum'] <- 'Firmicutes'
 all_species[ex2, 'Domain'] <- 'Bacteria'
@@ -113,6 +112,11 @@ all_species[ex2, 'Domain'] <- 'Bacteria'
 ex3 <- which(all_species[, 'species'] == 'Firmicutes bacterium')
 all_species[ex3, 'Phylum'] <- 'Firmicutes'
 all_species[ex3, 'Domain'] <- 'Bacteria'
+
+ex4 <- which(all_species[, 'species'] == 'Lachnospiraceae oral')
+all_species[ex4, 'Genus'] <- NA
+all_species[ex4, 'Family'] <- 'Lachnospiraceae' 
+all_species[ex4, 'Order'] <- 'Lachnospirales'
 
 na_species <- as.data.frame(unique(all_species[is.na(all_species[, 'Domain']), 'species']))
 
