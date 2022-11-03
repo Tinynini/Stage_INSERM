@@ -103,7 +103,7 @@ for (i in 2:4)
 
 ex1 <- which(all_species[, 'species'] == 'Bacillus bacterium')
 all_species[ex1, c('Genus', 'Family', 'Order', 'Class', 'Phylum', 'Domain')] <-
-  c('Baccilus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
+  c('Bacillus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
 
 ex2 <- which(all_species[, 'species'] == 'Clostridia bacterium')
 all_species[ex2, 'Class'] <- 'Clostridia'
