@@ -101,8 +101,6 @@ for (i in 2:4)
   NA_level <- is.na(all_species[, level_name[i]])
 }
 
-#### cas post-ordre traités manuellement ####
-
 ex1 <- which(all_species[, 'species'] == 'Bacillus bacterium')
 all_species[ex1, c('Genus', 'Family', 'Order', 'Class', 'Phylum', 'Domain')] <-
   c('Baccilus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
