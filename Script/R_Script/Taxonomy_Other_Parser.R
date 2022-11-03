@@ -66,7 +66,7 @@ ARG_species[c(less_NA_Order),] <- ARG_Order
 #### Traitement directe (hors join) de 3 cas particuliés d'espèces 'bactérium' trop isolé pour faire l'objet d'un join ####
 ex1 <- which(ARG_species[, 'species'] == 'Bacillus bacterium') 
 ARG_species[ex1, c('Genus', 'Family', 'Order', 'Class', 'Phylum', 'Domain')] <- 
-  c('Baccilus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
+  c('Bacillus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
 
 ex2 <- which(ARG_species[, 'species'] == 'Clostridia bacterium') 
 ARG_species[ex2, 'Class'] <- 'Clostridia'
