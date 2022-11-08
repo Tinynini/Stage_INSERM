@@ -50,7 +50,7 @@ Genus_cleaning <- function(df)
   df <- Genus_cleaner(df, 'species', c('Clostridium aldenense', 'Clostridium clostridioforme'), 'Lachnospiraceae')
   df <- Genus_cleaner(df, 'species', 'Clostridium difficile', 'Peptostreptococcaceae')
   df <- Genus_cleaner(df, 'species', 'Clostridium phoceensis', 'Acutalibacteraceae')
-  df <- Genus_cleaner(df, 'Genus', 'Ruminococcus', 'Ruminococcaceae')
+  df <- Genus_cleaner(df, 'Genus', 'Ruminococcus', 'Lachnospiraceae')
   df <- Genus_cleaner(df, 'Genus', 'Eubacterium', 'Eubacteriaceae')
   df <- Genus_cleaner(df, 'Genus', 'Mycoplasma', 'Mycoplasmataceae')
   
