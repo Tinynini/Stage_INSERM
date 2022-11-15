@@ -33,7 +33,7 @@ for (i in 1:5)
       arrange_(level_name[j]) %>%
       identity() -> curr_level
     
-    centro_matrix <- read_tsv(file_name) ## Pourquoi la transposition bug ????
+    centro_matrix <- read_tsv(file_name) 
     rownames(centro_matrix) <- uni_centro
     centro_matrix <- t(centro_matrix)
     centro_matrix <- cbind(now_level, centro_matrix)
