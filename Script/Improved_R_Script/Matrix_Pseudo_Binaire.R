@@ -22,16 +22,22 @@ for (i in 1:5)
   
   for (j in (i + 1):6)
   {
-    uni_level <- unlist(as.data.frame(sort(unique(level[, j]))))
-    n_level <- length(uni_level)
-
     curr_level <- as.data.frame(unique(level[, c(j, i)]))
-    na_level <- which(is.na(curr_level[, 1]) == TRUE)
-    curr_level <- curr_level[-c(na_level),]
+    na_level_1 <- which(is.na(curr_level[, 1]) == TRUE)
+    curr_level <- curr_level[-c(na_level_1),]
+    
+    if (i > 1)
+    {
+      na_level_2 <- which(is.na(curr_level[, 2]) == TRUE)
+      curr_level <- curr_level[-c(na_level_2),]
+    }
     
     curr_level %>%
       arrange_(level_name[j]) %>%
       identity() -> curr_level
+    
+    uni_level <- unlist(as.data.frame(sort(unique(curr_level[, 1]))))
+    n_level <- length(uni_level)
     
     centro_matrix <- read_tsv(file_name) 
     rownames(centro_matrix) <- uni_centro
