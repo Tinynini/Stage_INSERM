@@ -3,8 +3,8 @@ library(tidytree)
 library(ape)
 library(ggtree) 
 
-all_species <- read_tsv('W:/ninon-species/output/Taxo_result.tsv') %>%
-  #all_species <- read_tsv('W:/ninon-species/output/New_Taxo_result.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Total_Taxo_Result.tsv') %>%
+#all_species <- read_tsv('W:/ninon-species/output/Sliced_Taxo_Result.tsv') %>% 
   as.data.frame
 
 level <- as.data.frame(all_species[, c(6:11)])
