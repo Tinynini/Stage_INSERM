@@ -5,8 +5,8 @@ library(ape)
 tree <- read.tree('W:/ninon-species/data/bac120_r95.tree')
 tree_df <- as_tibble(tree)
 
-all_species <- read_tsv('W:/ninon-species/output/Taxo_result.tsv') %>%
-#all_species <- read_tsv('W:/ninon-species/output/New_Taxo_result.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Total_Taxo_Result.tsv') %>%
+#all_species <- read_tsv('W:/ninon-species/output/Sliced_Taxo_Result.tsv') %>% 
   as.data.frame()
 
 level_share <- as.data.frame(all_species[, c(6:18)])
