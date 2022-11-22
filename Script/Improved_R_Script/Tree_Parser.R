@@ -3,8 +3,8 @@ library(tidytree)
 library(ape)
 library(ggtree) 
 
-all_species <- read_tsv('W:/ninon-species/output/Total_Taxo_Result.tsv') %>%
-#all_species <- read_tsv('W:/ninon-species/output/Sliced_Taxo_Result.tsv') %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Total_Taxo_Result.tsv') %>%
+all_species <- read_tsv('W:/ninon-species/output/Sliced_Taxo_Result.tsv') %>% 
   as.data.frame
 
 level <- as.data.frame(all_species[, c(6:11)])
@@ -69,16 +69,17 @@ for (i in 1:6)
     trees[[l]] <- tree_ARG
     l <- l + 1
   }
+  
+  plot.phylo(trees[[297]], show.node.label = TRUE, main = uni_centro[297, 1], sub = uni_centro[297, 2])
 
   err <- which(uni_centro[, 'length'] == 0.000)
-  
   uni_centro <- uni_centro[-c(err),]
   n_centro <- nrow(uni_centro)
   
   tree_list <- vector(mode = 'list', length = n_centro)
 
   l <- 1
-  
+
   for (k in 1:j)
   {
     if (is.null(trees[[k]]) == FALSE)
@@ -90,13 +91,11 @@ for (i in 1:6)
 
   names(tree_list) <- uni_centro[, 'centroid']
   level_length <- uni_centro['length']
-  
+
   level_plot <- ggplot(level_length, aes(length)) + geom_histogram(bins = n_centro)
   title = "Nombres d'occurrences des valeurs de distances inter-"
   tit <- str_glue("{title}{level_name[i]}")
   plot(level_plot + ggtitle(label = tit) + xlab("valeurs des distances") + ylab("Nombres d'occurrences"))
-
-  plot.phylo(tree_list[[2]], show.node.label = TRUE, main = uni_centro[2, 1], sub = uni_centro[2, 2])
 
   liste <- vector(mode = 'list', length = n_centro)
 
@@ -117,7 +116,7 @@ for (i in 1:6)
   deb <- "sous-arbres "
   fin <- "/centroides"
   plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin}")))
-  
+
   liste_uni_centro[[i]] <- uni_centro
   liste_tree_liste[[i]] <- tree_list
 }
