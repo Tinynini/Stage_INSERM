@@ -13,6 +13,9 @@ level_name <- unlist(colnames(all_species[, c(6:11)]))
 liste_uni_centro <- vector(mode = 'list', length = 6) # Rendre plus exploitable ??
 liste_tree_liste <- vector(mode = 'list', length = 6)
 
+min_length <- vector(mode = 'list', length = 6)
+max_length <- vector(mode = 'list', length = 6)
+
 for (i in 1:6)
 {
   path_start = "W:/ninon-species/output/"
@@ -97,26 +100,29 @@ for (i in 1:6)
   tit <- str_glue("{title}{level_name[i]}")
   plot(level_plot + ggtitle(label = tit) + xlab("valeurs des distances") + ylab("Nombres d'occurrences"))
 
-  liste <- vector(mode = 'list', length = n_centro)
-
-  for (l in 1:n_centro)
-  {
-    wanted_tree <- as_tibble(tree_list[[l]])
-    root <- which(is.na(wanted_tree['branch.length']) == TRUE)
-    label <- which(tibble_tree$label %in% wanted_tree[root, 'label'])
-    liste[l] <- tibble_tree[label, 'node']
-  }
-
-  liste <- t(as.data.frame(unique(liste)))
-  type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol = 1))
-  liste <- cbind(liste, type)
-  names(liste) <- c('node', 'type')
-
-  level_tree <- ggtree(tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
-  deb <- "sous-arbres "
-  fin <- "/centroides"
-  plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin}")))
+  # liste <- vector(mode = 'list', length = n_centro)
+  # 
+  # for (l in 1:n_centro)
+  # {
+  #   wanted_tree <- as_tibble(tree_list[[l]])
+  #   root <- which(is.na(wanted_tree['branch.length']) == TRUE)
+  #   label <- which(tibble_tree$label %in% wanted_tree[root, 'label'])
+  #   liste[l] <- tibble_tree[label, 'node']
+  # }
+  # 
+  # liste <- t(as.data.frame(unique(liste)))
+  # type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol = 1))
+  # liste <- cbind(liste, type)
+  # names(liste) <- c('node', 'type')
+  # 
+  # level_tree <- ggtree(tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
+  # deb <- "sous-arbres "
+  # fin <- "/centroides"
+  # plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin}")))
 
   liste_uni_centro[[i]] <- uni_centro
   liste_tree_liste[[i]] <- tree_list
+  
+  min_length[[i]] <- min(uni_centro[, 2])
+  max_length[[i]] <- max(uni_centro[, 2])
 }
