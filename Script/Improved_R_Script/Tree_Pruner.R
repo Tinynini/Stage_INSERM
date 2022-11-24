@@ -67,31 +67,31 @@ for (i in 1:6)
   next_tree <- drop.tip(next_tree, level)
   phylo_tree <- as_tibble(next_tree)
 
-  phylo_tree %>%
-    arrange(label) %>%
-    identity -> phylo_tree
+  # phylo_tree %>%
+  #   arrange(label) %>%
+  #   identity -> phylo_tree
+  # 
+  # nodes_exclus = length(grep("(.*)__(.*)", unlist(phylo_tree[, 'label']))) + 1 
+  # k <- 1
+  #  
+  # for (j in nodes_exclus:Nnode(next_tree)) 
+  # {
+  #   if(phylo_tree[j + 1, 'label'] == phylo_tree[j, 'label'])
+  #   {
+  #     phylo_tree[j, 'label'] <- str_glue("{phylo_tree[j, 'label']}_{k}")
+  #     k <- k + 1
+  #   }
+  #   else
+  #   {
+  #     phylo_tree[j, 'label'] <- str_glue("{phylo_tree[j, 'label']}_{k}")
+  #     k <- 1
+  #   }
+  # }
+  # 
+  # phylo_tree %>%
+  #   arrange(node) %>%
+  #   identity -> phylo_tree
   
-  nodes_exclus = length(grep("(.*)__(.*)", unlist(phylo_tree[, 'label']))) + 1 
-  k <- 1
-   
-  for (j in nodes_exclus:Nnode(next_tree)) 
-  {
-    if(phylo_tree[j + 1, 'label'] == phylo_tree[j, 'label'])
-    {
-      phylo_tree[j, 'label'] <- str_glue("{phylo_tree[j, 'label']}_{k}")
-      k <- k + 1
-    }
-    else
-    {
-      phylo_tree[j, 'label'] <- str_glue("{phylo_tree[j, 'label']}_{k}")
-      k <- 1
-    }
-  }
-
-  phylo_tree %>%
-    arrange(node) %>%
-    identity -> phylo_tree
-
   next_tree <- as.phylo(phylo_tree)
   
   path_start = "W:/ninon-species/output/"
