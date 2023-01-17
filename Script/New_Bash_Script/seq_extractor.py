@@ -16,7 +16,6 @@ for file in file_list :
 
     fichier = dir1 + file
     filename = (file[:-18])
-    print(filename)
 
     gene = dir2 + filename + end1
     fasta = dir3 + filename + end2
@@ -31,6 +30,7 @@ for file in file_list :
         line = liste_gene.readlines()
         ligne = liste_id.readlines()
         elements = ffn.readlines()
+        
         element = ' '.join(elements)
         seq = element.split('>')
         
