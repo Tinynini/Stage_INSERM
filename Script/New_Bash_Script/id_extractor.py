@@ -4,19 +4,23 @@ import os
 
 dir1 = "/home/ninon.robin/usefull/"
 dir2 = "/home/ninon.robin/listes_id/"
+dir3 = "/home/ninon.robin/listes_gene/"
+end1 = '_liste_id.txt'
+end2 = '_liste_gene.txt'
 
 file_list = os.listdir(dir1)
 
 for file in file_list :
 
     sseqid = open('/home/ninon.robin/uniq_sseqid.txt', "r")
-
     fichier = dir1 + file
     filename = (file[:-12])
-    print(filename)
-    output = dir2 + filename + '_liste_id.txt'
-
+    
+    output = dir2 + filename + end1
+    numgenes = dir3 + filename + end2
+        
     liste_id = open(output, "w")
+    liste_numgene = open(numgenes, "w")
 
     with open(fichier, "r") as usefull :
 
@@ -47,13 +51,12 @@ for file in file_list :
 
                 numgene.append(line[i])
 
-        print(numARG)
-        print(contigARG)
-
         for i in range(len(numgene)) :
 
             for j in range(len(numARG)) :
 
+                liste_numgene.write(numgene[i])
+               
                 if i == 0 :
 
                     if numgene[i] == numARG[j] and contiggene[i + 1] == contigARG[j] :
@@ -79,4 +82,5 @@ for file in file_list :
         usefull.close()
 
     liste_id.close()
+    liste_numgene.close()
     sseqid.close()
