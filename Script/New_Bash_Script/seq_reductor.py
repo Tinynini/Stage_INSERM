@@ -2,8 +2,8 @@
 
 import os
 
-all_seq = open('/home/ninon.robin/all_seq.ffn', "r")
-clean_all_seq = open('/home/ninon.robin/clean_all_seq.ffn', "w")
+all_seq = open('all_seq.ffn', "r")
+clean_all_seq = open('clean_all_seq.ffn', "w")
 
 elements = all_seq.readlines()
 
@@ -27,8 +27,8 @@ for i in range(len(seq)) :
 all_seq.close()
 clean_all_seq.close()
 
-clean_all_seq = open('/home/ninon.robin/clean_all_seq.ffn', "r")
-uniq_all_seq = open('/home/ninon.robin/uniq_all_seq.ffn', "w")
+clean_all_seq = open('clean_all_seq.ffn', "r")
+uniq_all_seq = open('uniq_all_seq.ffn', "w")
 
 elements = clean_all_seq.readlines()
 element = ''.join(elements) 
