@@ -4,7 +4,7 @@ import os
 
 dir1 = "/home/ninon.robin/listes_id/"
 dir2 = "/home/ninon.robin/listes_gene/"
-dir3 = "/home/ninon.robin/ffn/"
+dir3 = "/home/REFSEQ/prokka/*/*/*.ffn"
 dir4 = "/home/ninon.robin/listes_ARG/"
 dir5 = "/home/ninon.robin/listes_seq/"
 
