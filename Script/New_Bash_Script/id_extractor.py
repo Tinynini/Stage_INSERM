@@ -2,9 +2,9 @@
 
 import os
 
-dir1 = "/home/ninon.robin/usefull/"
-dir2 = "/home/ninon.robin/listes_id/"
-dir3 = "/home/ninon.robin/listes_gene/"
+dir1 = "usefull/"
+dir2 = "listes_id/"
+dir3 = "listes_gene/"
 end1 = '_liste_id.txt'
 end2 = '_liste_gene.txt'
 
@@ -12,7 +12,7 @@ file_list = os.listdir(dir1)
 
 for file in file_list :
 
-    sseqid = open('/home/ninon.robin/uniq_sseqid.txt', "r")
+    sseqid = open('uniq_sseqid.txt', "r")
     fichier = dir1 + file
     filename = (file[:-12])
     
