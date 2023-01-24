@@ -2,11 +2,11 @@
 
 import os
 
-dir1 = "/home/ninon.robin/listes_id/"
-dir2 = "/home/ninon.robin/listes_gene/"
-dir3 = "/home/REFSEQ/prokka/*/*/"
-dir4 = "/home/ninon.robin/listes_ARG/"
-dir5 = "/home/ninon.robin/listes_seq/"
+dir1 = "listes_id/"
+dir2 = "listes_gene/"
+dir3 = "ffn/"
+dir4 = "listes_ARG/"
+dir5 = "listes_seq/"
 
 end1 = '_uniq_liste_gene.txt'
 end2 = '.ffn'
