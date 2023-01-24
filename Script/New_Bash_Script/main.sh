@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir1="/home/ninon.robin/gff/"
+dir1="/home/REFSEQ/prokka/*/*/*.gff"
 dir2="/home/ninon.robin/usefull/"
 dir3="/home/ninon.robin/listes_id/"
 dir4="/home/ninon.robin/listes_ARG/"
@@ -14,7 +14,7 @@ end4='_liste_ARG.txt'
 end5='_uniq_liste_gene.txt'
 
 # 1 Extraction des sseqid depuis diamond avec sseqid_extractor.py --> sseqid.txt --> uniq_sseqid.txt
-<< 'comment'
+
 ./sseqid_extractor.py
 
 cat sseqid.txt | sort | uniq > uniq_sseqid.txt
@@ -48,7 +48,7 @@ do
     cat $fichier | uniq > $dir5$filename$end5
     rm $fichier
 done
-comment
+
 # 4 Extraction des séquences associées aux gènes de la liste --> liste_seq.ffn
 
 ./seq_extractor.py 
@@ -60,3 +60,7 @@ do
     fichier=$dir6$file
     cat $fichier 
 done > $all_seq
+
+./seq_reductor.py
+
+grep "\S" uniq_all_seq.ffn | sed '$d' > final_uniq_all_seq.ffn
