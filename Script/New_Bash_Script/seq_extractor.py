@@ -7,7 +7,6 @@ dir2 = "listes_gene/"
 dir3 = "ffn/"
 dir4 = "listes_ARG/"
 dir5 = "listes_seq/"
-
 end1 = '_uniq_liste_gene.txt'
 end2 = '.ffn'
 end3 = '_liste_ARG.txt'
@@ -24,7 +23,7 @@ for file in file_list :
     fasta = dir3 + filename + end2
     args = dir4 + filename + end3
     output = dir5 + filename + end4
-
+    
     liste_gene = open(gene, "r")
     ffn = open(fasta, "r")
     ARG = open(args, "r")
@@ -49,8 +48,7 @@ for file in file_list :
 
                     liste_seq.write('>') 
                     liste_seq.write(seq[i + 1]) 
-                    liste_seq.write('\n')  
-
+       
     liste_gene.close()
     ffn.close()
     ARG.close()
