@@ -1,17 +1,15 @@
 #!/bin/bash
 
-dir1="/home/REFSEQ/prokka/*/*/*.gff"
-dir2="/home/ninon.robin/usefull/"
-dir3="/home/ninon.robin/listes_id/"
-dir4="/home/ninon.robin/listes_ARG/"
-dir5="/home/ninon.robin/listes_gene/"
-dir6="/home/ninon.robin/listes_seq/"
-
+dir1="gff/"
+dir2="usefull/"
+dir3="listes_id/"
+dir4="listes_ARG/"
+dir5="listes_gene/"
+dir6="listes_seq/"
 end1='_usefull.txt'
-end2='_liste_id.txt'
-end3='_uniq_liste_id.txt'
-end4='_liste_ARG.txt'
-end5='_uniq_liste_gene.txt'
+end2='_uniq_liste_id.txt'
+end3='_liste_ARG.txt'
+end4='_uniq_liste_gene.txt'
 
 # 1 Extraction des sseqid depuis diamond avec sseqid_extractor.py --> sseqid.txt --> uniq_sseqid.txt
 
@@ -36,8 +34,8 @@ for file in `ls $dir3`
 do
     fichier=$dir3$file
     filename=`echo "$file" | cut -f 1 -d '.' | cut -f 1-2 -d '_'`
-    cat uniq_sseqid.txt | grep $filename > $dir4$filename$end4
-    cat $fichier | sort | uniq > $dir3$filename$end3
+    cat uniq_sseqid.txt | grep $filename > $dir4$filename$end3
+    cat $fichier | sort | uniq > $dir3$filename$end2
     rm $fichier
 done
 
@@ -45,7 +43,7 @@ for file in `ls $dir5`
 do
     fichier=$dir5$file
     filename=`echo "$file" | cut -f 1 -d '.' | cut -f 1-2 -d '_'`
-    cat $fichier | uniq > $dir5$filename$end5
+    cat $fichier | uniq > $dir5$filename$end4
     rm $fichier
 done
 
