@@ -31,7 +31,7 @@ for (i in 1:n_matrix)
   barplot(m, main = titre)
   hist(m, main = titre)
 
-  #### Ou ça marche pas, ou c'est lentissimo pour espèce et génus ####
+  #### Ou Ã§a marche pas, ou c'est lentissimo pour espÃ¨ce et gÃ©nus ####
   
   # to_set2 <- which(centro_matrix != 0)
   # m2 <- centro_matrix[, c(to_set2)]
@@ -52,7 +52,7 @@ for (i in 1:n_matrix)
   # plot <- ggplot(centro_matrix) + geom_histogram(bins = max)
   # plot + ggtitle(titre) + xlab("???") + ylab("??")
   
-  #### Est-ce que ça sert vraiment à quelque chose ???? ####
+  #### Est-ce que Ã§a sert vraiment Ã  quelque chose ???? ####
   
   aac_ARG <- centro_matrix 
   j <- 1
