@@ -1,11 +1,11 @@
 library(tidyverse)
 
-#### Création d'une liste de tous les fichiers .tsv des dossier diamond_resfinder4 et diamond_resfinderFG ####
+#### CrÃ©ation d'une liste de tous les fichiers .tsv des dossier diamond_resfinder4 et diamond_resfinderFG ####
 all_species4 <- list.files(path = 'W:/ninon-species/data/diamond_resfinder4', pattern = '.*.tsv', full.names = TRUE)
 all_speciesFG <- list.files(path = 'W:/ninon-species/data/diamond_resfinderFG', pattern = '.*.tsv', full.names = TRUE)
 all_species <- c(all_species4, all_speciesFG)
 
-#### Création d'une liste de dataframe regroupant les données de la liste de fichier créée ci-dessus ####
+#### CrÃ©ation d'une liste de dataframe regroupant les donnÃ©es de la liste de fichier crÃ©Ã©e ci-dessus ####
 n_species <- length(all_species)
 all_names <- str_remove(basename(all_species), '.tsv')
 species_list <- vector(mode = 'list', length = n_species)
@@ -15,7 +15,7 @@ for (i in 1:n_species)
   curr_name <- all_names[i] 
   species <- read_tsv(file = all_species[i], col_names = FALSE)
 
-  # Si le fichier traité est vide, on passe directement au suivant (== suppression des fichiers vides)
+  # Si le fichier traitÃ© est vide, on passe directement au suivant (== suppression des fichiers vides)
   if(nrow(species) == 0) 
   {
     next()
@@ -23,7 +23,7 @@ for (i in 1:n_species)
   
   names(species) <- c('qseqid', 'sseqid', 'pident', 'qlen', 'slen', 'qcovhsp', 'length', 'mismatch', 'gapopen', 'qstart', 'qend', 'sstart', 'send', 'evalue', 'bitscore')
   
-  # Suppression des doublons intra-espèces (== un même séquence d'un gène de résistances trouvée dans plusieurs séquences associées à la même espèce)
+  # Suppression des doublons intra-espÃ¨ces (== un mÃªme sÃ©quence d'un gÃ¨ne de rÃ©sistances trouvÃ©e dans plusieurs sÃ©quences associÃ©es Ã  la mÃªme espÃ¨ce)
   species %>% 
     group_by(qseqid) %>% 
     arrange(pident, qcovhsp) %>%
@@ -46,7 +46,7 @@ table(out_df$shared_by)
 
 Species <- unlist(out_df['species'])
 
-for (j in 1:nrow(out_df)) # Inversion des 2 parties de nom d'espèce pour les espèces 'UNVERIFIED_ORG' pour avoir la bonne nomenclatuture
+for (j in 1:nrow(out_df)) # Inversion des 2 parties de nom d'espÃ¨ce pour les espÃ¨ces 'UNVERIFIED_ORG' pour avoir la bonne nomenclatuture
 {
   if (startsWith(Species[j], 'UNV') == TRUE)
   {
