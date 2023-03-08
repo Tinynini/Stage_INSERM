@@ -9,8 +9,7 @@ level_name[1] <- 'species'
 suffix <- c('', '(.*) (bacterium)', '(.*)(ceae) (bacterium)', '(.*)(ales) (bacterium)')
 cond <- c('', FALSE, TRUE, TRUE)
 
-all_species <- read_tsv('W:/ninon-species/output/all_species_clust.tsv') %>%
-  #all_species <- read_tsv('W:/ninon-species/output/sliced_all_species_clust.tsv') %>%
+all_species <- read_tsv('W:/ninon-species/output/sliced_all_species_clust.tsv') %>%
   as.data.frame()
 
 all_species[, 'species'] <- str_replace(all_species[, 'species'], pattern = '(.*)(_)(.*)', replacement = "\\1\\ \\3")
@@ -120,5 +119,4 @@ all_species[ex4, 'Order'] <- 'Lachnospirales'
 
 na_species <- as.data.frame(unique(all_species[is.na(all_species[, 'Domain']), 'species']))
 
-write.table(all_species, "W:/ninon-species/output/Total_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-#write.table(all_species, "W:/ninon-species/output/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(all_species, "W:/ninon-species/output/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
