@@ -3,7 +3,6 @@ library(tidytree)
 library(ape)
 library(ggtree) 
 
-#all_species <- read_tsv('W:/ninon-species/output/Total_Taxo_Result.tsv') %>%
 all_species <- read_tsv('W:/ninon-species/output/Sliced_Taxo_Result.tsv') %>% 
   as.data.frame
 
@@ -73,12 +72,13 @@ for (i in 1:6)
     l <- l + 1
   }
   
-  plot.phylo(trees[[297]], show.node.label = TRUE, main = uni_centro[297, 1], sub = uni_centro[297, 2])
+  plot.phylo(trees[[358]], show.node.label = TRUE, main = uni_centro[358, 1], sub = uni_centro[358, 2])
 
   err <- which(uni_centro[, 'length'] == 0.000)
+  
   uni_centro <- uni_centro[-c(err),]
   n_centro <- nrow(uni_centro)
-  
+
   tree_list <- vector(mode = 'list', length = n_centro)
 
   l <- 1
@@ -100,29 +100,29 @@ for (i in 1:6)
   tit <- str_glue("{title}{level_name[i]}")
   plot(level_plot + ggtitle(label = tit) + xlab("valeurs des distances") + ylab("Nombres d'occurrences"))
 
-  # liste <- vector(mode = 'list', length = n_centro)
-  # 
-  # for (l in 1:n_centro)
-  # {
-  #   wanted_tree <- as_tibble(tree_list[[l]])
-  #   root <- which(is.na(wanted_tree['branch.length']) == TRUE)
-  #   label <- which(tibble_tree$label %in% wanted_tree[root, 'label'])
-  #   liste[l] <- tibble_tree[label, 'node']
-  # }
-  # 
-  # liste <- t(as.data.frame(unique(liste)))
-  # type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol = 1))
-  # liste <- cbind(liste, type)
-  # names(liste) <- c('node', 'type')
-  # 
-  # level_tree <- ggtree(tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
-  # deb <- "sous-arbres "
-  # fin <- "/centroides"
-  # plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin}")))
+  liste <- vector(mode = 'list', length = n_centro)
+
+  for (l in 1:n_centro)
+  {
+    wanted_tree <- as_tibble(tree_list[[l]])
+    root <- which(is.na(wanted_tree['branch.length']) == TRUE)
+    label <- which(tibble_tree$label %in% wanted_tree[root, 'label'])
+    liste[l] <- tibble_tree[label, 'node']
+  }
+
+  liste <- t(as.data.frame(unique(liste)))
+  type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol = 1))
+  liste <- cbind(liste, type)
+  names(liste) <- c('node', 'type')
+
+  level_tree <- ggtree(tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
+  deb <- "sous-arbres "
+  fin <- "/centroides"
+  plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin}")))
 
   liste_uni_centro[[i]] <- uni_centro
   liste_tree_liste[[i]] <- tree_list
-  
+
   min_length[[i]] <- min(uni_centro[, 2])
   max_length[[i]] <- max(uni_centro[, 2])
 }
