@@ -5,8 +5,7 @@ library(ape)
 tree <- read.tree('W:/ninon-species/data/bac120_r95.tree')
 tree_df <- as_tibble(tree)
 
-all_species <- read_tsv('W:/ninon-species/output/Total_Taxo_Result.tsv') %>%
-#all_species <- read_tsv('W:/ninon-species/output/Sliced_Taxo_Result.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Sliced_Taxo_Result.tsv') %>% 
   as.data.frame()
 
 level_share <- as.data.frame(all_species[, c(6:18)])
@@ -66,11 +65,12 @@ for (i in 1:6)
   next_tree <- as.phylo(phylo_tree)
   next_tree <- drop.tip(next_tree, level)
   phylo_tree <- as_tibble(next_tree)
-
+  
+  # Est ce qu on doit vraiment faire ca (est ce qu on peut s en passer) ??
   # phylo_tree %>%
   #   arrange(label) %>%
   #   identity -> phylo_tree
-  # 
+  # # C est pas une erreur le '__' ?
   # nodes_exclus = length(grep("(.*)__(.*)", unlist(phylo_tree[, 'label']))) + 1 
   # k <- 1
   #  
@@ -93,10 +93,10 @@ for (i in 1:6)
   #   identity -> phylo_tree
   
   next_tree <- as.phylo(phylo_tree)
-  
+
   path_start = "W:/ninon-species/output/"
   path_end = ".tree"
   file_name = str_glue("{path_start}{colnames(level_share[i])}{path_end}")
-  
-  write.tree(next_tree, file_name) 
+
+  write.tree(next_tree, file_name)
 }
