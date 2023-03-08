@@ -1,7 +1,6 @@
 library(tidyverse)
 
-all_species <- read_tsv('W:/ninon-species/output/Total_ARG_Species.tsv') %>% 
-  #all_species <- read_tsv('W:/ninon-species/output/Sliced_All_Species_clust.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Sliced_ARG_Species.tsv') %>% 
   as.data.frame()
 
 level <- as.data.frame(all_species[, c(7:12)])
@@ -32,9 +31,8 @@ for (i in 1:6)
     to_set <- which(uni_level[, level_name[i]] %in% curr_level)
     centro_matrix[j, to_set] <- 1                       
   }
-  
-  path_start = "W:/ninon-species/output/Matrix_"
-  #path_start = "W:/ninon-species/output/Sliced_Matrix_"
+
+  path_start = "W:/ninon-species/output/Sliced_Matrix_"
   path_end = ".tsv"
   file_name = str_glue("{path_start}{level_name[i]}{path_end}")
 
