@@ -23,7 +23,7 @@ for (i in 1:n_species)
   
   names(species) <- c('qseqid', 'sseqid', 'pident', 'qlen', 'slen', 'qcovhsp', 'length', 'mismatch', 'gapopen', 'qstart', 'qend', 'sstart', 'send', 'evalue', 'bitscore')
   
-  # Suppression des doublons intra-espèces (== un même séquence d'un gène de résistances trouvée dans plusieurs séquences associées à la même espèce)
+  # Suppression des doublons intra-espèces (== une même séquence d'un gène de résistances trouvée dans plusieurs séquences associées à la même espèce)
   species %>% 
     group_by(qseqid) %>% 
     arrange(pident, qcovhsp) %>%
@@ -46,7 +46,7 @@ table(out_df$shared_by)
 
 Species <- unlist(out_df['species'])
 
-for (j in 1:nrow(out_df)) # Inversion des 2 parties de nom d'espèce pour les espèces 'UNVERIFIED_ORG' pour avoir la bonne nomenclatuture
+for (j in 1:nrow(out_df)) # Inversion des 2 parties de nom d'espèce pour les espèces 'UNVERIFIED_ORG' pour avoir la bonne nomenclature
 {
   if (startsWith(Species[j], 'UNV') == TRUE)
   {
