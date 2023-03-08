@@ -62,5 +62,5 @@ all_species %>%
 
 sliced_all_species <- as.data.frame(t(do.call(rbind, sliced_all_species))) 
 
-#### Enregistrement de la dataframe complete dans le fichier all_species_clust.tsv et de celle slicee dans le fichier Sliced_all_species_clust.tsv ####
+#### Enregistrement de la dataframe slicee dans le fichier Sliced_all_species_clust.tsv ####
 write.table(sliced_all_species, "W:/ninon-species/output/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
