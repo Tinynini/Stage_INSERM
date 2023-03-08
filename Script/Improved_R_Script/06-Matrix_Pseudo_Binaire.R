@@ -1,7 +1,6 @@
 library(tidyverse)
 
-all_species <- read_tsv('W:/ninon-species/output/Total_ARG_Species.tsv') %>% 
-  #all_species <- read_tsv('W:/ninon-species/output/Sliced_All_Species_clust.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Sliced_ARG_Species.tsv') %>% 
   as.data.frame()
 
 level <- as.data.frame(all_species[, c(7:12)])
@@ -12,8 +11,7 @@ n_centro <- length(uni_centro)
 
 for (i in 1:5)
 {
-  path_start = "W:/ninon-species/output/Matrix_"
-  #path_start = "W:/ninon-species/output/Sliced_Matrix_"
+  path_start = "W:/ninon-species/output/Sliced_Matrix_"
   path_end = ".tsv"
   file_name = str_glue("{path_start}{level_name[i]}{path_end}")
   
@@ -39,13 +37,20 @@ for (i in 1:5)
     uni_level <- unlist(as.data.frame(sort(unique(curr_level[, 1]))))
     n_level <- length(uni_level)
     
-    centro_matrix <- read_tsv(file_name) 
+    centro_matrix <- read_tsv(file_name)
+    
     rownames(centro_matrix) <- uni_centro
+    
     centro_matrix <- t(centro_matrix)
+    
     centro_matrix <- cbind(now_level, centro_matrix)
+    
     centro_matrix <- left_join(curr_level, centro_matrix, by = NULL)
+    
     centro_matrix <- t(centro_matrix[-2])
+    
     colnames(centro_matrix) <- centro_matrix[1,]
+    
     centro_matrix <- as.data.frame(centro_matrix[-1,])
 
     for (n in 1:ncol(centro_matrix))
@@ -76,8 +81,7 @@ for (i in 1:5)
       }
     }
 
-    path_start = "W:/ninon-species/output/Matrix_"
-    #path_start = "W:/ninon-species/output/Sliced_Matrix_"
+    path_start = "W:/ninon-species/output/Sliced_Matrix_"
     path_end = ".tsv"
     new_file_name = str_glue("{path_start}{level_name[i]}_{level_name[j]}{path_end}")
 
