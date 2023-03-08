@@ -15,9 +15,9 @@ rownames(Genus_matrix) <- gene
 
 #### Exemple des barplots d absence/presence que l on obtient pour un ARG de la famille des 'aph' (aph(3')-XV) ####
 barplot(Genus_matrix[258,], main = "Partage inter-génus de aph(3')", axisnames = FALSE) 
-#barplot(Genus_matrix[121,], main = "Partage inter-génus de aph(3')") # Version réduite 
+#barplot(Genus_matrix[121,], main = "Partage inter-génus de aph(3')") # Version reduite 
 
-# La, on ne conserve que les presences pour pouvoir voir les nom de genus se partageant l'ARG (avec le zoom en plein ecran ou en etirant suffisement la zone de plot)
+# La on ne conserve que les presences pour pouvoir voir les nom de genus se partageant l ARG (avec le zoom en plein ecran ou en etirant suffisement la zone de plot)
 to_set <- which(Genus_matrix[258,] != 0)
 #to_set <- which(Genus_matrix[121,] != 0) # Version reduite
 m <- Genus_matrix[258, c(to_set)]
