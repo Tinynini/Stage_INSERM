@@ -1,14 +1,12 @@
 library(tidyverse)
 
-all_species <- read_tsv('W:/ninon-species/output/Total_ARG_species.tsv') %>% 
-  #all_species <- read_tsv('W:/ninon-species/output/Sliced_ARG_species.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Sliced_ARG_species.tsv') %>% 
   as.data.frame()
 
 uni_centro <- sort(unique(all_species$Centroid))
 #gene <- sort(unique(all_species$qseqid))
 
-all_matrix <- list.files(path = 'W:/ninon-species/output', pattern = 'Matrix_.*.tsv', full.names = TRUE)
-#all_matrix <- list.files(path = 'W:/ninon-species/output', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE)
+all_matrix <- list.files(path = 'W:/ninon-species/output', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE)
 n_matrix <- length(all_matrix)
 
 matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3')
@@ -31,7 +29,7 @@ for (i in 1:n_matrix)
   barplot(m, main = titre)
   hist(m, main = titre)
 
-  #### Ou ça marche pas, ou c'est lentissimo pour espèce et génus ####
+  #### Ou ca marche pas ou c est lentissimo pour espece et genus ####
   
   # to_set2 <- which(centro_matrix != 0)
   # m2 <- centro_matrix[, c(to_set2)]
@@ -52,7 +50,7 @@ for (i in 1:n_matrix)
   # plot <- ggplot(centro_matrix) + geom_histogram(bins = max)
   # plot + ggtitle(titre) + xlab("???") + ylab("??")
   
-  #### Est-ce que ça sert vraiment à quelque chose ???? ####
+  #### Est-ce que ca sert vraiment a quelque chose ???? ####
   
   aac_ARG <- centro_matrix 
   j <- 1
