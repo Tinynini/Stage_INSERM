@@ -33,7 +33,7 @@ ARG_Species %>%
   identity() -> ARG_Species
 
 ARG_Species <- left_join(ARG_Species, Parsed_taxonomy, by = c('species' = 'Species')) # On join sur les noms d'especes
-na_species <- as.data.frame(unique(ARG_Species[is.na(ARG_Species[, 'Genus']), 'species'])) # Especes n'ayant pas pu etre matchees avec celle de la table de taxonomie
+na_species <- as.data.frame(unique(ARG_Species[is.na(ARG_Species[, 'Genus']), 'species'])) # Especes n ayant pas pu etre matchees avec celle de la table de taxonomie
 
 #### Enregistrement de la nouvelle dataframe complete dans le fichier ARG_Species.tsv (ou de celle slicee dans le fichier New_ARG_Species.tsv) ####
 write.table(ARG_Species, "W:/ninon-species/output/ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
