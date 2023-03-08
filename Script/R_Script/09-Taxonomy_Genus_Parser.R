@@ -15,7 +15,7 @@ for (i in 1:nrow(ARG_species)) # /!\ On exclus les especes 'bacterium' (!= 'Bact
 {
   if (NA_Genus[i] == TRUE & grepl('(.*) (bacterium)', ARG_species[i, 'species']) == FALSE) 
   {
-    # On complete la colonne des genus en recuperant les 1ere parties de nom d'espece (== genus)
+    # On complete la colonne des genus en recuperant les 1ere parties de nom d espece (== genus)
     ARG_species[i, 'Genus'] <- str_replace(ARG_species[i, 'species'], '(.*) (.*)', '\\1')
     J <- J + 1
   }
