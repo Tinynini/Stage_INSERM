@@ -77,6 +77,12 @@ ex3 <- which(ARG_species[, 'species'] == 'Firmicutes bacterium')
 ARG_species[ex3, 'Phylum'] <- 'Firmicutes'
 ARG_species[ex3, 'Domain'] <- 'Bacteria'
 
+# Est ce aussi necessaire ici ??
+# ex4 <- which(all_species[, 'species'] == 'Lachnospiraceae oral')
+# all_species[ex4, 'Genus'] <- NA
+# all_species[ex4, 'Family'] <- 'Lachnospiraceae' 
+# all_species[ex4, 'Order'] <- 'Lachnospirales'
+
 na_species <- as.data.frame(unique(ARG_species[is.na(ARG_species[, 'Domain']), 'species'])) # Especes restees non-matchees in fine
 
 #### Enregistrement de la dataframe complete dans le fichier Final_ARG_Species.tsv (ou de celle slicee dans le fichier Final_New_ARG_Species.tsv) ####
