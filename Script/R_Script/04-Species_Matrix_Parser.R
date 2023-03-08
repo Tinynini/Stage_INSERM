@@ -1,6 +1,6 @@
 library(tidyverse)
 
-#### Ouverture de all_species_clust.tsv et de Matrix.tsv (ou de Sliced_all_species_clust.tsv et de New_Matrix.tsv) & récupération des données ####
+#### Ouverture de all_species_clust.tsv et de Matrix.tsv (ou de Sliced_all_species_clust.tsv et de New_Matrix.tsv) & recuperation des donnees ####
 matrix <- read_tsv('W:/ninon-species/output/Matrix.tsv')
 #matrix <- read_tsv('W:/ninon-species/output/New_Matrix.tsv') 
 
@@ -13,18 +13,18 @@ matrix <- as.matrix(matrix)
 gene <- sort(unique(all_species$qseqid))
 rownames(matrix) <- gene
 
-#### Exemple des barplots d'absence/présence que l'on obtient pour un ARG de la famille des 'aph' (aph(3')-XV) ####
+#### Exemple des barplots d absence/presence que l on obtient pour un ARG de la famille des 'aph' (aph(3')-XV) ####
 barplot(matrix[258,], main = "Partage inter-espèces de aph(3')", axisnames = FALSE)
-#barplot(matrix[121,], main = "Partage inter-espèces de aph(3')") # Version réduite
+#barplot(matrix[121,], main = "Partage inter-espèces de aph(3')") # Version reduite
 
-# Là, on ne conserve que les présences pour pouvoir voir les nom d'espèces se partageant l'ARG (avec le zoom en plein écran ou en étirant suffisement la zone de plot)
+# La on ne conserve que les presences pour pouvoir voir les nom d'especes se partageant l'ARG (avec le zoom en plein ecran ou en etirant suffisement la zone de plot)
 to_set <- which(matrix[258,] != 0)
-#to_set <- which(matrix[121,] != 0) # Version réduite
+#to_set <- which(matrix[121,] != 0) # Version reduite
 m <- matrix[258, c(to_set)]
-#m <- matrix[121, c(to_set)] # Version réduite
+#m <- matrix[121, c(to_set)] # Version reduite
 barplot(m, main = "Partage inter-espèces de aph(3')")
 
-#### Exemple de calcul des distances et du plot du dendrogramme associé pour la famille des 'aph' ####
+#### Exemple de calcul des distances et du plot du dendrogramme associe pour la famille des 'aph' ####
 aph_ARG <- matrix
 j <- 1
 
