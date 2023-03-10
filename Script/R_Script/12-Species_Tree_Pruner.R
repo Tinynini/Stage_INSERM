@@ -21,7 +21,7 @@ taxo <- read_tsv('W:/ninon-species/output/New_Parsed_taxonomy.tsv') %>%
 # On extrait les colonnes 'sseqid' et 'Species' de la table de taxonomie
 small_taxo <- taxo[, c(1, 8)]
 
-#### Join de l abre avec les especes de la table de taxonomie (== remplacer les labels par les noms d especes associes) ####
+#### Join de l arbre avec les especes de la table de taxonomie (== remplacer les labels par les noms d especes associes) ####
 taxo_tree <- left_join(tree_df, small_taxo, by = c('label' = 'sseqid')) # On join sur les labels de sequences bacteriennes
 taxo_tree[1:Ntip(tree), 'label'] <- taxo_tree[1:Ntip(tree), 'Species'] # On remplace les labels de tips (pas de nodes) par les noms d especes associes 
 taxo_tree <- taxo_tree[, -5]
@@ -50,11 +50,11 @@ new_tree <- as.phylo(taxo_tree) # On passe au format phylo pour pouvoir pruner l
 new_tree <- drop.tip(new_tree, tips) # On prune l arbre en supprimant les tips associes aux doublons
 taxo_tree <- as_tibble(new_tree) # On passe au format tibble plus pratique a manipuler
 
-#### Join de l abre avec les especes de notre dataframe (== pruner l arbre en ne gardant que les especes presentes dans notre dataframe) ####
+#### Join de l arbre avec les especes de notre dataframe (== pruner l arbre en ne gardant que les especes presentes dans notre dataframe) ####
 phylo_tree <- left_join(taxo_tree, uni_species, by = c('label' = 'species')) # On join sur les noms d especes
 n_tips <- nrow(phylo_tree) - Nnode(new_tree)
 
-na_label <- is.na(phylo_tree[1:n_tips, 'species_shared_by']) # On extrait les labels des tips matchés lors du join
+na_label <- is.na(phylo_tree[1:n_tips, 'species_shared_by']) # On extrait les labels des tips matches lors du join
 species <- which(na_label == FALSE)
 
 phylo_tree[species, 'species_shared_by'] <- 1 # On standardise la valeur de la colonne 'species_shared_by' pour ces tips 
