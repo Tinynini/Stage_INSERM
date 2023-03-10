@@ -3,7 +3,7 @@ library(tidytree)
 library(ape)
 library(ggtree) 
 
-#### Ouverture de Family.tree et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & récupération des données ####
+#### Ouverture de Family.tree et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & recuperation des donnees ####
 tree <- read.tree('W:/ninon-species/output/Family_tree.tree')
 tibble_tree <- as_tibble(tree)
 
@@ -11,7 +11,7 @@ all_species <- read_tsv('W:/ninon-species/output/Taxo_result.tsv') %>%
 #all_species <- read_tsv('W:/ninon-species/output/New_Taxo_result.tsv') %>% 
   as.data.frame()
 
-#### Prétraitement des données en vue de la création d'une matrice d'absence/présence CentroidexFamille ####
+#### Pretraitement des donnees en vue de la creation d une matrice d absence/presence CentroidexFamille ####
 uni_centro <- sort(unique(all_species$Centroid))
 n_centro <- length(uni_centro)
 
@@ -19,7 +19,7 @@ uni_family <- as.data.frame(sort(unique(all_species$Family)))
 colnames(uni_family) <- 'Family'
 n_family <- nrow(uni_family)
 
-#### Créaction d'une matrice binaire (0/1) d'absence/présence des centroides au niveau des familles ####
+#### Creaction d une matrice binaire (0/1) d absence/presence des centroides au niveau des familles ####
 centro_matrix <- matrix(data = 0, nrow = n_centro, ncol = n_family)
 rownames(centro_matrix) <- uni_centro
 
@@ -35,18 +35,18 @@ centro_matrix <- t(centro_matrix)
 centro_matrix <- as.data.frame(centro_matrix)
 centro_matrix <- cbind(uni_family, centro_matrix)
 
-#### Join de l'arbre et de la matrice & préparation de nouvelles listes ####
+#### Join de l arbre et de la matrice & preparation de nouvelles listes ####
 tibble_tree <- left_join(tibble_tree, centro_matrix, by = c('label' = 'Family'))
 
 n_ARG <- ncol(tibble_tree)
-tree_list <- vector(mode = 'list', length = n_centro - 18) # Future liste des sous-arbres par centroides (18 = n_arbres_null, obtenu restrospectivement)
+tree_list <- vector(mode = 'list', length = n_centro - 18) # Future liste des sous-arbres par centroides (18 = n_arbres_null obtenu restrospectivement)
 
 length <- as.data.frame(matrix(data = 0, nrow = n_centro, ncol = 1))
 uni_centro <- cbind(uni_centro, length) # Future dataframe des longueurs totales des sous-arbres par centroides
 colnames(uni_centro) <- c('centroid', 'length')
 j <- 1
 
-#### Création des listes des sous-arbres et de leurs longueurs par centroides ####
+#### Creation des listes des sous-arbres et de leurs longueurs par centroides ####
 for (i in 5:n_ARG)  
 {
   wanted_ARG <- colnames(tibble_tree[, i])
@@ -69,15 +69,15 @@ uni_centro <- uni_centro[-c(err),]
 names(tree_list) <- uni_centro[, 'centroid']
 n_centro <- nrow(uni_centro)
 
-#### Plot de l'histogramme des distances ####
+#### Plot de l histogramme des distances ####
 family_length <- uni_centro['length']
 fplot <- ggplot(family_length, aes(length)) + geom_histogram(bins = n_centro)
 fplot + ggtitle("Nombres d'occurrences des valeurs de distances inter-familles") + xlab("valeurs des distances") + ylab("Nombres d'occurrences")
 
-#### Exemple de plot d'un sous_arbre avec "mef(B)_1_FJ196385" ####
+#### Exemple de plot d un sous_arbre avec "mef(B)_1_FJ196385" ####
 plot.phylo(tree_list[[1246]], show.node.label = TRUE, main = uni_centro[1246, 1], sub = uni_centro[1246, 2])
 
-#### Plot des sous-arbres des familles par centroides sur l'arbre complet ####
+#### Plot des sous-arbres des familles par centroides sur l arbre complet ####
 liste <- vector(mode = 'list', length = n_centro)
 
 for (i in 1:n_centro)
