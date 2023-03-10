@@ -67,7 +67,7 @@ next_tree <- as.phylo(phylo_tree) # On passe au format phylo pour pouvoir pruner
 next_tree <- drop.tip(next_tree, na_genus) # On prune l arbre en supprimant les tips non-matches
 phylo_tree <- as_tibble(next_tree) # On passe au format tibble plus pratique a manipuler
 
-#### Modification de la nomenclature des labels des nodes de l arbres en vue des plots a venir ####
+#### Modification de la nomenclature des labels des nodes de l arbre en vue des plots a venir ####
 phylo_tree %>%
   arrange(label) %>%
   identity -> phylo_tree
