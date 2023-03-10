@@ -40,7 +40,7 @@ centro_matrix <- cbind(uni_species, centro_matrix)
 tibble_tree <- left_join(tibble_tree, centro_matrix, by = c('label' = 'species'))
 
 n_ARG <- ncol(tibble_tree)
-tree_list <- vector(mode = 'list', length = n_centro - 59) # Future liste des sous-arbres par centroides (59 = n_arbres_null, obtenu restrospectivement)
+tree_list <- vector(mode = 'list', length = n_centro - 59) # Future liste des sous-arbres par centroides (59 = n_arbres_null obtenu restrospectivement)
 
 length <- as.data.frame(matrix(data = 0, nrow = n_centro, ncol = 1))
 uni_centro <- cbind(uni_centro, length) # Future dataframe des longueurs totales des sous-arbres par centroides
