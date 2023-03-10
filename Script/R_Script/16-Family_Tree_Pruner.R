@@ -2,7 +2,7 @@ library(tidyverse)
 library(tidytree)
 library(ape)
 
-#### Ouverture de bac120_r95.tree, de New_Parsed_taxonomy.tsv et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & recuperation des donnees ####
+#### Ouverture de bac120_r95.tree et de New_Parsed_taxonomy.tsv et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & recuperation des donnees ####
 tree <- read.tree('W:/ninon-species/data/bac120_r95.tree')
 tree_df <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
 
