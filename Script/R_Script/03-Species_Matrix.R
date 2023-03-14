@@ -1,8 +1,8 @@
 library(tidyverse)
 
 #### Ouverture de all_species_clust.tsv (ou de Sliced_all_species_clust.tsv) & recuperation des donnees dans une dataframe ####
-all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M2/all_species_clust.tsv') %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M2/sliced_all_species_clust.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M1/all_species_clust.tsv') %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M1/sliced_all_species_clust.tsv') %>% 
   as.data.frame()
 
 #### Pretraitement des donnees en vue de la creation d une matrice d absence/presence ARGxEspece ####
