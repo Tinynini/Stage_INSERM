@@ -11,7 +11,7 @@ n_centro <- length(uni_centro)
 
 for (i in 1:5)
 {
-  path_start = "W:/ninon-species/output/Output_M2/Matrix/Sliced_Matrix_"
+  path_start = "W:/ninon-species/output/Output_M2/Matrice/Sliced_Matrix_"
   path_end = ".tsv"
   file_name = str_glue("{path_start}{level_name[i]}{path_end}")
   
