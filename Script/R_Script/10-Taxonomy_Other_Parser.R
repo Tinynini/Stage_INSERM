@@ -1,10 +1,10 @@
 library(tidyverse)
 
 #### Ouverture de Parsed_taxonomy.tsv et de Best_ARG_Species.tsv (ou de Best_New_ARG_Species.tsv) & recuperation des donnees ####
-Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Parsed_taxonomy.tsv') 
+Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomieParsed_taxonomy.tsv') 
 
-ARG_species <- read_tsv('W:/ninon-species/output/Best_ARG_species.tsv') %>% 
-#ARG_species <- read_tsv('W:/ninon-species/output/Best_New_ARG_species.tsv') %>% 
+ARG_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Best_ARG_species.tsv') %>% 
+#ARG_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Best_New_ARG_species.tsv') %>% 
   as.data.frame()
 
 #### Extraction des especes 'bacterium' qui ne peuvent etre matchees que au niveau de la famille ####
@@ -86,5 +86,5 @@ ARG_species[ex3, 'Domain'] <- 'Bacteria'
 na_species <- as.data.frame(unique(ARG_species[is.na(ARG_species[, 'Domain']), 'species'])) # Especes restees non-matchees in fine
 
 #### Enregistrement de la dataframe complete dans le fichier Final_ARG_Species.tsv (ou de celle slicee dans le fichier Final_New_ARG_Species.tsv) ####
-write.table(ARG_species, "W:/ninon-species/output/Final_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-#write.table(ARG_species, "W:/ninon-species/output/Final_New_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(ARG_species, "W:/ninon-species/output/Output_M1/Dataframe/Final_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#write.table(ARG_species, "W:/ninon-species/output/Output_M1/Dataframe/Final_New_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
