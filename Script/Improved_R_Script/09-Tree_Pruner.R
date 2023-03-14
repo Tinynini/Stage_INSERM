@@ -5,7 +5,7 @@ library(ape)
 tree <- read.tree('W:/ninon-species/data/bac120/bac120_r95.tree')
 tree_df <- as_tibble(tree)
 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/Dataframe/Sliced_Taxo_Result.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv') %>% 
   as.data.frame()
 
 level_share <- as.data.frame(all_species[, c(6:18)])
@@ -94,7 +94,7 @@ for (i in 1:6)
   
   next_tree <- as.phylo(phylo_tree)
 
-  path_start = "W:/ninon-species/output/Output_M2/Arbre/"
+  path_start = "W:/ninon-species/output/Output_M2/ARG/Arbre/"
   path_end = ".tree"
   file_name = str_glue("{path_start}{colnames(level_share[i])}{path_end}")
 
