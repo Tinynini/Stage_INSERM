@@ -1,11 +1,11 @@
 library(tidyverse)
 
 #### Ouverture de all_species_clust.tsv et de Matrix.tsv (ou de Sliced_all_species_clust.tsv et de New_Matrix.tsv) & recuperation des donnees ####
-matrix <- read_tsv('W:/ninon-species/output/Matrice/Matrice_M1/Matrix.tsv') 
-#matrix <- read_tsv('W:/ninon-species/output/Matrice/Matrice_M1/New_Matrix.tsv') 
+matrix <- read_tsv('W:/ninon-species/output/Output_M1/Matrice/Matrix.tsv') 
+#matrix <- read_tsv('W:/ninon-species/output/Output_M1/Matrice/New_Matrix.tsv') 
 
-all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M1/all_species_clust.tsv') %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M1/sliced_all_species_clust.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/all_species_clust.tsv') %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/sliced_all_species_clust.tsv') %>% 
   as.data.frame()
 
 uni_ARG <- sort(unique(all_species$qseqid))
@@ -46,5 +46,5 @@ for (i in 1:l_1)
 }
 
 #### Enregistrement de la matrice complete dans le fichier M_Genus_ARG.tsv (ou de celle reduite dans le fichier New_M_Genus_ARG.tsv) ####
-write.table(Genus_ARG, "W:/ninon-species/output/Matrice/Matrice_M1/M_Genus_ARG.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-#write.table(Genus_ARG, "W:/ninon-species/output/Matrice/Matrice_M1/New_M_Genus_ARG.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(Genus_ARG, "W:/ninon-species/output/Output_M1/Matrice/M_Genus_ARG.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#write.table(Genus_ARG, "W:/ninon-species/output/Output_M1/Matrice/New_M_Genus_ARG.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
