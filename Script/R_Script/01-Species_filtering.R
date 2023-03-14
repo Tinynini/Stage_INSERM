@@ -55,4 +55,4 @@ for (j in 1:nrow(out_df)) # Inversion des 2 parties de nom d'espece pour les esp
 }
 
 #### Enregistrement de la dataframe dans le fichier all_species.tsv ####
-write.table(out_df, "W:/ninon-species/output/Dataframe/Dataframe_M1/all_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(out_df, "W:/ninon-species/output/Output_M1/Dataframe/all_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
