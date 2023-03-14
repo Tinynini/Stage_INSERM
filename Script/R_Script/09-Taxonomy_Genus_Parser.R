@@ -1,10 +1,10 @@
 library(tidyverse)
 
 #### Ouverture de Parsed_taxonomy.tsv et de ARG_Species.tsv (ou de New_ARG_Species.tsv) & recuperation des donnees ####
-Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Parsed_taxonomy.tsv') 
+Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv') 
 
-ARG_species <- read_tsv('W:/ninon-species/output/ARG_species.tsv') %>% 
-#ARG_species <- read_tsv('W:/ninon-species/output/New_ARG_species.tsv') %>% 
+ARG_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/ARG_species.tsv') %>% 
+#ARG_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/New_ARG_species.tsv') %>% 
   as.data.frame()
 
 #### Extraction des especes qui n ont pas pu etre matchees lors du join precedent ####
@@ -94,5 +94,5 @@ ARG_species[c(less_NA_genus),] <- ARG_Genus
 na_species <- as.data.frame(unique(ARG_species[is.na(ARG_species[, 'Family']), 'species'])) # Especes encore non-matchees apres ce 2eme join
 
 #### Enregistrement de la dataframe complete dans le fichier Best_ARG_Species.tsv (ou de celle slicee dans le fichier Best_New_ARG_Species.tsv) ####
-write.table(ARG_species, "W:/ninon-species/output/Best_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-#write.table(ARG_species, "W:/ninon-species/output/Best_New_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(ARG_species, "W:/ninon-species/output/Output_M1/Dataframe/Best_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#write.table(ARG_species, "W:/ninon-species/output/Output_M1/Dataframe/Best_New_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
