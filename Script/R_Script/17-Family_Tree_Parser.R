@@ -4,11 +4,11 @@ library(ape)
 library(ggtree) 
 
 #### Ouverture de Family.tree et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & recuperation des donnees ####
-tree <- read.tree('W:/ninon-species/output/Family_tree.tree')
+tree <- read.tree('W:/ninon-species/output/Output_M1/Arbre/Family_tree.tree')
 tibble_tree <- as_tibble(tree)
 
-all_species <- read_tsv('W:/ninon-species/output/Taxo_result.tsv') %>%
-#all_species <- read_tsv('W:/ninon-species/output/New_Taxo_result.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Taxo_result.tsv') %>%
+#all_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/New_Taxo_result.tsv') %>% 
   as.data.frame()
 
 #### Pretraitement des donnees en vue de la creation d une matrice d absence/presence CentroidexFamille ####
