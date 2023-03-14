@@ -15,7 +15,7 @@ uni_species <- as.data.frame(sort(unique(all_species[, 'species'])))
 colnames(uni_species) <- 'species'
 uni_species <- unique(left_join(uni_species, all_species[, c('species', 'species_shared_by')], by = c('species' = 'species')))
 
-taxo <- read_tsv('W:/ninon-species/output/New_Parsed_taxonomy.tsv') %>% 
+taxo <- read_tsv('W:/ninon-species/output/Table_taxonomie/New_Parsed_taxonomy.tsv') %>% 
   as.data.frame()
 
 # On extrait les colonnes 'sseqid' et 'Species' de la table de taxonomie
