@@ -1,7 +1,7 @@
 library(tidyverse)
 
 #### Ouverture de all_species.tsv et de cluster_fast_all_0.95.txt & recuperation des donnees dans des dataframes ####
-all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M2/all_species.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/Dataframe/all_species.tsv') %>% 
   as.data.frame()
 
 all_species %>%
@@ -63,4 +63,4 @@ all_species %>%
 sliced_all_species <- as.data.frame(t(do.call(rbind, sliced_all_species))) 
 
 #### Enregistrement de la dataframe slicee dans le fichier Sliced_all_species_clust.tsv ####
-write.table(sliced_all_species, "W:/ninon-species/output/Dataframe/Dataframe_M2/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(sliced_all_species, "W:/ninon-species/output/Output_M2/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
