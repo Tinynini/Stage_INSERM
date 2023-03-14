@@ -1,8 +1,8 @@
 library(tidyverse)
 
 #### Ouverture de all_species_clust.tsv (ou de Sliced_all_species_clust.tsv) & recuperation des donnees dans une dataframe ####
-all_species <- read_tsv('W:/ninon-species/output/all_species_clust.tsv') %>% 
-#all_species <- read_tsv('W:/ninon-species/output/sliced_all_species_clust.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M2/all_species_clust.tsv') %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M2/sliced_all_species_clust.tsv') %>% 
   as.data.frame()
 
 #### Pretraitement des donnees en vue de la creation d une matrice d absence/presence ARGxEspece ####
@@ -30,5 +30,5 @@ for (i in 1:n_ARG)
 }
 
 #### Enregistrement de la matrice complete dans le fichier Matrix.tsv (ou de celle reduite dans le fichier New_Matrix.tsv) ####
-write.table(all_matrix, "W:/ninon-species/output/Matrix.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-#write.table(all_matrix, "W:/ninon-species/output/New_Matrix.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(all_matrix, "W:/ninon-species/output/Matrice/Matrice_M1/Matrix.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#write.table(all_matrix, "W:/ninon-species/output/Matrice/Matrice_M1/New_Matrix.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
