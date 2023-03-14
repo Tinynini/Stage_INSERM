@@ -3,11 +3,11 @@ library(tidytree)
 library(ape)
 
 #### Ouverture de bac120_r95.tree et de New_Parsed_taxonomy.tsv et de Taxo_result.tsv (ou de New_Taxo_result.tsv) & recuperation des donnees ####
-tree <- read.tree('W:/ninon-species/data/bac120_r95.tree')
+tree <- read.tree('W:/ninon-species/data/bac120/bac120_r95.tree')
 tree_df <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
 
-all_species <- read_tsv('W:/ninon-species/output/Taxo_result.tsv') %>%
-#all_species <- read_tsv('W:/ninon-species/output/New_Taxo_result.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Taxo_result.tsv') %>%
+#all_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/New_Taxo_result.tsv') %>% 
   as.data.frame()
 
 # On extrait les colonnes 'Family' et 'family_shared_by' (qui fait juste office de marqueur) de la dataframe
@@ -16,7 +16,7 @@ colnames(uni_family) <- 'Family'
 uni_family <- unique(left_join(uni_family, all_species[, c('Family', 'family_shared_by')], by = c('Family' = 'Family')))
 
 # On extrait les colonnes 'sseqid' et 'Family' de la table de taxonomie
-taxo <- read_tsv('W:/ninon-species/output/New_Parsed_taxonomy.tsv') %>% 
+taxo <- read_tsv('W:/ninon-species/output/Table_taxonomie/New_Parsed_taxonomy.tsv') %>% 
   as.data.frame()
 
 small_taxo <- taxo[, c(1, 6)]
@@ -95,4 +95,4 @@ phylo_tree %>%
 next_tree <- as.phylo(phylo_tree) # On repasse au format phylo pour pouvoir enregistrer l arbre sans risquer de l abimer
 
 #### Enregistrement de l arbre au format phylo dans le fichier Family_tree.tree (meme resultat qu on parte de Taxo_result.tsv ou de New_Taxo_result.tsv) ####
-write.tree(next_tree, "W:/ninon-species/output/Family_tree.tree")
+write.tree(next_tree, "W:/ninon-species/output/Output_M1/Arbre/Family_tree.tree")
