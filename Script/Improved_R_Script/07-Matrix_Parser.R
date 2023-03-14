@@ -1,12 +1,12 @@
 library(tidyverse)
 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/Dataframe/Sliced_ARG_species.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_species.tsv') %>% 
   as.data.frame()
 
 uni_centro <- sort(unique(all_species$Centroid))
 #gene <- sort(unique(all_species$qseqid))
 
-all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/Matrice', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE)
+all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/ARG/Matrice', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE)
 n_matrix <- length(all_matrix)
 
 matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3')
