@@ -1,6 +1,6 @@
 library(tidyverse)
 
-Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Parsed_taxonomy.tsv')
+Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv')
 Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),]
 
 level_name <- unlist(colnames(Parsed_taxonomy[, c(1:4)]))
@@ -9,7 +9,7 @@ level_name[1] <- 'species'
 suffix <- c('', '(.*) (bacterium)', '(.*)(ceae) (bacterium)', '(.*)(ales) (bacterium)')
 cond <- c('', FALSE, TRUE, TRUE)
 
-all_species <- read_tsv('W:/ninon-species/output/sliced_all_species_clust.tsv') %>%
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/Dataframe/sliced_all_species_clust.tsv') %>%
   as.data.frame()
 
 all_species[, 'species'] <- str_replace(all_species[, 'species'], pattern = '(.*)(_)(.*)', replacement = "\\1\\ \\3")
@@ -119,4 +119,4 @@ all_species[ex4, 'Order'] <- 'Lachnospirales'
 
 na_species <- as.data.frame(unique(all_species[is.na(all_species[, 'Domain']), 'species']))
 
-write.table(all_species, "W:/ninon-species/output/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(all_species, "W:/ninon-species/output/Output_M2/Dataframe/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
