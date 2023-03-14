@@ -1,10 +1,10 @@
 library(tidyverse)
 
 #### Ouverture de all_species_clust.tsv et de Matrix.tsv (ou de Sliced_all_species_clust.tsv et de New_Matrix.tsv) & recuperation des donnees ####
-matrix <- read_tsv('W:/ninon-species/output/Matrix.tsv')
-#matrix <- read_tsv('W:/ninon-species/output/New_Matrix.tsv') 
+matrix <- read_tsv('W:/ninon-species/output/Matrice/Matrice_M1/Matrix.tsv')
+#matrix <- read_tsv('W:/ninon-species/output/Matrice/Matrice_M1/New_Matrix.tsv') 
 
-all_species <- read_tsv('W:/ninon-species/output/all_species_clust.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Datatfrmame/Dataframe_M1/all_species_clust.tsv') %>% 
 #all_species <- read_tsv('W:/ninon-species/output/sliced_all_species_clust.tsv') %>% 
   as.data.frame()
 
