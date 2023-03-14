@@ -1,8 +1,8 @@
 library(tidyverse)
 
 #### Ouverture de Final_ARG_species.tsv (ou de Final_New_ARG_species.tsv) & recuperation des donnees ####
-taxo <- read_tsv('W:/ninon-species/output/Final_ARG_species.tsv') %>% 
-#taxo <- read_tsv('W:/ninon-species/output/Final_New_ARG_species.tsv') %>% 
+taxo <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Final_ARG_species.tsv') %>% 
+#taxo <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Final_New_ARG_species.tsv') %>% 
   as.data.frame()
 
 #### On genere 6 nouvelles colonnes des partages de centroides du niveau 'species' au niveau 'Phylum' ####
@@ -21,8 +21,8 @@ taxo %>%
 taxo <- taxo[, -3] # On supprime la colonne des 'shared_by' car elle est identique a celle des 'species_shared_by' et donc redondante
 
 #### Enregistrement de la dataframe complete dans le fichier Taxo_result.tsv (ou de celle slicee dans le fichier New_Taxo_result.tsv) ####
-write.table(taxo, "W:/ninon-species/output/Taxo_result.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-#write.table(taxo, "W:/ninon-species/output/New_Taxo_result.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(taxo, "W:/ninon-species/output/Output_M1/Dataframe/Taxo_result.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#write.table(taxo, "W:/ninon-species/output/Output_M1/Dataframe/New_Taxo_result.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
 
 #### Slice de la dataframe sur les centroides de facon a n avoir plus que une seule occurrence par centroid ####
 taxo %>% 
