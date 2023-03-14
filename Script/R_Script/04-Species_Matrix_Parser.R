@@ -4,8 +4,8 @@ library(tidyverse)
 matrix <- read_tsv('W:/ninon-species/output/Matrice/Matrice_M1/Matrix.tsv')
 #matrix <- read_tsv('W:/ninon-species/output/Matrice/Matrice_M1/New_Matrix.tsv') 
 
-all_species <- read_tsv('W:/ninon-species/output/Datatfrmame/Dataframe_M1/all_species_clust.tsv') %>% 
-#all_species <- read_tsv('W:/ninon-species/output/sliced_all_species_clust.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M1/all_species_clust.tsv') %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Dataframe/Dataframe_M1/sliced_all_species_clust.tsv') %>% 
   as.data.frame()
 
 matrix <- as.matrix(matrix)
