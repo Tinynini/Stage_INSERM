@@ -8,7 +8,7 @@ all_species %>%
   arrange(qseqid, shared_by) %>% 
   identity() -> all_species
 
-all_clusters <- read_tsv('W:/Projet-Cluster/Output/cluster_fast_all_0.95.txt', col_names = FALSE) %>% 
+all_clusters <- read_tsv('W:/ninon-species/data/Cluster/Cluster_ARG/cluster_fast_all_0.95.txt', col_names = FALSE) %>% 
   as.data.frame()
 
 names(all_clusters) <- c('Type', 'Num_cluster', 'Length', '%_Similarity', 'Match_Orientation', 'Unused1', 'Unused2', 'Align_rep', 'Query', 'Centroid')
