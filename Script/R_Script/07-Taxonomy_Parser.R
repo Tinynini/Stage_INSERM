@@ -1,8 +1,8 @@
 library(tidyverse)
 
 #### Ouverture de bac120_taxonomy_r95.tsv et de bac120_taxonomy_r95_new.tsv & recuperation des donnees ####
-taxonomy_V1 <- read.csv('W:/ninon-species/data/bac120_taxonomy_r95.tsv', sep = ';', header = FALSE)
-taxonomy_V2 <- read.csv('W:/ninon-species/data/bac120_taxonomy_r95_new.tsv', sep = ';', header = FALSE) 
+taxonomy_V1 <- read.csv('W:/ninon-species/data/bac120/bac120_taxonomy_r95.tsv', sep = ';', header = FALSE)
+taxonomy_V2 <- read.csv('W:/ninon-species/data/bac120/bac120_taxonomy_r95_new.tsv', sep = ';', header = FALSE) 
 colnames(taxonomy_V1) <- c('Occurrence', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species')
 colnames(taxonomy_V2) <- c('sseqid', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species')
 
@@ -84,5 +84,5 @@ taxonomy_V1 <- prev_doublon_cleaner(taxonomy_V1)
 taxonomy_V2 <- prev_doublon_cleaner(taxonomy_V2)
 
 #### Enregistrement des 2 versions de la table de taxonomie dans les fichier Parsed_taxonomy.tsv et New_Parsed_taxonomy.tsv ####
-write.table(taxonomy_V1, "W:/ninon-species/output/Parsed_taxonomy.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-write.table(taxonomy_V2, "W:/ninon-species/output/New_Parsed_taxonomy.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(taxonomy_V1, "W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(taxonomy_V2, "W:/ninon-species/output/Table_taxonomie/New_Parsed_taxonomy.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
