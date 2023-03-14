@@ -3,7 +3,7 @@ library(tidytree)
 library(ape)
 library(ggtree) 
 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/Dataframe/Sliced_Taxo_Result.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv') %>% 
   as.data.frame
 
 level <- as.data.frame(all_species[, c(6:11)])
@@ -17,7 +17,7 @@ max_length <- vector(mode = 'list', length = 6)
 
 for (i in 1:6)
 {
-  path_start = "W:/ninon-species/output/Output_M2/Arbre/"
+  path_start = "W:/ninon-species/output/Output_M2/ARG/Arbre/"
   path_end = ".tree"
   file_name = str_glue("{path_start}{level_name[i]}{path_end}")
 
