@@ -63,7 +63,7 @@ ARG_Order <- unique(ARG_Order)
 less_NA_Order <- which(ARG_species[, 'species'] %in% ARG_Order[, 'species'])
 ARG_species[c(less_NA_Order),] <- ARG_Order
 
-#### Traitement directe (hors join) de cas particulies d'especes 'bactérium' trop isole pour faire l objet d'un join ####
+#### Traitement direct (hors join) de cas particulies d especes 'bactérium' trop isole pour faire l objet d'un join ####
 ex1 <- which(all_species[, 'species'] == 'Bacillus bacterium')
 all_species[ex1, c('Genus', 'Family', 'Order', 'Class', 'Phylum', 'Domain')] <-
   c('Bacillus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
