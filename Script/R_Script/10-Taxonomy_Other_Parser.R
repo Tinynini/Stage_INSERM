@@ -63,25 +63,19 @@ ARG_Order <- unique(ARG_Order)
 less_NA_Order <- which(ARG_species[, 'species'] %in% ARG_Order[, 'species'])
 ARG_species[c(less_NA_Order),] <- ARG_Order
 
-#### Traitement directe (hors join) de 3 cas particulies d'especes 'bactérium' trop isole pour faire l objet d'un join ####
-ex1 <- which(ARG_species[, 'species'] == 'Bacillus bacterium') 
-ARG_species[ex1, c('Genus', 'Family', 'Order', 'Class', 'Phylum', 'Domain')] <- 
-  c('Baccilus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
+#### Traitement directe (hors join) de cas particulies d'especes 'bactérium' trop isole pour faire l objet d'un join ####
+ex1 <- which(all_species[, 'species'] == 'Bacillus bacterium')
+all_species[ex1, c('Genus', 'Family', 'Order', 'Class', 'Phylum', 'Domain')] <-
+  c('Bacillus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
 
-ex2 <- which(ARG_species[, 'species'] == 'Clostridia bacterium') 
-ARG_species[ex2, 'Class'] <- 'Clostridia'
-ARG_species[ex2, 'Phylum'] <- 'Firmicutes'
-ARG_species[ex2, 'Domain'] <- 'Bacteria'
+ex2 <- which(all_species[, 'species'] == 'Clostridia bacterium')
+all_species[ex2, 'Class'] <- 'Clostridia'
+all_species[ex2, 'Phylum'] <- 'Firmicutes'
+all_species[ex2, 'Domain'] <- 'Bacteria'
 
-ex3 <- which(ARG_species[, 'species'] == 'Firmicutes bacterium') 
-ARG_species[ex3, 'Phylum'] <- 'Firmicutes'
-ARG_species[ex3, 'Domain'] <- 'Bacteria'
-
-# Est ce aussi necessaire ici ??
-# ex4 <- which(all_species[, 'species'] == 'Lachnospiraceae oral')
-# all_species[ex4, 'Genus'] <- NA
-# all_species[ex4, 'Family'] <- 'Lachnospiraceae' 
-# all_species[ex4, 'Order'] <- 'Lachnospirales'
+ex3 <- which(all_species[, 'species'] == 'Firmicutes bacterium')
+all_species[ex3, 'Phylum'] <- 'Firmicutes'
+all_species[ex3, 'Domain'] <- 'Bacteria'
 
 na_species <- as.data.frame(unique(ARG_species[is.na(ARG_species[, 'Domain']), 'species'])) # Especes restees non-matchees in fine
 
