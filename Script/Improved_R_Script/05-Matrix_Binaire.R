@@ -11,7 +11,7 @@ level_name <- unlist(colnames(all_species[, c(7:12)])) # On extrait aussi leurs 
 uni_centro <- sort(unique(all_species$Centroid)) # On extrait la colonne des centroid en appliquant sort(unique()) dessus pour les trier en les dedoublonnant 
 n_centro <- length(uni_centro) # On recupere le nombre de centroids distincts
 
-for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d especes a phylum)
+for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espece a phylum)
 {
   uni_level <- as.data.frame(sort(unique(level[, i])))# On extrait la colonne du niveau i en appliquant sort(unique()) dessus pour le trier en le dedoublonnant 
   colnames(uni_level) <- level_name[i] # On renomme la colonne extraite pour faciliter son utilisation a venir
