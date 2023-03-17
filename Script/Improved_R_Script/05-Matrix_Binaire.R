@@ -20,7 +20,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   #### Creaction d une matrice binaire (0/1) d absence/presence des genes de resistances au niveau traite ####
   centro_matrix <- matrix(data = 0, nrow = n_centro, ncol = n_level) # Dimensionnee selon les 2 valeurs recuperee precedemment & remplie de 0 pour l instant
   rownames(centro_matrix) <- uni_centro # On associe les noms de centroids aux lignes
-  colnames(centro_matrix) <- uni_level[, 1] # Et ceux des representant du niveau i aux colonne 
+  colnames(centro_matrix) <- uni_level[, 1] # Et ceux des representant du niveau i aux colonnes 
   # N.B. : On aurait tres bien pu faire le contraire c est kif-kif
   all_species %>% 
     select(Centroid, level_name[i]) %>% # On selectionne les colonnes du niveau i et des centroids
