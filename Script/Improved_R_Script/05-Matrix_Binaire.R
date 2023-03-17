@@ -37,7 +37,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   
   #### Enregistrement de la matrice complete dans un fichier nominatif ####
   path_start = "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" # Chemin d acces + debut de nom de fichier
-  path_end = ".tsv" # fin de nom de fichier (== extension du fichier)
+  path_end = ".tsv" # Fin de nom de fichier (== extension du fichier)
   file_name = str_glue("{path_start}{level_name[i]}{path_end}") # Assemblage des 2 autour du label du niveau i pour obtenir le nom de fichier complet
   
   write.table(centro_matrix, file_name, sep = '\t', row.names = FALSE, col.names = TRUE) # Process habituel d enregistrement d une structure de type table dans un fichier
