@@ -15,7 +15,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
 {
   uni_level <- as.data.frame(sort(unique(level[, i])))# On extrait la colonne du niveau i en appliquant sort(unique()) dessus pour le trier en le dedoublonnant 
   colnames(uni_level) <- level_name[i] # On renomme la colonne extraite pour faciliter son utilisation a venir
-  n_level <- nrow(uni_level) # On recupere le nombre de representant distints du niveau i
+  n_level <- nrow(uni_level) # On recupere le nombre de representants distints du niveau i
   
   #### Creaction d une matrice binaire (0/1) d absence/presence des genes de resistances au niveau traite ####
   centro_matrix <- matrix(data = 0, nrow = n_centro, ncol = n_level) # Dimensionnee selon les 2 valeurs recuperee precedemment & remplie de 0 pour l instant
