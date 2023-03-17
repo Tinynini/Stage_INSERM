@@ -4,7 +4,7 @@ library(tidyverse)
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
   as.data.frame() # On ouvre le fichier sous la forme d une dataframe
 
-#### Pretraitement des donnees en vue de la creation d une matrice d absence/presence ARGxLevel ####
+#### Pretraitement des donnees en vue de la creation de matrices d absence/presence ARGxLevel ####
 level <- as.data.frame(all_species[, c(7:12)]) # On extrait le contenu des colonnes associes aux 6 niveaux taxonomiques etudies
 level_name <- unlist(colnames(all_species[, c(7:12)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
 
