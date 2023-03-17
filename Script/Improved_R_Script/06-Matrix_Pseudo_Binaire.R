@@ -67,7 +67,8 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     colnames(cross_matrix) <- uni_level # Et ceux des representant du niveau j aux colonnes 
 
     for (k in 1:n_level) # On parcourt les k representants du niveau j distincts
-    { # La on va les chercher dans la colonne triee et dedoublonnee qu on extrait precedement
+    { 
+      # La on va les chercher dans la colonne triee et dedoublonnee qu on extrait precedement
       to_set <- which(curr_level[, 1] %in% uni_level[k]) # On isole les occurrences du representant k au sein du bloc 'niveau j + niveau i' qu on a longuement pretraite precedement 
       l <- length(to_set) # On recupere le nombre d'occurrences trouvees
       m <- centro_matrix[, c(to_set)] # On extrait de notre matrice binaire les colonnes de meme indice que les occurences trouvees
