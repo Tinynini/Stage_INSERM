@@ -43,7 +43,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     #### Ouverture & traitement de la matrice binaire associee au niveau i ####
     centro_matrix <- read_tsv(file_name) # On recupere les donnees du fichier correspondant a ladite matrice
     
-    rownames(centro_matrix) <- uni_centro # On reassigne les noms de lignes (non conservables a l enregistrement)
+    rownames(centro_matrix) <- uni_centro # On reassigne les labels de lignes (non conservables a l enregistrement)
     centro_matrix <- t(centro_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne le temps du join a venir   
 
     centro_matrix <- cbind(now_level, centro_matrix) # On fusionne la colonne du niveau i triee et dedoublonnee a notre matrice pour avoir une 1ere colonne identique aux labels de lignes actuels
