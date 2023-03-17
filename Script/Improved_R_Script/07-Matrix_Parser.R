@@ -1,35 +1,39 @@
 library(tidyverse)
 
+#### Ouverture de Sliced_ARG_Species.tsv & recuperation des donnees ####
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_species.tsv') %>% 
-  as.data.frame()
+  as.data.frame() # On ouvre le fichier sous la forme d une dataframe
 
-uni_centro <- sort(unique(all_species$Centroid))
-#gene <- sort(unique(all_species$qseqid))
+uni_centro <- sort(unique(all_species$Centroid)) # On extrait la colonne des centroid en appliquant sort(unique()) dessus pour les trier en les dedoublonnant 
 
-all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/ARG/Matrice', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE)
-n_matrix <- length(all_matrix)
+#### Obtention de la liste des fichiers contenant nos matrices binaires et pseudo-binaires ####
+# On se rend dans le bonne emplacement puis on recherche la parterne de nom de fichier 'Sliced_Matrix_.*.tsv' qui est commune aux de type de matrice 
+all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/ARG/Matrice', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE) 
+n_matrix <- length(all_matrix) # On recupere le nombre de fichier contenus dans notre liste de fichier (== nombre total de matrices tous types confondus)
 
-matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3')
+matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3') # Recupere les noms de matrices a partir des noms de fichiers 
 
-for (i in 1:n_matrix)  
+for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
 {
-  centro_matrix <- read_tsv(file = all_matrix[i])
-  centro_matrix <- as.matrix(centro_matrix)
-  rownames(centro_matrix) <- uni_centro
+  centro_matrix <- read_tsv(file = all_matrix[i]) # On ouvre la matrice depuis la liste de fichier
+  centro_matrix <- as.matrix(centro_matrix) # Comme elle est sous forme de table doit la retransformer en matrice
+  rownames(centro_matrix) <- uni_centro # Et lui reatribuer des labels de ligne aussi parce qu ils sont pas conserves lors de l enregistrement du fichier
   
-  deb = "Partage inter-"
-  fin = " de aac(6')-31_1_AM283489"
-  titre <- str_glue("{deb}{matrix_name[i]}{fin}")
+  #### Barplot et/ou histogramme de l absence/presence ou uniquement la presence d un ARG donnee 
   
-  barplot(centro_matrix[36,], main = titre, axisnames = FALSE)
-
-  to_set <- which(centro_matrix[36,] != 0)
-  m <- centro_matrix[36, c(to_set)]
-
-  barplot(m, main = titre)
-  hist(m, main = titre)
-
-  #### Ou ca marche pas ou c est lentissimo pour espece et genus ####
+  deb = "Partage inter-" # Debut de titre de graphe
+  fin = " de aac(6')-31_1_AM283489" # Fin de titre a mettre a jour en fonction de l ARG qu on teste
+  titre <- str_glue("{deb}{matrix_name[i]}{fin}") # Assemblage des 2 autour du nom de la matrice pour obtenir le titre de graphe complet
+  
+  barplot(centro_matrix[36,], main = titre, axisnames = FALSE) # Barblot de l absence/presence d un ARG donnee dans la matrice 
+  
+  to_set <- which(centro_matrix[36,] != 0) # La on isole les colonnes pour lesquels l ARG matche pour rendre le graphe plus lisible
+  m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes pour pouvoir les traiter a part dans des nouveaux plots
+  
+  barplot(m, main = titre) # barplot de la presence uniquement de ce meme ARG 
+  hist(m, main = titre) # histogramme de la presence uniquement de ce meme ARG 
+  
+  #### Meme chose mais avec l ensemble des ARG en meme temps (ou ca marche pas ou c est lentissimo pour espece et genus) #### 
   
   # to_set2 <- which(centro_matrix != 0)
   # m2 <- centro_matrix[, c(to_set2)]
@@ -50,25 +54,25 @@ for (i in 1:n_matrix)
   # plot <- ggplot(centro_matrix) + geom_histogram(bins = max)
   # plot + ggtitle(titre) + xlab("???") + ylab("??")
   
-  #### Est-ce que ca sert vraiment a quelque chose ???? ####
+  #### Dendogramme d une famille d ARG ####
   
-  aac_ARG <- centro_matrix 
+  aac_ARG <- centro_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille d ARG
   j <- 1
-
-  for (i in 1:nrow(centro_matrix))
+  
+  for (m in 1:nrow(centro_matrix)) # Permet de parcourir la matrice ligne par ligne
   {
-    if (startsWith(uni_centro[i], 'aac') != TRUE)
+    if (startsWith(uni_centro[m], 'aac') != TRUE) # Si la ligne m ne correspond pas a un ARG de la famille voulue (ici celle des 'aac')
     {
-      aac_ARG <- aac_ARG[-j,]
+      aac_ARG <- aac_ARG[-j,] # On supprime la ligne de notre nouvelle matrice
     }
-    else
+    else # Sinon
     {
-      j <- j + 1
+      j <- j + 1 # On passe directement a la ligne suivante
     }
   }
-
-  all_dist <- dist(aac_ARG, method = 'binary')
-
-  clust <- hclust(all_dist, "complete")
-  plot(clust, labels = FALSE)
+  
+  all_dist <- dist(aac_ARG, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice avec dist() via la methode 'binary' (la plus appropriee dans notre cas)
+  
+  clust <- hclust(all_dist, "complete") # On clusterise ses distances avec hclust() via la method 'complete'
+  plot(clust, labels = FALSE) # On plot le dendogramme resultant
 }
