@@ -13,7 +13,7 @@ n_centro <- length(uni_centro) # On recupere le nombre de centroids distincts
 
 for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espece a phylum)
 {
-  uni_level <- as.data.frame(sort(unique(level[, i])))# On extrait la colonne du niveau i en appliquant sort(unique()) dessus pour le trier en le dedoublonnant 
+  uni_level <- as.data.frame(sort(unique(level[, i]))) # On extrait la colonne du niveau i en appliquant sort(unique()) dessus pour le trier en le dedoublonnant 
   colnames(uni_level) <- level_name[i] # On renomme la colonne extraite pour faciliter son utilisation a venir
   n_level <- nrow(uni_level) # On recupere le nombre de representants distints du niveau i
   
@@ -35,10 +35,10 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
     centro_matrix[j, to_set] <- 1 # On attribue la valeur 1 aux cases associees a ces matchs dans la matrice                    
   }
   
-  #### Enregistrement de la matrice complete dans un fichier nominatif ####
+  #### Enregistrement de la matrice binaire ainsi obtenue dans un fichier nominatif ####
   path_start = "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" # Chemin d acces + debut de nom de fichier
   path_end = ".tsv" # Fin de nom de fichier (== extension du fichier)
   file_name = str_glue("{path_start}{level_name[i]}{path_end}") # Assemblage des 2 autour du label du niveau i pour obtenir le nom de fichier complet
   
-  write.table(centro_matrix, file_name, sep = '\t', row.names = FALSE, col.names = TRUE) # Process habituel d enregistrement d une structure de type table dans un fichier
+  write.table(centro_matrix, file_name, sep = '\t', row.names = FALSE, col.names = TRUE) # Methode habituelle d enregistrement d une structure de type table dans un fichier
 }
