@@ -58,7 +58,7 @@ generate_plot_en <- function(level_share, level_name)
 level <- as.data.frame(taxo_small[, c(13:18)]) # On extrait le contenu des colonnes associees aux partages au 6 niveaux taxonomiques etudies
 level_name <- unlist(colnames(taxo_small[, c(6:11)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
 
-for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomique d especes a phylum
+for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomique (d especes a phylum)
 {
   level_share <- level[, i] # On extrai la colonne associe au niveau i
   generate_plot_fr(level_share, level_name[i]) # On lui applique la fonction generate_plot_fr()
