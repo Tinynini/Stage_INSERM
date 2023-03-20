@@ -38,7 +38,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     #### Preparation a l ouverture de la matrice binaire associee au niceau i depuis son fichier nominatif ####
     path_start = "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" 
     path_end = ".tsv" 
-    file_name = str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit comme une variable
+    file_name = str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
     
     #### Ouverture & traitement de la matrice binaire associee au niveau i ####
     centro_matrix <- read_tsv(file_name) 
@@ -87,7 +87,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     #### Enregistrement de la matrice pseudo-binaire ainsi obtenue dans un fichier nominatif ####
     path_start = "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" 
     path_end = ".tsv" 
-    new_file_name = str_glue("{path_start}{level_name[i]}_{level_name[j]}{path_end}") # Le nom de fichier est definit comme une variable
+    new_file_name = str_glue("{path_start}{level_name[i]}_{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
     
     write.table(cross_matrix, new_file_name, sep = '\t', row.names = FALSE, col.names = TRUE) 
   }
