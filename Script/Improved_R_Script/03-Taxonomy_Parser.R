@@ -78,7 +78,7 @@ taxonomy_V1 <- taxonomy_V1[,-c(1)]
 taxonomy_V1 <- sub_class_cleaner(taxonomy_V1)
 taxonomy_V2 <- sub_class_cleaner(taxonomy_V2)
 
-taxonomy_V2 <- rev(unique(taxonomy_V2)) 
+taxonomy_V2 <- unique(taxonomy_V2)
 
 taxonomy_V1 <- prev_doublon_cleaner(taxonomy_V1)
 taxonomy_V2 <- prev_doublon_cleaner(taxonomy_V2)
