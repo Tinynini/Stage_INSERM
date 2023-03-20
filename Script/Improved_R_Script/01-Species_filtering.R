@@ -1,6 +1,6 @@
 library(tidyverse)
 
-#### Creation d une liste de tous les fichiers .tsv des dossier diamond_resfinder4 et diamond_resfinderFG ####
+#### Creation d une liste de tous les fichiers .tsv des dossiers diamond_resfinder4 et diamond_resfinderFG ####
 all_species4 <- list.files(path = 'W:/ninon-species/data/diamond_resfinder4', pattern = '.*.tsv', full.names = TRUE)
 all_speciesFG <- list.files(path = 'W:/ninon-species/data/diamond_resfinderFG', pattern = '.*.tsv', full.names = TRUE)
 all_species <- c(all_species4, all_speciesFG)
