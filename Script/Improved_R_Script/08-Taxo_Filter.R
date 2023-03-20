@@ -34,31 +34,33 @@ taxo_small %>%
   arrange(phylum_shared_by, class_shared_by, order_shared_by, family_shared_by, genus_shared_by, species_shared_by) %>%
   identity() -> taxo_small
 
+#### histogrammes des nombres d occurrences des valeurs de partage aux 6 niveaux taxonomiques etudies ####
+# Fonction pour generer les plots avec le titre et les labels en francais
 generate_plot_fr <- function(level_share, level_name)
 {
   title_start = "Nombres d'occurrences des valeurs de partages inter-"
 
   level_plot <- ggplot(level, aes(level_share)) + geom_histogram(bins = (max(level_share)*2 - 1))
-  title <- str_glue("{title_start}{level_name}")
+  title <- str_glue("{title_start}{level_name}") # Le titre de l histogramme est definit par une variable
   plot(level_plot + ggtitle(label = title) + xlab("valeurs des partages") + ylab("Nombres d'occurences"))
 }
-
+# Fonction pour generer les plots avec le titre et les labels en anglais
 generate_plot_en <- function(level_share, level_name)
 {
   title_start = "Inter-"
   title_end = " sharing value occurences"
   
   level_plot <- ggplot(level, aes(level_share)) + geom_histogram(bins = (max(level_share)*2 - 1))
-  title <- str_glue("{title_start}{level_name}{title_end}")
+  title <- str_glue("{title_start}{level_name}{title_end}") # Le titre de l histogramme est definit par une variable
   plot(level_plot + ggtitle(label = title) + xlab("sharing values") + ylab("Number of occurences"))
 }
 
-level <- as.data.frame(taxo_small[, c(13:18)])
-level_name <- unlist(colnames(taxo_small[, c(6:11)]))
+level <- as.data.frame(taxo_small[, c(13:18)]) # On extrait le contenu des colonnes associees aux partages au 6 niveaux taxonomiques etudies
+level_name <- unlist(colnames(taxo_small[, c(6:11)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
 
-for (i in 1:6)
+for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomique d especes a phylum
 {
-  level_share <- level[, i]
-  generate_plot_fr(level_share, level_name[i])
-  generate_plot_en(level_share, level_name[i])
+  level_share <- level[, i] # On extrai la colonne associe au niveau i
+  generate_plot_fr(level_share, level_name[i]) # On lui applique la fonction generate_plot_fr()
+  generate_plot_en(level_share, level_name[i]) # On lui applique la fonction generate_plot_en()
 }
