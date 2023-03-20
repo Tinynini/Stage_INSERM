@@ -70,5 +70,5 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   
   all_dist <- dist(aac_ARG, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice 
   clust <- hclust(all_dist, "complete") # On clusterise ses distances 
-  plot(clust, labels = TRUE) # On plot le dendogramme resultant
+  plot(clust) # On plot le dendogramme resultant
 }
