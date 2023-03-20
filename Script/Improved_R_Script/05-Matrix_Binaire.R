@@ -22,8 +22,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   rownames(centro_matrix) <- uni_centro 
   colnames(centro_matrix) <- uni_level[, 1]  
   
-  all_species %>% 
-    select(Centroid, level_name[i]) %>% # On selectionne les colonnes du niveau i et des centroids
+  all_species %>% # On selectionne les colonnes du niveau i et des centroids
+    select(Centroid, level_name[i]) %>% 
     identity() -> arg_level
   
   for (j in 1:n_centro) # Permet de parcourir les j centroids distincts
