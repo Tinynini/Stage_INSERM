@@ -19,7 +19,6 @@ for (i in 1:6)
   taxo <- read_tsv('W:/ninon-species/output/Table_taxonomie/New_Parsed_taxonomy.tsv') %>%
     as.data.frame()
 
-  taxo <- rev(taxo)
   small_taxo <- taxo[, c(8, i)]
 
   taxo_tree <- left_join(tree_df, small_taxo, by = c('label' = 'sseqid'))
@@ -27,6 +26,7 @@ for (i in 1:6)
   taxo_tree <- taxo_tree[, -5]
 
   Label <- taxo_tree[1:Ntip(tree),]
+  
   labels <- Label
 
   labels %>%
