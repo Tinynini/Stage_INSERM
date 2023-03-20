@@ -6,7 +6,7 @@ taxo <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Final_ARG_species.
   as.data.frame()
 
 #### On genere 6 nouvelles colonnes des partages de centroides du niveau 'species' au niveau 'Phylum' ####
-# N.B. : Le niveau 'Domain' n est pas traite car cette etude ne porte que sur un seul et unique domaine, celui des 'bacteria' (== bacterie)
+# N.B. : Le niveau 'Domain' n est pas traite car cette etude ne porte que sur le domaine des 'bacteria' (== bacterie)
 taxo %>%
   arrange(Centroid) %>%
   group_by(Centroid) %>%
