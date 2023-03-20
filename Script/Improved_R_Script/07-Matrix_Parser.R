@@ -19,20 +19,17 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   centro_matrix <- as.matrix(centro_matrix) 
   rownames(centro_matrix) <- uni_centro 
   
-  #### Barplot et/ou histogramme de l absence/presence ou uniquement de la presence d un ARG donne 
+  #### Barplot de la presence d un ARG donne 
   
   deb = "Partage inter-" 
   fin = " de aac(6')-31_1_AM283489" # A mettre a jour en fonction de l ARG qu on teste
-  titre <- str_glue("{deb}{matrix_name[i]}{fin}") # Le titre de plot est definit par une variable
-  
-  barplot(centro_matrix[36,], main = titre, axisnames = FALSE) # Barblot de l absence/presence d un ARG donnee (ici aac(6')-31_1_AM283489) dans la matrice 
+  titre <- str_glue("{deb}{matrix_name[i]}{fin}") # Le titre du barplot est definit par une variable
   
   to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche 
   m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes 
   
-  barplot(m, main = titre) # barplot de la presence uniquement de ce meme ARG 
-  hist(m, main = titre) # histogramme de la presence uniquement de ce meme ARG 
-  
+  barplot(m, main = titre) # Barblot de la presence d un ARG donnee (ici aac(6')-31_1_AM283489) dans la matrice
+
   #### Meme chose mais avec l ensemble des ARG en meme temps (ou ca marche pas ou c est lentissimo pour espece et genus donc est qu on garde ca ??) #### 
   
   # to_set2 <- which(centro_matrix != 0)
@@ -72,7 +69,6 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   }
   
   all_dist <- dist(aac_ARG, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice 
-  
   clust <- hclust(all_dist, "complete") # On clusterise ses distances 
   plot(clust, labels = TRUE) # On plot le dendogramme resultant
 }
