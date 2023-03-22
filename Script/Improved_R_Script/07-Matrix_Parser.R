@@ -20,7 +20,6 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   rownames(centro_matrix) <- uni_centro 
   
   #### Barplot de la presence d un ARG donne 
-  
   deb = "Partage inter-" 
   fin = " de aac(6')-31_1_AM283489" # A mettre a jour en fonction de l ARG qu on teste
   titre <- str_glue("{deb}{matrix_name[i]}{fin}") # Le titre du barplot est definit par une variable
@@ -31,7 +30,6 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   barplot(m, main = titre) # Barblot de la presence d un ARG donnee (ici aac(6')-31_1_AM283489) dans la matrice
 
   #### Meme chose mais avec l ensemble des ARG en meme temps (ou ca marche pas ou c est lentissimo pour espece et genus donc est qu on garde ca ??) #### 
-  
   # to_set2 <- which(centro_matrix != 0)
   # m2 <- centro_matrix[, c(to_set2)]
   # barplot(centro_matrix, main = titre)
@@ -52,7 +50,6 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   # plot + ggtitle(titre) + xlab("???") + ylab("??")
   
   #### Dendogramme d une famille d ARG ####
-  
   aac_ARG <- centro_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille d ARG
   j <- 1
   
