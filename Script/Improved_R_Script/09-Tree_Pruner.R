@@ -65,7 +65,7 @@ for (i in 1:1) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   next_tree <- drop.tip(next_tree, level) # On prune l arbre en supprimant les lignes associees aux doublons
   phylo_tree <- as_tibble(next_tree) # On passe au format tibble plus pratique a manipuler
 
-  # #### a decommenter pour pouvoir faire le 3eme plot avec le script suivant sinon pas necessaire
+  # #### A decommenter pour pouvoir faire le 3eme plot avec le script suivant sinon pas necessaire
   # phylo_tree %>% # On reordonne l arbre en fonction des labels parce que ca permet de separer automatiquement les labels de nodes deja uniques des autres et de regrouper ceux identiques
   #   arrange(label) %>%
   #   identity -> phylo_tree
