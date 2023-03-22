@@ -35,7 +35,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     uni_level <- unlist(as.data.frame(sort(unique(curr_level[, 1])))) # On extrait la colonne du niveau j 
     n_level <- length(uni_level) 
     
-    #### Preparation a l ouverture de la matrice binaire associee au niceau i depuis son fichier nominatif ####
+    #### Preparation a l ouverture de la matrice binaire associee au niveau i depuis son fichier nominatif ####
     path_start = "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" 
     path_end = ".tsv" 
     file_name = str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
