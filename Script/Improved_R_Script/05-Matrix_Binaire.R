@@ -17,7 +17,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   colnames(uni_level) <- level_name[i] 
   n_level <- nrow(uni_level) 
   
-  #### Creaction d une matrice binaire (0/1) d absence/presence des genes de resistances au niveau traite ####
+  #### Creaction d une matrice binaire (0/1) d absence/presence des genes de resistances au niveau i ####
   centro_matrix <- matrix(data = 0, nrow = n_centro, ncol = n_level) 
   rownames(centro_matrix) <- uni_centro 
   colnames(centro_matrix) <- uni_level[, 1]  
