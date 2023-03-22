@@ -31,7 +31,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
     curr_centro <- uni_centro[j] # Pour le centroid j
     curr_level <- arg_level[arg_level$Centroid == curr_centro, level_name[i]] # Au niveau i
     
-    to_set <- which(uni_level[, level_name[i]] %in% curr_level) # On extrait les representant du niveau i qui matchent le centroid j
+    to_set <- which(uni_level[, level_name[i]] %in% curr_level) # On extrait les representants du niveau i qui matchent le centroid j
     centro_matrix[j, to_set] <- 1 # On attribue la valeur 1 aux cases associees a ces matchs dans la matrice                    
   }
   
