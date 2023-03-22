@@ -26,7 +26,6 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   
   to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche 
   m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes 
-  
   barplot(m, main = titre) # Barblot de la presence d un ARG donnee (ici aac(6')-31_1_AM283489) dans la matrice
 
   #### Meme chose mais avec l ensemble des ARG en meme temps (ou ca marche pas ou c est lentissimo pour espece et genus donc est qu on garde ca ??) #### 
