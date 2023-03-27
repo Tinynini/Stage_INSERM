@@ -93,13 +93,13 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   
   other_tree <- as.phylo(new_phylo_tree) # On repasse au format phylo pour pouvoir enregistrer l arbre sans risquer de l abimer
 
-  #### Enregistrement de l arbre ainsi obtenu dans un fichier nominatif ####
+  #### Enregistrement des arbres ainsi obtenus dans des fichiers nominatifs ####
   path_start = "W:/ninon-species/output/Output_M2/ARG/Arbre/"
   path_end = ".tree"
   other_path_end = "_version_alt.tree"
-  
-  file_name_1 = str_glue("{path_start}{colnames(level_share[i])}{path_end}") # Le nom de fichier est definit par une variable
-  file_name_2 = str_glue("{path_start}{colnames(level_share[i])}{other_path_end}") # Le nom de fichier est definit par une variable
+  # Les noms des fichiers sont definis par des variables
+  file_name_1 = str_glue("{path_start}{colnames(level_share[i])}{path_end}") 
+  file_name_2 = str_glue("{path_start}{colnames(level_share[i])}{other_path_end}") 
   
   write.tree(next_tree, file_name_1)
   write.tree(other_tree, file_name_2)
