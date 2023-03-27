@@ -42,7 +42,7 @@ generate_plot_fr <- function(level_share, level_name)
 
   level_plot <- ggplot(level, aes(level_share)) + geom_histogram(bins = (max(level_share)*2 - 1))
   title <- str_glue("{title_start}{level_name}") # Le titre de l histogramme est definit par une variable
-  plot(level_plot + ggtitle(label = title) + xlab("valeurs des partages") + ylab("Nombres d'occurences"))
+  plot(level_plot + ggtitle(label = title) + xlab("Valeurs des partages") + ylab("Nombres d'occurences"))
 }
 # Fonction pour generer les plots avec le titre et les labels en anglais
 generate_plot_en <- function(level_share, level_name)
@@ -52,7 +52,7 @@ generate_plot_en <- function(level_share, level_name)
   
   level_plot <- ggplot(level, aes(level_share)) + geom_histogram(bins = (max(level_share)*2 - 1))
   title <- str_glue("{title_start}{level_name}{title_end}") # Le titre de l histogramme est definit par une variable
-  plot(level_plot + ggtitle(label = title) + xlab("sharing values") + ylab("Number of occurences"))
+  plot(level_plot + ggtitle(label = title) + xlab("Sharing values") + ylab("Number of occurences"))
 }
 
 level <- as.data.frame(taxo_small[, c(13:18)]) # On extrait le contenu des colonnes associees aux partages au 6 niveaux taxonomiques etudies
