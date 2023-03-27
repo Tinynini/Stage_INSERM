@@ -68,7 +68,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   #### Traitement special des labels de node pour les rendre uniques (donne lieu a une 2nd serie d arbres alternatifs)####
   phylo_tree %>% # On reordonne l arbre en fonction des labels parce que ca permet de separer automatiquement les labels de nodes deja uniques des autres et de regrouper ceux identiques
     arrange(label) %>%
-    identity -> new_phylo_tree # On continue avec une copie de l arbre et non celui d origine pour avoir les 2 version (avec ou sans traitement supplementaire pour les labels de nodes)
+    identity -> new_phylo_tree # On continue avec une copie de l arbre et non celui d origine pour avoir les 2 versions (avec ou sans traitement supplementaire pour les labels de nodes)
 
   nodes_exclus = length(grep("(.*)__(.*)", unlist(new_phylo_tree[, 'label']))) + 1 # On recupere le nombre de nodes deja uniques
   k <- 1 # Definit la valeur de la numerotation secondaire qu on va ajouter aux labels de node identiques
