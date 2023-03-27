@@ -1,6 +1,6 @@
 # Explication sur le contenu de ce github :
 
-Ce github vous donne accès à l'ensemble des scripts R et bash (hors période d'entrainement) que j'ai codé lors de mon stage de M1 et de M2. 
+Ce github vous donne accès à l'ensemble des scripts R et bash (hors période d'entrainement) que j'ai codé lors de mon stage de M1 et de M2. Leurs numérotations permets de savoir dans quel ordres ils doivent être utilisés, ceux de M2 pouvants tous être lancés directement à partir du script main.R.
 
 En revanche, par respect de la confidentialité qu'implique toute recherche scientifique, les données de départ et les outputs n'y figurent pas. Vous ne pourrez donc pas tester les codes par vous-même. Les scripts R sont duement légendés pour compenser cela. 
 
@@ -21,4 +21,6 @@ Le script "All_species_cluster.R" génère à la fois un version complète et un
 
 Selon ce même principe, le script "Taxonomy_Parser.R" permet de travailler soit à partir de la version prétraitée de la table de taxonomie (1ère version), soit à partir de la version originale (2nd version). Comme indiqué dans le script lui-même, une des lignes doit être décommentée et une autre plus loin commentée si l'on travaille avec la 1ère version, ou bien la 1ère de ces lignes commentée et l'autre décommentée si l'on travaille avec la 2nd version.
 
-Pour les scripts de M2 (Improve_R_Script) :
+Pour les scripts de M2 (Improved_R_Script) :
+
+On ne travaille plus qu'avec la version slicee de la dataframe puisque qu'on a eu la preuve avec les résultats obtenus en M1 que les 2 versions donnent bien les mêmes résultats de bout en bout. Par ailleurs, les scripts ayant été optimisés de différentes façon, les 2 versions de la table de taxonomie sont à présent générées simultatnément. 
