@@ -95,8 +95,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
 
   #### Enregistrement de l arbre ainsi obtenu dans un fichier nominatif ####
   path_start = "W:/ninon-species/output/Output_M2/ARG/Arbre/"
-  other_path_end = "_version_alt.tree"
   path_end = ".tree"
+  other_path_end = "_version_alt.tree"
   
   file_name_1 = str_glue("{path_start}{colnames(level_share[i])}{path_end}") # Le nom de fichier est definit par une variable
   file_name_2 = str_glue("{path_start}{colnames(level_share[i])}{other_path_end}") # Le nom de fichier est definit par une variable
