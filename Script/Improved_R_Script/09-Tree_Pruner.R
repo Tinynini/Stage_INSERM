@@ -13,7 +13,7 @@ all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_
 level_share <- as.data.frame(all_species[, c(6:18)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies et a leurs partages
 level_share <- level_share[, -7] # On supprime celle associee au domaine
 
-for (i in 1:1) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espece a phylum)
+for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espece a phylum)
 {
   uni_level <- level_share[, c(i, i + 6)] # On extrait les colonnes du niveau i et de son partage (qui servira de marqueur lors du join a venir)
   colnames(uni_level) <- c('level', 'share')
@@ -64,39 +64,43 @@ for (i in 1:1) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   next_tree <- as.phylo(phylo_tree) # On passe au format phylo pour pouvoir pruner l arbre
   next_tree <- drop.tip(next_tree, level) # On prune l arbre en supprimant les lignes associees aux doublons
   phylo_tree <- as_tibble(next_tree) # On passe au format tibble plus pratique a manipuler
+  
+  #### Traitement special des labels de node pour les rendre uniques (donne lieu a une 2nd serie d arbres alternatifs)####
+  phylo_tree %>% # On reordonne l arbre en fonction des labels parce que ca permet de separer automatiquement les labels de nodes deja uniques des autres et de regrouper ceux identiques
+    arrange(label) %>%
+    identity -> new_phylo_tree # On continue avec une copie de l arbre et non celui d origine pour avoir les 2 version (avec ou sans traitement supplementaire pour les labels de nodes)
 
-  # #### A decommenter pour pouvoir faire le 3eme plot avec le script suivant sinon pas necessaire
-  # phylo_tree %>% # On reordonne l arbre en fonction des labels parce que ca permet de separer automatiquement les labels de nodes deja uniques des autres et de regrouper ceux identiques
-  #   arrange(label) %>%
-  #   identity -> phylo_tree
-  #
-  # nodes_exclus = length(grep("(.*)__(.*)", unlist(phylo_tree[, 'label']))) + 1 # On recupere le nombre de nodes deja uniques
-  # k <- 1 # Definit la valeur de la numerotation secondaire qu on va ajouter aux labels de node identiques 
-  #
-  # for (j in nodes_exclus:Nnode(next_tree)) # On parcours les labels de nodes non uniques uniquement
-  # {
-  #   if(phylo_tree[j + 1, 'label'] == phylo_tree[j, 'label']) # Si le label i est identique au label i + 1
-  #   {
-  #     phylo_tree[j, 'label'] <- str_glue("{phylo_tree[j, 'label']}_{k}") # On ajoute une numerotation secondaire k
-  #     k <- k + 1 # Et on augmente k de 1 pour avancer dans la numerotation
-  #   }
-  #   else # Sinon
-  #   {
-  #     phylo_tree[j, 'label'] <- str_glue("{phylo_tree[j, 'label']}_{k}") # On ajoute quand même une numerotation secondaire k
-  #     k <- 1 # Et on ramene k a la valeur 1 pour revenir au debut de la numerotation pour le groupe suivant de labels identiques
-  #   }
-  # }
-  #
-  # phylo_tree %>% # On reordonne l arbre en fonction des numeros de node pour lui redonner sa structure d arbre
-  #   arrange(node) %>%
-  #   identity -> phylo_tree
+  nodes_exclus = length(grep("(.*)__(.*)", unlist(new_phylo_tree[, 'label']))) + 1 # On recupere le nombre de nodes deja uniques
+  k <- 1 # Definit la valeur de la numerotation secondaire qu on va ajouter aux labels de node identiques
 
-  next_tree <- as.phylo(phylo_tree) # On repasse au format phylo pour pouvoir enregistrer l arbre sans risquer de l abimer
+  for (j in nodes_exclus:Nnode(next_tree)) # On parcours les labels de nodes non uniques uniquement
+  {
+    if(new_phylo_tree[j + 1, 'label'] == new_phylo_tree[j, 'label']) # Si le label i est identique au label i + 1
+    {
+      new_phylo_tree[j, 'label'] <- str_glue("{new_phylo_tree[j, 'label']}_{k}") # On ajoute une numerotation secondaire k
+      k <- k + 1 # Et on augmente k de 1 pour avancer dans la numerotation
+    }
+    else # Sinon
+    {
+      new_phylo_tree[j, 'label'] <- str_glue("{new_phylo_tree[j, 'label']}_{k}") # On ajoute quand même une numerotation secondaire k
+      k <- 1 # Et on ramene k a la valeur 1 pour revenir au debut de la numerotation pour le groupe suivant de labels identiques
+    }
+  }
+
+  new_phylo_tree %>% # On reordonne l arbre en fonction des numeros de node pour lui redonner sa structure d arbre
+    arrange(node) %>%
+    identity -> new_phylo_tree
+  
+  other_tree <- as.phylo(new_phylo_tree) # On repasse au format phylo pour pouvoir enregistrer l arbre sans risquer de l abimer
 
   #### Enregistrement de l arbre ainsi obtenu dans un fichier nominatif ####
   path_start = "W:/ninon-species/output/Output_M2/ARG/Arbre/"
+  other_path_end = "_version_alt.tree"
   path_end = ".tree"
-  file_name = str_glue("{path_start}{colnames(level_share[i])}{path_end}") # Le nom de fichier est definit par une variable
-
-  write.tree(next_tree, file_name)
+  
+  file_name_1 = str_glue("{path_start}{colnames(level_share[i])}{path_end}") # Le nom de fichier est definit par une variable
+  file_name_2 = str_glue("{path_start}{colnames(level_share[i])}{other_path_end}") # Le nom de fichier est definit par une variable
+  
+  write.tree(next_tree, file_name_1)
+  write.tree(other_tree, file_name_2)
 }
