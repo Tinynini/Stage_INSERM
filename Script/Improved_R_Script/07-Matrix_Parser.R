@@ -19,15 +19,15 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   centro_matrix <- as.matrix(centro_matrix) 
   rownames(centro_matrix) <- uni_centro 
   
-  #### Barplot de la presence d un ARG donne 
+  #### Barplot de la presence d un ARG donne (ici aac(6')-31_1_AM283489) ####
   deb = "Partage inter-" 
   fin = " de aac(6')-31_1_AM283489" # A mettre a jour en fonction de l ARG qu on teste
   titre <- str_glue("{deb}{matrix_name[i]}{fin}") # Le titre du barplot est definit par une variable
-  
+  # N.B. : Il suffit de changer l index dans centro_matrix pour tester un autre ARG
   to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche 
   m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes 
-  barplot(m, main = titre) # Barblot de la presence d un ARG donnee (ici aac(6')-31_1_AM283489) dans la matrice
-
+  barplot(m, main = titre) # Barblot de la presence de l ARG donne dans la matrice
+  
   #### Meme chose mais avec l ensemble des ARG en meme temps (ou ca marche pas ou c est lentissimo pour espece et genus donc est qu on garde ca ??) #### 
   # to_set2 <- which(centro_matrix != 0)
   # m2 <- centro_matrix[, c(to_set2)]
@@ -48,15 +48,15 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   # plot <- ggplot(centro_matrix) + geom_histogram(bins = max)
   # plot + ggtitle(titre) + xlab("???") + ylab("??")
   
-  #### Dendogramme d une famille d ARG ####
-  aac_ARG <- centro_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille d ARG
+  #### Dendogramme d une famille d ARG (celle de l ARG teste ci-avant tant qu a faire) ####
+  ARG_family <- centro_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille d ARG
   j <- 1
   
   for (m in 1:nrow(centro_matrix)) # Permet de parcourir la matrice ligne par ligne
   {
     if (startsWith(uni_centro[m], 'aac') != TRUE) # Si la ligne m ne correspond pas a un ARG de la famille voulue (ici celle des 'aac')
-    {
-      aac_ARG <- aac_ARG[-j,] # On supprime la ligne de notre nouvelle matrice
+    { # N.B. : Il suffit de changer la paterne recherchee dans startsWith() pour tester une autre famille
+      ARG_family <- ARG_family[-j,] # On supprime la ligne de notre nouvelle matrice
     }
     else # Sinon
     {
@@ -64,7 +64,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
     }
   }
   
-  all_dist <- dist(aac_ARG, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice 
+  all_dist <- dist(ARG_family, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice 
   clust <- hclust(all_dist, "complete") # On clusterise ses distances 
   plot(clust) # On plot le dendogramme resultant
 }
