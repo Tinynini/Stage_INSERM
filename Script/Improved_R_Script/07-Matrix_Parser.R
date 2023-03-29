@@ -24,14 +24,15 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   fin = " de " 
   start = " inter-" 
   end = " sharing" 
-  # N.B. : Il suffit de changer l index dans centro_matrix et uni_centro pour tester un autre ARG
-  to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche 
-  m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes 
-  barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_centro[36]}")) # Barblot de la presence de l ARG donne dans la matrice
-  barplot(m, main = str_glue("{uni_centro[36]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
   
-  #### Meme chose mais avec l ensemble des ARG en meme temps (ou ca marche pas ou c est lentissimo pour espece et genus donc est qu on garde ca ??) #### 
-  # to_set2 <- which(centro_matrix != 0)
+  # N.B. : Il suffit de changer l index dans centro_matrix et uni_centro pour tester un autre ARG
+  # to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche 
+  # m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes 
+  # barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_centro[36]}")) # Barblot de la presence de l ARG donne dans la matrice
+  # barplot(m, main = str_glue("{uni_centro[36]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
+  
+  #### Meme chose mais avec l ensemble des ARG en meme temps (mais ca ne marche pas donc est qu on garde ca ??) #### 
+  # to_set2 <- which(centro_matrix != 0) # Ne peut pas etre applique directement a l ensemble de la matrice
   # m2 <- centro_matrix[, c(to_set2)]
   # barplot(centro_matrix, main = str_glue("{debut}{matrix_name[i]}"))
   # barplot(centro_matrix, main = str_glue("{start}{matrix_name[i]}{end}"))
@@ -46,16 +47,15 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   #   }
   # }
   # 
-  # hist(centro_matrix, breaks = max, main = titre)
-  #
-  # plot <- ggplot(centro_matrix) + geom_histogram(bins = max)
+  # centro_matrix <- as.data.frame(centro_matrix)
+  # plot <- ggplot(centro_matrix) + geom_histogram(bins = max) # Ne marche pas pour des raisons qui m echape
   # plot + ggtitle(str_glue("{debut}{matrix_name[i]}")) + xlab("??") + ylab("Partage")
   # plot + ggtitle(str_glue("{start}{matrix_name[i]}{end}")) + xlab("??") + ylab("Sharing")
   
   #### Dendogramme d une famille d ARG (celle de l ARG teste ci-avant tant qu a faire) ####
   ARG_family <- centro_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille d ARG
   j <- 1
-  
+
   for (m in 1:nrow(centro_matrix)) # Permet de parcourir la matrice ligne par ligne
   {
     if (startsWith(uni_centro[m], 'aac') != TRUE) # Si la ligne m ne correspond pas a un ARG de la famille voulue (ici celle des 'aac')
@@ -67,8 +67,8 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
       j <- j + 1 # On passe directement a la ligne suivante
     }
   }
-  
-  all_dist <- dist(ARG_family, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice 
-  clust <- hclust(all_dist, "complete") # On clusterise ses distances 
+
+  all_dist <- dist(ARG_family, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice
+  clust <- hclust(all_dist, "complete") # On clusterise ses distances
   plot(clust) # On plot le dendogramme resultant
 }
