@@ -130,59 +130,59 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   
   #### Exemple de plot d un sous_arbre avec "blaNDM-18_1_KY503030" (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
   plot.phylo(trees[[358]], show.node.label = TRUE, main = uni_centro[358, 1], sub = uni_centro[358, 2])
-  # N.B. : Pour travailler avec un autre centroide il faut commenter a partir d ici jusqu a l avant derniere ligne (avec ctrl+maj+c) et chercher l index du centroid souahite dans uni_centro
-  # Index des 4 centroides que j ai choisis comme representant : 178 - 297 - 358 - 1237
+  # N.B. : Pour travailler avec un autre centroide il faut modifier l index dans trees et uni_centro dans la ligne ci-avant
+  # Index des 4 centroides que j ai choisis comme representants : 178 - 297 - 358 - 1237
   
-  # #### Suppresion des sous_arbres vides et de leurs distances totales (genant pour la suite) ####
-  # err <- which(uni_centro[, 'length'] == 0.000) # On isole les lignes associees a des distances totales null (celles des sous-arbres vides) pour le 1er arbre
-  # other_err <- which(other_uni_centro[, 'length'] == 0.000) # Idem pour le 2nd arbre
-  # 
-  # uni_centro <- uni_centro[-c(err),] # On supprime ces lignes de uni_centro pour le 1er arbre
-  # other_uni_centro <- other_uni_centro[-c(other_err),] # Idem pour le 2nd arbre
-  # 
-  # tree_list <- liste_parser(trees, uni_centro) # On genere la nouvelle liste des sous-arbres sans ceux vides pour le 1er arbre
-  # other_tree_list <- liste_parser(other_trees, other_uni_centro) # Idem pour le 2nd arbre
-  # 
-  # #### Histogramme des distances totales des sous-arbres (la encore c est identique pour les 2 arbres donc on le fait que pour le 1er) ####
-  # level_length <- uni_centro['length']
-  # 
-  # level_plot <- ggplot(level_length, aes(length)) + geom_histogram(bins = n_centro) 
-  # 
-  # title = "Nombres d'occurrences des valeurs de distances inter-" # Pour generer le titre en francais
-  # title_start = "Inter-" # Pour generer le debut du titre en anglais
-  # title_end = " sharing value occurences" # Pour generer la fin du titre en anglais
-  # # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
-  # plot(level_plot + ggtitle(label = str_glue("{title}{level_name[i]}")) + xlab("Valeurs des distances") + ylab("Nombres d'occurrences")) 
-  # plot(level_plot + ggtitle(label = str_glue("{title_start}{level_name[i]}{title_end}")) + xlab("Distances values") + ylab("Number of occurences"))
-  # 
-  # #### Plot des sous-arbres des especes par centroides sur l arbre complet (Pour le 2nd arbre cette fois parce que ca ne peut pas fonctionner sans le traitement supplementaire des labels de nodes !!) ####
-  # liste <- vector(mode = 'list', length = nrow(other_uni_centro)) # On prepare une nouvelle liste
-  # 
-  # for (l in 1:nrow(other_uni_centro)) # Permet de parcourir les l sous-arbre de la liste
-  # {
-  #   wanted_tree <- as_tibble(other_tree_list[[l]]) # On recupere le sous-arbre l sous la forme d un tibble
-  #   root <- which(is.na(wanted_tree['branch.length']) == TRUE) # On isole la ligne associee a sa racine dont la distance est la seule non renseignee (== 'NA')
-  #   label <- which(other_tibble_tree$label %in% wanted_tree[root, 'label']) # On isole les lignes de meme label que sa racine dans l arbre complet
-  #   liste[l] <- other_tibble_tree[label, 'node'] # On recuppere les numeros de node associes a ces ligne dans la nouvelle liste 
-  # }
-  # # N.B. : La colonne 'type' sert a donner des types distinct aux sous-arbres lors du plot via une numerotation pour pouvoir les coloriser tous differement sur l arbre complet
-  # liste <- t(as.data.frame(unique(liste))) # On transforme la liste ainsi remplie en dataframe dedoublonnee (ca necessite une transposition)
-  # type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol = 1)) # On prepare une nouvelle colonne remplie avec des nombres allant de 1 au nombre de sous-arbres
-  # liste <- cbind(liste, type) # On ajoute cette colonne a notre dataframe dedoublonnee
-  # names(liste) <- c('node', 'type')
-  # # geom_highlight permet de coloriser les sous-arbres en fonction du type associe. Il fallait donc definir autant de types differents qu il y a de sous-arbres pour attribuer une teinte unique a chacun
-  # level_tree <- ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type)) 
-  # 
-  # deb <- "Sous-arbres " # Pour generer le debut du titre en francais
-  # fin <- "/centroides" # Pour generer la fin du titre en francais
-  # fin_en <- "/centroids sub-trees" # Pour generer le titre en anglais
-  # # On fait un premier plot avec le titre en francais puis un second avec le titre en anglais
-  # plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin}")))
-  # plot(level_tree + ggtitle(str_glue("{level_name[i]}{fin_en}")))
-  # 
-  # liste_uni_centro[[i]] <- uni_centro # On stock uni_centro dans la liste prevue pour ca
-  # liste_tree_liste[[i]] <- tree_list # On stock la liste des sous-arbre dans la liste prevue pour ca
-  # 
-  # min_length[[i]] <- min(uni_centro[, 2]) # On recupere la valeur de distance totale minimale dans la liste prevue pour ca
-  # max_length[[i]] <- max(uni_centro[, 2]) # On recupere la valeur de distance totale maximale dans la liste prevue pour ca
+  #### Suppresion des sous_arbres vides et de leurs distances totales (genant pour la suite) ####
+  err <- which(uni_centro[, 'length'] == 0.000) # On isole les lignes associees a des distances totales null (celles des sous-arbres vides) pour le 1er arbre
+  other_err <- which(other_uni_centro[, 'length'] == 0.000) # Idem pour le 2nd arbre
+
+  uni_centro <- uni_centro[-c(err),] # On supprime ces lignes de uni_centro pour le 1er arbre
+  other_uni_centro <- other_uni_centro[-c(other_err),] # Idem pour le 2nd arbre
+
+  tree_list <- liste_parser(trees, uni_centro) # On genere la nouvelle liste des sous-arbres sans ceux vides pour le 1er arbre
+  other_tree_list <- liste_parser(other_trees, other_uni_centro) # Idem pour le 2nd arbre
+
+  #### Histogramme des distances totales des sous-arbres (la encore c est identique pour les 2 arbres donc on le fait que pour le 1er) ####
+  level_length <- uni_centro['length']
+
+  level_plot <- ggplot(level_length, aes(length)) + geom_histogram(bins = n_centro)
+
+  title = "Nombres d'occurrences des valeurs de distances inter-" # Pour generer le titre en francais
+  title_start = "Inter-" # Pour generer le debut du titre en anglais
+  title_end = " sharing value occurences" # Pour generer la fin du titre en anglais
+  # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
+  plot(level_plot + ggtitle(label = str_glue("{title}{level_name[i]}")) + xlab("Valeurs des distances") + ylab("Nombres d'occurrences"))
+  plot(level_plot + ggtitle(label = str_glue("{title_start}{level_name[i]}{title_end}")) + xlab("Distances values") + ylab("Number of occurences"))
+
+  #### Plot des sous-arbres des especes par centroides sur l arbre complet (Pour le 2nd arbre cette fois parce que ca ne peut pas fonctionner sans le traitement supplementaire des labels de nodes !!) ####
+  liste <- vector(mode = 'list', length = nrow(other_uni_centro)) # On prepare une nouvelle liste
+
+  for (l in 1:nrow(other_uni_centro)) # Permet de parcourir les l sous-arbre de la liste
+  {
+    wanted_tree <- as_tibble(other_tree_list[[l]]) # On recupere le sous-arbre l sous la forme d un tibble
+    root <- which(is.na(wanted_tree['branch.length']) == TRUE) # On isole la ligne associee a sa racine dont la distance est la seule non renseignee (== 'NA')
+    label <- which(other_tibble_tree$label %in% wanted_tree[root, 'label']) # On isole les lignes de meme label que sa racine dans l arbre complet
+    liste[l] <- other_tibble_tree[label, 'node'] # On recuppere les numeros de node associes a ces ligne dans la nouvelle liste
+  }
+  # N.B. : La colonne 'type' sert a donner des types distinct aux sous-arbres lors du plot via une numerotation pour pouvoir les coloriser tous differement sur l arbre complet
+  liste <- t(as.data.frame(unique(liste))) # On transforme la liste ainsi remplie en dataframe dedoublonnee (ca necessite une transposition)
+  type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol = 1)) # On prepare une nouvelle colonne remplie avec des nombres allant de 1 au nombre de sous-arbres
+  liste <- cbind(liste, type) # On ajoute cette colonne a notre dataframe dedoublonnee
+  names(liste) <- c('node', 'type')
+  # geom_highlight permet de coloriser les sous-arbres en fonction du type associe. Il fallait donc definir autant de types differents qu il y a de sous-arbres pour attribuer une teinte unique a chacun
+  level_tree <- ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
+
+  deb <- "Sous-arbres " # Pour generer le debut du titre en francais
+  fin <- "/centroides" # Pour generer la fin du titre en francais
+  fin_en <- "/centroids sub-trees" # Pour generer le titre en anglais
+  # On fait un premier plot avec le titre en francais puis un second avec le titre en anglais
+  plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin}")))
+  plot(level_tree + ggtitle(str_glue("{level_name[i]}{fin_en}")))
+
+  liste_uni_centro[[i]] <- uni_centro # On stock uni_centro dans la liste prevue pour ca
+  liste_tree_liste[[i]] <- tree_list # On stock la liste des sous-arbre dans la liste prevue pour ca
+
+  min_length[[i]] <- min(uni_centro[, 2]) # On recupere la valeur de distance totale minimale dans la liste prevue pour ca
+  max_length[[i]] <- max(uni_centro[, 2]) # On recupere la valeur de distance totale maximale dans la liste prevue pour ca
 }
