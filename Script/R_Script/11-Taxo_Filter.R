@@ -40,29 +40,29 @@ taxo_small %>%
 species_share <- taxo_small['species_shared_by']
 species_num <- nrow(unique(species_share)) # Donne le nombre de barre que doit contenir l histogramme
 splot <- ggplot(species_share, aes(species_shared_by)) + geom_histogram(bins = (max(species_share)*2 - 1))
-splot + ggtitle("Nombres d'occurrences des valeurs de partages inter-espèces") + xlab("valeurs des partages") + ylab("Nombres d'occurences")
+splot + ggtitle("Nombres d'occurrences des valeurs de partages inter-espèces") + xlab("Valeurs des partages") + ylab("Nombres d'occurences")
 
 genus_share <- taxo_small['genus_shared_by']
 genus_num <- nrow(unique(genus_share)) # Donne le nombre de barre que doit contenir l histogramme
 gplot <- ggplot(genus_share, aes(genus_shared_by)) + geom_histogram(bins = (max(genus_share)*2 - 1))
-gplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-genres") + xlab("valeurs des partages") + ylab("Nombres d'occurences")
+gplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-genres") + xlab("Valeurs des partages") + ylab("Nombres d'occurences")
 
 family_share <- taxo_small['family_shared_by']
 family_num <- nrow(unique(family_share)) # Donne le nombre de barre que doit contenir l histogramme
 fplot <- ggplot(family_share, aes(family_shared_by)) + geom_histogram(bins = (max(family_share)*2 - 1))
-fplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-familles") + xlab("valeurs des partages") + ylab("Nombres d'occurences")
+fplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-familles") + xlab("Valeurs des partages") + ylab("Nombres d'occurences")
 
 order_share <- taxo_small['order_shared_by']
 order_num <- nrow(unique(order_share)) # Donne le nombre de barre que doit contenir l histogramme
 oplot <- ggplot(order_share, aes(order_shared_by)) + geom_histogram(bins = (max(order_share)*2 - 1))
-oplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-ordres") + xlab("valeurs des partages") + ylab("Nombres d'occurences")
+oplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-ordres") + xlab("Valeurs des partages") + ylab("Nombres d'occurences")
 
 class_share <- taxo_small['class_shared_by']
 class_num <- nrow(unique(class_share)) # Donne le nombre de barre que doit contenir l histogramme
 cplot <- ggplot(class_share, aes(class_shared_by)) + geom_histogram(bins = (max(class_share)*2 - 1))
-cplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-classes") + xlab("valeurs des partages") + ylab("Nombres d'occurences")
+cplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-classes") + xlab("Valeurs des partages") + ylab("Nombres d'occurences")
 
 phylum_share <- taxo_small['phylum_shared_by']
 phylum_num <- nrow(unique(phylum_share)) # Donne le nombre de barre que doit contenir l histogramme
 pplot <- ggplot(phylum_share, aes(phylum_shared_by)) + geom_histogram(bins = (max(phylum_share)*2 - 1))
-pplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-phyla") + xlab("valeurs des partages") + ylab("Nombres d'occurences")
+pplot + ggtitle("Nombres d'occurrences des valeurs de partages inter-phyla") + xlab("Valeurs des partages") + ylab("Nombres d'occurences")
