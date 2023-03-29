@@ -22,8 +22,8 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   #### Barplot de la presence d un ARG donne (ici aac(6')-31_1_AM283489) ####
   debut = "Partage inter-" 
   fin = " de aac(6')-31_1_AM283489" # A mettre a jour en fonction de l ARG qu on teste
-  start = "aac(6')-31_1_AM283489 inter-" 
-  end = " sharing" # A mettre a jour en fonction de l ARG qu on teste
+  start = "aac(6')-31_1_AM283489 inter-" # A mettre a jour en fonction de l ARG qu on teste
+  end = " sharing" 
   
   # N.B. : Il suffit de changer l index dans centro_matrix pour tester un autre ARG
   to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche 
