@@ -24,7 +24,6 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   fin = " de " 
   start = " inter-" 
   end = " sharing" 
-  
   # N.B. : Il suffit de changer l index dans centro_matrix et uni_centro pour tester un autre ARG
   to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche 
   m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes 
@@ -34,7 +33,8 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   #### Meme chose mais avec l ensemble des ARG en meme temps (ou ca marche pas ou c est lentissimo pour espece et genus donc est qu on garde ca ??) #### 
   # to_set2 <- which(centro_matrix != 0)
   # m2 <- centro_matrix[, c(to_set2)]
-  # barplot(centro_matrix, main = titre)
+  # barplot(centro_matrix, main = str_glue("{debut}{matrix_name[i]}"))
+  # barplot(centro_matrix, main = str_glue("{start}{matrix_name[i]}{end}"))
   # 
   # max <- 1
   # 
@@ -49,8 +49,8 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   # hist(centro_matrix, breaks = max, main = titre)
   #
   # plot <- ggplot(centro_matrix) + geom_histogram(bins = max)
-  # plot + ggtitle(str_glue("{debut}{matrix_name[i]}{fin}")) + xlab(uni_centro) + ylab("Partage")
-  # plot + ggtitle(str_glue("{start}{matrix_name[i]}{end}")) + xlab(uni_centro) + ylab("Sharing")
+  # plot + ggtitle(str_glue("{debut}{matrix_name[i]}")) + xlab("??") + ylab("Partage")
+  # plot + ggtitle(str_glue("{start}{matrix_name[i]}{end}")) + xlab("??") + ylab("Sharing")
   
   #### Dendogramme d une famille d ARG (celle de l ARG teste ci-avant tant qu a faire) ####
   ARG_family <- centro_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille d ARG
