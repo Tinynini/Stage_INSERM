@@ -20,13 +20,16 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   rownames(centro_matrix) <- uni_centro 
   
   #### Barplot de la presence d un ARG donne (ici aac(6')-31_1_AM283489) ####
-  deb = "Partage inter-" 
+  debut = "Partage inter-" 
   fin = " de aac(6')-31_1_AM283489" # A mettre a jour en fonction de l ARG qu on teste
-  titre <- str_glue("{deb}{matrix_name[i]}{fin}") # Le titre du barplot est definit par une variable
+  start = "aac(6')-31_1_AM283489 inter-" 
+  end = " sharing" # A mettre a jour en fonction de l ARG qu on teste
+  
   # N.B. : Il suffit de changer l index dans centro_matrix pour tester un autre ARG
   to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche 
   m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes 
-  barplot(m, main = titre) # Barblot de la presence de l ARG donne dans la matrice
+  barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}")) # Barblot de la presence de l ARG donne dans la matrice
+  barplot(m, main = str_glue("{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
   
   #### Meme chose mais avec l ensemble des ARG en meme temps (ou ca marche pas ou c est lentissimo pour espece et genus donc est qu on garde ca ??) #### 
   # to_set2 <- which(centro_matrix != 0)
@@ -46,7 +49,8 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   # hist(centro_matrix, breaks = max, main = titre)
   #
   # plot <- ggplot(centro_matrix) + geom_histogram(bins = max)
-  # plot + ggtitle(titre) + xlab("???") + ylab("??")
+  # plot + ggtitle(str_glue("{debut}{matrix_name[i]}{fin}")) + xlab(uni_centro) + ylab("Partage")
+  # plot + ggtitle(str_glue("{start}{matrix_name[i]}{end}")) + xlab(uni_centro) + ylab("Sharing")
   
   #### Dendogramme d une famille d ARG (celle de l ARG teste ci-avant tant qu a faire) ####
   ARG_family <- centro_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille d ARG
