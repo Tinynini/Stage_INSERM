@@ -21,15 +21,15 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   
   #### Barplot de la presence d un ARG donne (ici aac(6')-31_1_AM283489) ####
   debut = "Partage inter-" 
-  fin = " de aac(6')-31_1_AM283489" # A mettre a jour en fonction de l ARG qu on teste
-  start = "aac(6')-31_1_AM283489 inter-" # A mettre a jour en fonction de l ARG qu on teste
+  fin = " de " 
+  start = " inter-" 
   end = " sharing" 
   
-  # N.B. : Il suffit de changer l index dans centro_matrix pour tester un autre ARG
+  # N.B. : Il suffit de changer l index dans centro_matrix et uni_centro pour tester un autre ARG
   to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche 
   m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes 
-  barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}")) # Barblot de la presence de l ARG donne dans la matrice
-  barplot(m, main = str_glue("{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
+  barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_centro[36]}")) # Barblot de la presence de l ARG donne dans la matrice
+  barplot(m, main = str_glue("{uni_centro[36]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
   
   #### Meme chose mais avec l ensemble des ARG en meme temps (ou ca marche pas ou c est lentissimo pour espece et genus donc est qu on garde ca ??) #### 
   # to_set2 <- which(centro_matrix != 0)
