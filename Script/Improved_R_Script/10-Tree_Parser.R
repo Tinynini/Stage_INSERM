@@ -131,7 +131,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   #### Exemple de plot d un sous_arbre avec "blaNDM-18_1_KY503030" (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
   plot.phylo(trees[[358]], show.node.label = TRUE, main = uni_centro[358, 1], sub = uni_centro[358, 2])
   # N.B. : Pour travailler avec un autre centroide il faut modifier l index dans trees et uni_centro dans la ligne ci-avant
-  # Index des 4 centroides que j ai choisis comme representants : 178 - 297 - 358 - 1237
+  # Index des 4 centroides que j ai choisis comme representants : 178 - 297 - 358 - 1237 (meme ordre que dans le ppt)
   
   #### Suppresion des sous_arbres vides et de leurs distances totales (genant pour la suite) ####
   err <- which(uni_centro[, 'length'] == 0.000) # On isole les lignes associees a des distances totales null (celles des sous-arbres vides) pour le 1er arbre
