@@ -7,8 +7,8 @@ taxo <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Spe
 #### On genere 6 nouvelles colonnes des partages de centroides du niveau 'species' au niveau 'Phylum' ####
 # N.B. : Le niveau 'Domain' n est pas traite car cette etude ne porte que sur le domaine des 'bacteria' (== bacterie)
 taxo %>%
-  arrange(Centroid) %>%
-  group_by(Centroid) %>%
+  arrange(Centroid, shared_by) %>%
+  group_by(Centroid, shared_by) %>%
   mutate(species_shared_by = length(unique(species))) %>% # Partages inter-especes
   mutate(genus_shared_by = length(unique(Genus))) %>% # Partages inter-genus
   mutate(family_shared_by = length(unique(Family))) %>% # Partages inter-familles
@@ -25,7 +25,7 @@ write.table(taxo, "W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_R
 #### Slice de la dataframe sur les centroides de facon a n avoir plus que une seule occurrence par centroid ####
 taxo %>% 
   ungroup() %>% 
-  group_by(Centroid) %>%
+  group_by(Centroid, species_shared_by) %>%
   arrange(pident, qcovhsp) %>%
   slice_tail() -> taxo_small
 
