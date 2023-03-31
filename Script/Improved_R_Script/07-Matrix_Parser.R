@@ -27,10 +27,10 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   
   if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
   { # N.B. : Il suffit de changer l index dans ARG_matrix et uni_ARG pour tester un autre ARG
-    to_set <- which(ARG_matrix[36,] != 0) # On isole les colonnes pour lesquelles l ARG matche
-    m <- ARG_matrix[36, c(to_set)] # On extrait lesdites colonnes
-    barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_ARG[36]}")) # Barblot de la presence de l ARG donne dans la matrice
-    barplot(m, main = str_glue("{uni_ARG[36]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
+    to_set <- which(ARG_matrix[32,] != 0) # On isole les colonnes pour lesquelles l ARG matche
+    m <- ARG_matrix[32, c(to_set)] # On extrait lesdites colonnes
+    barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_ARG[32]}")) # Barblot de la presence de l ARG donne dans la matrice
+    barplot(m, main = str_glue("{uni_ARG[32]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
   }
   
   #### Meme chose mais avec l ensemble des ARGs en meme temps (mais ca ne marche pas donc est qu on garde ca ??) #### 
