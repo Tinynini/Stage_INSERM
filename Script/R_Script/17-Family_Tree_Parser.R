@@ -72,7 +72,7 @@ n_centro <- nrow(uni_centro)
 #### Plot de l histogramme des distances ####
 family_length <- uni_centro['length']
 fplot <- ggplot(family_length, aes(length)) + geom_histogram(bins = n_centro)
-fplot + ggtitle("Nombres d'occurrences des valeurs de distances inter-familles") + xlab("valeurs des distances") + ylab("Nombres d'occurrences")
+fplot + ggtitle("Nombres d'occurrences des valeurs de distances inter-familles") + xlab("Valeurs des distances") + ylab("Nombres d'occurrences")
 
 #### Exemple de plot d un sous_arbre avec "mef(B)_1_FJ196385" ####
 plot.phylo(tree_list[[1246]], show.node.label = TRUE, main = uni_centro[1246, 1], sub = uni_centro[1246, 2])
@@ -94,7 +94,7 @@ liste <- cbind(liste, type)
 names(liste) <- c('node', 'type')
 
 ftree <- ggtree(tree) 
-ftree + ggtitle("arbre des familles")
+ftree + ggtitle("Arbre des familles")
 
 ftree <- ggtree(tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
-ftree + ggtitle("sous-arbres des familles par gènes")
+ftree + ggtitle("Sous-arbres des familles par gènes")
