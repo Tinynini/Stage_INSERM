@@ -22,7 +22,7 @@ taxo <- taxo[, -3] # On supprime la colonne 'shared_by' car elle est identique a
 #### Enregistrement de la dataframe slicee dans le fichier Sliced_Taxo_Result.tsv ####
 write.table(taxo, "W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
 
-#### Slice de la dataframe sur les partages inter-especes des centroides de facon a n avoir plus qu une seule occurrence par partages pour tous les centroides ####
+#### Slice de la dataframe sur les partages inter-especes des centroides de facon a n avoir plus qu une seule occurrence de chaques partages par centroides ####
 taxo %>% 
   ungroup() %>% 
   group_by(Centroid, species_shared_by) %>%
