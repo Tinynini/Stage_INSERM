@@ -57,7 +57,7 @@ all_species <- as.data.frame(t(do.call(rbind, all_species)))
 # Ca divise pratiquement par 10 le volume initial de la dataframe !! 
 all_species %>%
   arrange(Centroid, species, shared_by) %>%
-  group_by(Centroid, species) %>% 
+  group_by(Centroid, species, shared_by) %>% 
   slice_tail() -> sliced_all_species
 
 sliced_all_species <- as.data.frame(t(do.call(rbind, sliced_all_species))) 
