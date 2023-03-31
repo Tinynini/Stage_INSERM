@@ -25,7 +25,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   start = " inter-" 
   end = " sharing" 
   
-  if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE)
+  if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
   { # N.B. : Il suffit de changer l index dans centro_matrix et uni_centro pour tester un autre ARG
     to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche
     m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes
