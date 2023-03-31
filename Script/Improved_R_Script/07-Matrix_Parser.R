@@ -34,11 +34,14 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   }
   
   #### Meme chose mais avec l ensemble des ARG en meme temps (mais ca ne marche pas donc est qu on garde ca ??) #### 
-  # to_set2 <- which(centro_matrix != 0) # Ne peut pas etre applique directement a l ensemble de la matrice
-  # m2 <- centro_matrix[, c(to_set2)]
-  # barplot(centro_matrix, main = str_glue("{debut}{matrix_name[i]}"))
-  # barplot(centro_matrix, main = str_glue("{start}{matrix_name[i]}{end}"))
-  # 
+  # if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
+  # { 
+  #   to_set2 <- which(centro_matrix != 0) # Ne peut pas etre applique directement a l ensemble de la matrice
+  #   m2 <- centro_matrix[, c(to_set2)]
+  #   barplot(centro_matrix, main = str_glue("{debut}{matrix_name[i]}"))
+  #   barplot(centro_matrix, main = str_glue("{start}{matrix_name[i]}{end}"))
+  # }
+  #
   # max <- 1
   # 
   # for (k in 1:ncol(centro_matrix))
@@ -50,6 +53,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   # }
   # 
   # centro_matrix <- as.data.frame(centro_matrix)
+  #
   # plot <- ggplot(centro_matrix) + geom_histogram(bins = max) # Ne marche pas pour des raisons qui m echape
   # plot + ggtitle(str_glue("{debut}{matrix_name[i]}")) + xlab("??") + ylab("Partage")
   # plot + ggtitle(str_glue("{start}{matrix_name[i]}{end}")) + xlab("??") + ylab("Sharing")
