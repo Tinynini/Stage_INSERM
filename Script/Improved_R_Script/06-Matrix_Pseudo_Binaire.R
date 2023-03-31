@@ -8,8 +8,8 @@ all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_
 level <- as.data.frame(all_species[, c(7:12)]) # On extrait le contenu des colonnes associes aux 6 niveaux taxonomiques etudies
 level_name <- unlist(colnames(all_species[, c(7:12)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
 
-uni_centro <- sort(unique(all_species$Centroid)) # On extrait la colonne des centroids
-n_centro <- length(uni_centro) 
+uni_ARG <- sort(unique(all_species$qseqid)) # On extrait la colonne des ARGs
+n_ARG <- length(uni_ARG) 
 
 for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espece a classe)
 {
@@ -41,29 +41,29 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     file_name = str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
     
     #### Ouverture & traitement de la matrice binaire associee au niveau i ####
-    centro_matrix <- read_tsv(file_name) 
+    ARG_matrix <- read_tsv(file_name) 
     
-    rownames(centro_matrix) <- uni_centro 
-    centro_matrix <- t(centro_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne  
+    rownames(ARG_matrix) <- uni_ARG 
+    ARG_matrix <- t(ARG_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne  
 
-    centro_matrix <- cbind(now_level, centro_matrix) # On fusionne la colonne du niveau i a notre matrice 
-    centro_matrix <- left_join(curr_level, centro_matrix, by = NULL) # On join les colonnes des niveaux j et i et la matrice sur les colonnes du niveau i de part et d autre
+    ARG_matrix <- cbind(now_level, ARG_matrix) # On fusionne la colonne du niveau i a notre matrice 
+    ARG_matrix <- left_join(curr_level, ARG_matrix, by = NULL) # On join les colonnes des niveaux j et i et la matrice sur les colonnes du niveau i de part et d autre
 
-    centro_matrix <- t(centro_matrix[,-2]) # On supprime la colonne du niveau i & on retranspose la matrice
-    colnames(centro_matrix) <- centro_matrix[1,] # On renomme les colonnes d apres le contenu de la ligne (anciennement colonne) du niveau j 
+    ARG_matrix <- t(ARG_matrix[,-2]) # On supprime la colonne du niveau i & on retranspose la matrice
+    colnames(ARG_matrix) <- ARG_matrix[1,] # On renomme les colonnes d apres le contenu de la ligne (anciennement colonne) du niveau j 
 
-    centro_matrix <- as.data.frame(centro_matrix[-1,]) # On supprime la ligne du niveau j & on transforme la matrice en dataframe (necessaire pour pouvoir utiliser as.integer()) 
+    ARG_matrix <- as.data.frame(ARG_matrix[-1,]) # On supprime la ligne du niveau j & on transforme la matrice en dataframe (necessaire pour pouvoir utiliser as.integer()) 
 
-    for (n in 1:ncol(centro_matrix)) # On parcourt les colonnes (autrement dit les representants du niveau j) 
+    for (n in 1:ncol(ARG_matrix)) # On parcourt les colonnes (autrement dit les representants du niveau j) 
     {
-      centro_matrix[, n] <- as.integer(c(centro_matrix[, n])) # On transforme le type du contenu de chaque colonnes en int (actuellement des str)
+      ARG_matrix[, n] <- as.integer(c(ARG_matrix[, n])) # On transforme le type du contenu de chaque colonnes en int (actuellement des str)
     } # N.B. : On a besoin d int pour la suite et on ne pouvait malheureusement pas appliquer as.integer() directement sur l ensemble de la matrice (sinon c est evidement ce que j aurais fait)
    
-    centro_matrix <- as.matrix(centro_matrix) # On retransforme notre ex-matrice en matrice 
+    ARG_matrix <- as.matrix(ARG_matrix) # On retransforme notre ex-matrice en matrice 
     
     #### Creaction d une matrice pseudo-binaire (0/1~n) d absence/presence des genes de resistances au niveau i au sein du niveau j ####
-    cross_matrix <- matrix(data = 0, nrow = n_centro, ncol = n_level) 
-    rownames(cross_matrix) <- uni_centro 
+    cross_matrix <- matrix(data = 0, nrow = n_ARG, ncol = n_level) 
+    rownames(cross_matrix) <- uni_ARG 
     colnames(cross_matrix) <- uni_level  
 
     for (k in 1:n_level) # On parcourt les k representants distincts du niveau j 
@@ -71,7 +71,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
       # On va les chercher dans la colonne triee et dedoublonnee qu on a extrait precedement
       to_set <- which(curr_level[, 1] %in% uni_level[k]) # On isole les occurrences du representant k au sein du bloc 'niveau j + niveau i' 
       l <- length(to_set) 
-      m <- centro_matrix[, c(to_set)] # On extrait de notre matrice binaire les colonnes de meme indice que les occurences trouvees
+      m <- ARG_matrix[, c(to_set)] # On extrait de notre matrice binaire les colonnes de meme indice que les occurences trouvees
       # Pour la colonne associe au representant k dans la matrice pseudo-binaire :
       if (l > 1) # S il y a plus d une occurrence
       {
