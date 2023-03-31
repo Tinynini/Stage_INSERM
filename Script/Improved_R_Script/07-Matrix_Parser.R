@@ -4,7 +4,7 @@ library(tidyverse)
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_species.tsv') %>% 
   as.data.frame() 
 
-uni_centro <- sort(unique(all_species$Centroid)) # On extrait la colonne des centroid 
+uni_ARG <- sort(unique(all_species$qseqid)) # On extrait la colonne des ARGs 
 
 #### Obtention de la liste des fichiers contenant nos matrices binaires et pseudo-binaires ####
 # On se rend dans le bon emplacement puis on recherche la parterne de nom de fichier 'Sliced_Matrix_.*.tsv' qui est commune aux 2 types de matrice 
@@ -15,9 +15,9 @@ matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3') # On re
 
 for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
 {
-  centro_matrix <- read_tsv(file = all_matrix[i]) # On ouvre la matrice depuis la liste de fichier
-  centro_matrix <- as.matrix(centro_matrix) 
-  rownames(centro_matrix) <- uni_centro 
+  ARG_matrix <- read_tsv(file = all_matrix[i]) # On ouvre la matrice depuis la liste de fichier
+  ARG_matrix <- as.matrix(ARG_matrix) 
+  rownames(ARG_matrix) <- uni_ARG 
   
   #### Barplot de la presence d un ARG donne (ici aac(6')-31_1_AM283489) ####
   debut = "Partage inter-" 
@@ -26,45 +26,45 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   end = " sharing" 
   
   if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
-  { # N.B. : Il suffit de changer l index dans centro_matrix et uni_centro pour tester un autre ARG
-    to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche
-    m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes
-    barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_centro[36]}")) # Barblot de la presence de l ARG donne dans la matrice
-    barplot(m, main = str_glue("{uni_centro[36]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
+  { # N.B. : Il suffit de changer l index dans ARG_matrix et uni_ARG pour tester un autre ARG
+    to_set <- which(ARG_matrix[36,] != 0) # On isole les colonnes pour lesquelles l ARG matche
+    m <- ARG_matrix[36, c(to_set)] # On extrait lesdites colonnes
+    barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_ARG[36]}")) # Barblot de la presence de l ARG donne dans la matrice
+    barplot(m, main = str_glue("{uni_ARG[36]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
   }
   
-  #### Meme chose mais avec l ensemble des ARG en meme temps (mais ca ne marche pas donc est qu on garde ca ??) #### 
+  #### Meme chose mais avec l ensemble des ARGs en meme temps (mais ca ne marche pas donc est qu on garde ca ??) #### 
   # if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
   # { 
-  #   to_set2 <- which(centro_matrix != 0) # Ne peut pas etre applique directement a l ensemble de la matrice
-  #   m2 <- centro_matrix[, c(to_set2)]
-  #   barplot(centro_matrix, main = str_glue("{debut}{matrix_name[i]}"))
-  #   barplot(centro_matrix, main = str_glue("{start}{matrix_name[i]}{end}"))
+  #   to_set2 <- which(ARG_matrix != 0) # Ne peut pas etre applique directement a l ensemble de la matrice
+  #   m2 <- ARG_matrix[, c(to_set2)]
+  #   barplot(ARG_matrix, main = str_glue("{debut}{matrix_name[i]}"))
+  #   barplot(ARG_matrix, main = str_glue("{start}{matrix_name[i]}{end}"))
   # }
   #
   # max <- 1
   # 
-  # for (k in 1:ncol(centro_matrix))
+  # for (k in 1:ncol(ARG_matrix))
   # {
-  #   if (max(centro_matrix[, k]) > max)
+  #   if (max(ARG_matrix[, k]) > max)
   #   {
-  #     max <- max(centro_matrix[, k])
+  #     max <- max(ARG_matrix[, k])
   #   }
   # }
   # 
-  # centro_matrix <- as.data.frame(centro_matrix)
+  # ARG_matrix <- as.data.frame(ARG_matrix)
   #
-  # plot <- ggplot(centro_matrix) + geom_histogram(bins = max) # Ne marche pas pour des raisons qui m echape
+  # plot <- ggplot(ARG_matrix) + geom_histogram(bins = max) # Ne marche pas pour des raisons qui m echappe
   # plot + ggtitle(str_glue("{debut}{matrix_name[i]}")) + xlab("??") + ylab("Partage")
   # plot + ggtitle(str_glue("{start}{matrix_name[i]}{end}")) + xlab("??") + ylab("Sharing")
   
   #### Dendogramme d une famille d ARG (celle de l ARG teste ci-avant tant qu a faire) ####
-  ARG_family <- centro_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille d ARG
+  ARG_family <- ARG_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille d ARG
   j <- 1
 
-  for (m in 1:nrow(centro_matrix)) # Permet de parcourir la matrice ligne par ligne
+  for (m in 1:nrow(ARG_matrix)) # Permet de parcourir la matrice ligne par ligne
   {
-    if (startsWith(uni_centro[m], 'aac') != TRUE) # Si la ligne m ne correspond pas a un ARG de la famille voulue (ici celle des 'aac')
+    if (startsWith(uni_ARG[m], 'aac') != TRUE) # Si la ligne m ne correspond pas a un ARG de la famille voulue (ici celle des 'aac')
     { # N.B. : Il suffit de changer la paterne recherchee dans startsWith() pour tester une autre famille
       ARG_family <- ARG_family[-j,] # On supprime la ligne de notre nouvelle matrice
     }
