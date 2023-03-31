@@ -53,7 +53,7 @@ for (i in 5:n_ARG)
   wanted_ARG <- colnames(tibble_tree[, i])
   wanted_tip <- tibble_tree$label[tibble_tree[wanted_ARG] == 1]
   wanted_tip <- na.omit(wanted_tip)
-
+  
   tree_ARG <- keep.tip(tree, tip = wanted_tip)
   length <- sum(tree_ARG$edge.length)
   uni_centro[i - 4, 'length'] <- length
@@ -66,6 +66,7 @@ for (i in 5:n_ARG)
 }
 
 err <- which(uni_centro[, 'length'] == 0.000)
+
 uni_centro <- uni_centro[-c(err),]
 names(tree_list) <- uni_centro[, 'centroid']
 n_centro <- nrow(uni_centro)
@@ -73,7 +74,7 @@ n_centro <- nrow(uni_centro)
 #### Plot de l histogramme des distances ####
 species_length <- uni_centro['length']
 splot <- ggplot(species_length, aes(length)) + geom_histogram(bins = n_centro)
-splot + ggtitle("Nombres d'occurrences des valeurs de distances inter-espèces") + xlab("valeurs des distances") + ylab("Nombres d'occurrences")
+splot + ggtitle("Nombres d'occurrences des valeurs de distances inter-espèces") + xlab("Valeurs des distances") + ylab("Nombres d'occurrences")
 
 #### Exemple de plot d un sous_arbre avec "mef(B)_1_FJ196385" ####
 plot.phylo(tree_list[[1209]], show.node.label = TRUE, main = uni_centro[1209, 1], sub = uni_centro[1209, 2])
@@ -95,7 +96,7 @@ liste <- cbind(liste, type)
 names(liste) <- c('node', 'type')
 
 stree <- ggtree(tree) 
-stree + ggtitle("arbre des espèces")
+stree + ggtitle("Arbre des espèces")
 
 stree <- ggtree(tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
-stree + ggtitle("sous-arbres des espèces par gènes")
+stree + ggtitle("Sous-arbres des espèces par gènes")
