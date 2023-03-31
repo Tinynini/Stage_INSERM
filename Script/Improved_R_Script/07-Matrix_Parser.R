@@ -26,10 +26,10 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   end = " sharing" 
   
   # N.B. : Il suffit de changer l index dans centro_matrix et uni_centro pour tester un autre ARG
-  # to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche 
-  # m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes 
-  # barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_centro[36]}")) # Barblot de la presence de l ARG donne dans la matrice
-  # barplot(m, main = str_glue("{uni_centro[36]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
+  to_set <- which(centro_matrix[36,] != 0) # On isole les colonnes pour lesquels l ARG matche
+  m <- centro_matrix[36, c(to_set)] # On extrait lesdites colonnes
+  barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_centro[36]}")) # Barblot de la presence de l ARG donne dans la matrice
+  barplot(m, main = str_glue("{uni_centro[36]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
   
   #### Meme chose mais avec l ensemble des ARG en meme temps (mais ca ne marche pas donc est qu on garde ca ??) #### 
   # to_set2 <- which(centro_matrix != 0) # Ne peut pas etre applique directement a l ensemble de la matrice
