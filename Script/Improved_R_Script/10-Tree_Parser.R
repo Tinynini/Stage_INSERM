@@ -73,7 +73,7 @@ liste_parser <- function(trees, uni_ARG) # Il faut la liste des sous-arbre et un
 }
 
 #### Main ####
-for (i in 1:1) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espece a phylum)
+for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espece a phylum)
 {
   #### Ouverture des arbres du niveau i depuis leurs fichiers nominatifs & preparation des donnees ####
   path_start = "W:/ninon-species/output/Output_M2/ARG/Arbre/"
