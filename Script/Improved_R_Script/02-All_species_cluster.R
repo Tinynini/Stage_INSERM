@@ -56,7 +56,7 @@ all_species <- as.data.frame(t(do.call(rbind, all_species)))
 #### Slice de la dataframe sur les especes par centroides de façon a n avoir plus que une seule occurrence par espece pour un centroid donne ####
 # Ca divise pratiquement par 10 le volume initial de la dataframe !! 
 all_species %>%
-  arrange(Centroid, species,  shared_by) %>%
+  arrange(Centroid, species, shared_by) %>%
   group_by(Centroid, species) %>% 
   slice_tail() -> sliced_all_species
 
