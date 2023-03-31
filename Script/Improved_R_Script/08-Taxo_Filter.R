@@ -4,9 +4,9 @@ library(tidyverse)
 taxo <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
   as.data.frame()
 
-#### On genere 6 nouvelles colonnes des partages de centroides du niveau 'species' au niveau 'Phylum' ####
+#### On genere 6 nouvelles colonnes des partages d ARGs du niveau 'species' au niveau 'Phylum' ####
 # N.B. : Le niveau 'Domain' n est pas traite car cette etude ne porte que sur le domaine des 'bacteria' (== bacterie)
-taxo %>%
+taxo %>% # Pour chaque partages de chaque centroids on regarde le nombre de representants distincts de chacuns des 6 niveaux taxonomiques
   arrange(Centroid, shared_by) %>%
   group_by(Centroid, shared_by) %>%
   mutate(species_shared_by = length(unique(species))) %>% # Partages inter-especes
@@ -17,12 +17,12 @@ taxo %>%
   mutate(phylum_shared_by = length(unique(Phylum))) %>% # Partages inter-phyla (N.B. : phyla == pluriel de phylum)
   identity() -> taxo
 
-taxo <- taxo[, -3] # On supprime la colonne des 'shared_by' car elle est identique a celle des 'species_shared_by' et donc redondante
+taxo <- taxo[, -3] # On supprime la colonne 'shared_by' car elle est identique a 'species_shared_by' et donc redondante
 
 #### Enregistrement de la dataframe slicee dans le fichier Sliced_Taxo_Result.tsv ####
 write.table(taxo, "W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
 
-#### Slice de la dataframe sur les centroides de facon a n avoir plus que une seule occurrence par centroid ####
+#### Slice de la dataframe sur les partages inter-especes des centroides de facon a n avoir plus qu une seule occurrence par partages pour tous les centroides ####
 taxo %>% 
   ungroup() %>% 
   group_by(Centroid, species_shared_by) %>%
