@@ -48,9 +48,9 @@ sub_class_cleaner <- function(taxonomy)
 }
 
 #### Traitement preventif pour eviter la creation de certains doublons lors du join ####
-sub_grep_level <- function(taxonomy, patern, level, replacement_1, replacement_2)
+sub_grep_level <- function(taxonomy, pattern, level, replacement_1, replacement_2)
 {
-  sub <- grep(patern, taxonomy[, level])
+  sub <- grep(pattern, taxonomy[, level])
   taxonomy[sub, 'Family'] <- replacement_1
   taxonomy[sub, 'Order'] <- replacement_2
   
