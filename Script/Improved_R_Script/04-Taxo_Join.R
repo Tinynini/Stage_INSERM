@@ -7,7 +7,18 @@ Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),] # Suppression preventi
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv') %>%
   as.data.frame()
 
-#### fonction servant a supprimer de maniere systematique certain types de doublons post-joint ####
+#### Fonction servant a effectuer un traitement supplementaire pour les noms d especes qui matchent 'pattern_1' ####
+special_treat <- function(df, j, pattern_1, pattern_2, replacement)
+{
+  if (grepl(pattern_1, df[j,'species']) == TRUE)
+  {
+    df[j,'species'] <- str_replace(df[j,'species'], pattern_2, replacement)
+  }
+  
+  return(df)
+}
+
+#### Fonction servant a supprimer de maniere systematique certain types de doublons post-joint ####
 Genus_cleaner <- function(df, level, doublon, ref)
 {
   double1 <- which(df[, level] %in% doublon)
@@ -18,7 +29,7 @@ Genus_cleaner <- function(df, level, doublon, ref)
   df <- unique(df)
 }
 
-#### fonction (utilisant celle ci-avant) servant a gerer l ensemble des doublon crees lors du join au niveau des genus ####
+#### Fonction (utilisant celle ci-avant) servant a gerer l ensemble des doublon crees lors du join au niveau des genus ####
 Genus_cleaning <- function(df)
 {
   df <- Genus_cleaner(df, 'species', c('Clostridium aldenense', 'Clostridium clostridioforme'), 'Lachnospiraceae')
@@ -28,18 +39,27 @@ Genus_cleaning <- function(df)
   df <- Genus_cleaner(df, 'Genus', 'Eubacterium', 'Eubacteriaceae')
   df <- Genus_cleaner(df, 'Genus', 'Mycoplasma', 'Mycoplasmataceae')
   
-  double <- grep('Clostridium', df[, 'Genus'])
-  ARG_Clos <- df[c(double),]
-  
-  double1 <- which(ARG_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
-  ARG_Target <- ARG_Clos[-c(double1),]
-  double2 <- which(df[, 'species'] %in% ARG_Target[, 'species'])
-  double3 <- which(df[c(double2), 'Family'] != 'Clostridiaceae')
-  ARG_double <- df[c(double2),]
-  df[c(double2),] <- ARG_double[-c(double3),]
-  
+  double1 <- grep('Clostridium', df[, 'Genus'])
+  ARG_Clos <- df[c(double1),]
+
+  double2 <- which(ARG_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
+  ARG_Target <- ARG_Clos[-c(double2),]
+
+  df <- Genus_cleaner(df, 'species', ARG_Target[, 'species'], 'Clostridiaceae')
+
   df <- unique(df)
 }
+
+#### Fonction servant a recuperer manuellement la taxonomie des especes qui matchent 'wanted' ####
+except_treat <- function(df, wanted, level_1, level_2, level_3, rep_1, rep_2, rep_3)
+{ # On est oblige de traiter chaque niveau d interet separement autrement un decalage systematique a lieu a chaque nouvelle ligne traitee
+  ex <- which(df[, 'species'] %in% wanted)
+  df[ex, level_1] <- rep_1
+  df[ex, level_2] <- rep_2
+  df[ex, level_3] <- rep_3
+  # On prevoit donc le traitement de 3 niveaux distincts (on n a pas besoin de plus heureusement)
+  return(df)
+} 
 
 #### Preparation des donnees en vue d un 1er join au niveau des especes ####
 # On reordonne les colonnes en vue du join en ne gardant que celles dont on a besoin pour la suite  
@@ -47,24 +67,11 @@ all_species <- all_species[, c('qseqid', 'Centroid', 'shared_by', 'pident', 'qco
 # On modifie la nomenclature des noms d especes en vue du join 
 all_species[, 'species'] <- str_replace(all_species[, 'species'], pattern = '(.*)(_)(.*)', replacement = "\\1\\ \\3")
 
-Species <- unlist(all_species['species'])
-
 for (j in 1:nrow(all_species)) # Certain noms d especes necessitent un traitement supplementaire
 {
-  if (endsWith(Species[j], 'ORG-.') == TRUE) # Traitement supplementaire pour les especes 'UNVERIFIED_ORG'
-  {
-    all_species[j,'species'] <- str_replace(all_species[j,'species'], pattern = "(.*)_(.*) (.*)(..)", replacement = "\\1\\ \\2\\_\\3")
-  }
-  
-  if (endsWith(Species[j], 'symbiont') == TRUE) # Traitement supplementaire pour les especes 'symbiont'
-  {
-    all_species[j,'species'] <- str_replace(all_species[j,'species'], pattern = "(.*) (.*)", replacement = "\\2\\ \\1")
-  }
-  
-  if (startsWith(Species[j], 'Bacterium') == TRUE) # Traitement supplementaire pour les especes 'Bacterium'
-  {
-    all_species[j,'species'] <- str_replace(all_species[j,'species'], pattern = "(.*) (.*)", replacement = "\\2\\ \\1")
-  }
+  all_species <- special_treat(all_species, j, 'ORG-.', "(.*)_(.*) (.*)(..)", "\\1\\ \\2\\_\\3")
+  all_species <- special_treat(all_species, j, 'symbiont', "(.*) (.*)", "\\2\\ \\1")
+  all_species <- special_treat(all_species, j, 'Bacterium', "(.*) (.*)", "\\2\\ \\1")
 }
 
 #### 1er join au niveau des especes --> consequence : ajout de 6 nouvelle colonnes ('Genus' a 'Domain') ####
@@ -103,44 +110,31 @@ for (i in 2:4)
   ARG_level <- left_join(ARG_level, Parsed_taxonomy, by = NULL)
   ARG_level <- unique(ARG_level)
   
-  #### Traitement visant a supprimer les nombreux doublons generes par le join au niveau des genus ####
+  # Traitement visant a supprimer les nombreux doublons generes par le join au niveau des genus ####
   if (i == 2)
   {
     ARG_level <- Genus_cleaning(ARG_level)
   }
-  
-  #### Remplacement dans notre dataframe initiale des lignes associees aux especes non-matchees par celles de la nouvelle dataframe 
+
+  # Remplacement dans notre dataframe initiale des lignes associees aux especes non-matchees par celles de la nouvelle dataframe 
   less_NA_level <- which(all_species[, level_name[i - 1]] %in% ARG_level[, level_name[i - 1]])
   all_species[c(less_NA_level),] <- ARG_level
   NA_level <- is.na(all_species[, level_name[i]])
 }
 
-#### Traitement direct (hors join) de cas particulies d especes (principalement des 'bactérium') trop isolees pour faire l objet d'un join ####
-ex1 <- which(all_species[, 'species'] == 'Bacillus bacterium')
-all_species[ex1, c('Genus', 'Family', 'Order', 'Class', 'Phylum', 'Domain')] <-
-  c('Bacillus', 'Bacillaceae', 'Bacillales', 'Bacilli', 'Firmicutes', 'Bacteria')
+#### Traitement direct (hors join) de cas particuliers d especes (principalement des 'bactérium') trop isolees pour faire l objet d'un join ####
+all_species <- except_treat(all_species, 'Bacillus bacterium', c('Genus', 'Family', 'Order', 'Class'), 'Phylum', 'Domain', c('Bacillus', 'Bacillaceae', 'Bacillales', 'Bacilli') , 'Firmicutes', 'Bacteria')
+all_species <- except_treat(all_species, 'Lachnospiraceae oral', 'Genus', 'Family', 'Order', NA, 'Lachnospiraceae', 'Lachnospirales')
+all_species <- except_treat(all_species, c('Clostridia bacterium', 'Lachnospiraceae oral'), 'Class', 'Phylum', 'Domain', 'Clostridia', 'Firmicutes', 'Bacteria')
+all_species <- except_treat(all_species, 'Firmicutes bacterium', 'Phylum', 'Phylum', 'Domain', 'Firmicutes' , 'Firmicutes', 'Bacteria')
+# N.B. : On peut traiter plusieurs niveaux a la fois lors le 1er traitement parce qu il ne concerne qu une seule ligne (== on n a pas le probleme de decalage a chaque nouvelle ligne)
+ex1 <- which(all_species[, 'species']  %in% c('Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium'))
+all_species[ex1, 'Phylum'] <- str_replace(all_species[ex1, 'species'], '(.*) (.*)', '\\1')
 
-ex2 <- which(all_species[, 'species'] %in% c('Clostridia bacterium', 'Lachnospiraceae oral'))
-all_species[ex2, 'Class'] <- 'Clostridia'
-all_species[ex2, 'Phylum'] <- 'Firmicutes'
-all_species[ex2, 'Domain'] <- 'Bacteria'
-
-ex3 <- which(all_species[, 'species'] == 'Firmicutes bacterium')
-all_species[ex3, 'Phylum'] <- 'Firmicutes'
-all_species[ex3, 'Domain'] <- 'Bacteria'
-
-ex4 <- which(all_species[, 'species'] == 'Lachnospiraceae oral')
-all_species[ex4, 'Genus'] <- NA
-all_species[ex4, 'Family'] <- 'Lachnospiraceae' 
-all_species[ex4, 'Order'] <- 'Lachnospirales'
-
-ex5 <- which(all_species[, 'species']  %in% c('Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium'))
-all_species[ex5, 'Phylum'] <- str_replace(all_species[ex5, 'species'], '(.*) (.*)', '\\1')
-
-#### Completion manuelle de la colonne 'Domain' (il n y en a que 1 : 'Bacteria') ####
-ex6 <- is.na(all_species[, 'Domain']) # On isole les especes qui n ont pas pu etre matchees
-na_species <- as.data.frame(unique(all_species[ex6, 'species'])) # On les conserve dans une liste au cas ou
-all_species[ex6, 'Domain'] <- 'Bacteria' # On remplit la colonne 'Domain' pour toute ces especes 
+# Completion manuelle de la colonne 'Domain' (il n y en a que 1 : 'Bacteria')
+ex2 <- is.na(all_species[, 'Domain']) # On isole les especes qui n ont pas pu etre matchees
+na_species <- as.data.frame(unique(all_species[ex2, 'species'])) # On les conserve dans une liste au cas ou
+all_species[ex2, 'Domain'] <- 'Bacteria' # On remplit la colonne 'Domain' pour toute ces especes 
 
 #### Enregistrement de la dataframe slicee dans le fichier Sliced_ARG_Species.tsv ####
 write.table(all_species, "W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
