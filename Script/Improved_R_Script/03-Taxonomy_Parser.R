@@ -38,10 +38,10 @@ sub_class_cleaner <- function(taxonomy)
     taxonomy[sub, k] <- str_replace(taxonomy[sub, k], '(.*)_(.*)', '\\1')
   }
   
-  sub_espece1 <- grep('(.*)_(.*) (.*)', taxonomy[, 1])
+  sub_espece1 <- grep('(.*)_(.*) (.*)', taxonomy[, 1]) # Cette fois on ne traite que la colonne des especes
   taxonomy[sub_espece1, 1] <- str_replace(taxonomy[sub_espece1, 1], '(.*)_(.*) (.*)', '\\1\\ \\3')
   
-  sub_espece2 <- grep('(.*) (.*)_(.*)', taxonomy[, 1])
+  sub_espece2 <- grep('(.*) (.*)_(.*)', taxonomy[, 1]) # Cette fois on ne traite que la colonne des especes
   taxonomy[sub_espece2, 1] <- str_replace(taxonomy[sub_espece2, 1], '(.*) (.*)_(.*)', '\\1\\ \\2')
   
   taxonomy <- unique(taxonomy)
@@ -57,7 +57,7 @@ sub_grep_level <- function(taxonomy, patern, level, replacement_1, replacement_2
   return(taxonomy)
 }
 
-prev_doublon_cleaner <- function(taxonomy)
+prev_doublon_cleaner <- function(taxonomy) # Permet d'appliquer plusieurs fois sub_greb_level avec differents parametrage
 {
   taxonomy <- sub_grep_level(taxonomy, 'Bacillus', 'Genus', 'Bacillaceae', 'Bacillales')
   taxonomy <- sub_grep_level(taxonomy, 'Ruminococcus sp', 'Species', 'Ruminococcaceae', 'Oscillospirales')
