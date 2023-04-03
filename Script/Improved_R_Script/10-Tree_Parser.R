@@ -156,14 +156,14 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   plot(level_plot + ggtitle(label = str_glue("{title_start}{level_name[i]}{title_end}")) + xlab("Distances values") + ylab("Number of occurences"))
 
   #### Plot des sous-arbres des especes par ARGs sur l arbre complet (Pour le 2nd arbre cette fois parce que ca ne peut pas fonctionner sans le traitement supplementaire des labels de nodes !!) ####
-  liste <- vector(mode = 'list', length = nrow(other_uni_ARG)) # On prepare une nouvelle liste
+  liste <- vector(mode = 'list', length = length(other_tree_list)) # On prepare une nouvelle liste
 
-  for (l in 1:nrow(other_uni_ARG)) # Permet de parcourir les l sous-arbre de la liste
+  for (m in 1:length(other_tree_list)) # Permet de parcourir les m sous-arbre de la liste
   {
-    wanted_tree <- as_tibble(other_tree_list[[l]]) # On recupere le sous-arbre l sous la forme d un tibble
+    wanted_tree <- as_tibble(other_tree_list[[m]]) # On recupere le sous-arbre m sous la forme d un tibble
     root <- which(is.na(wanted_tree['branch.length']) == TRUE) # On isole la ligne associee a sa racine dont la distance est la seule non renseignee (== 'NA')
     label <- which(other_tibble_tree$label %in% wanted_tree[root, 'label']) # On isole les lignes de meme label que sa racine dans l arbre complet
-    liste[l] <- other_tibble_tree[label, 'node'] # On recuppere les numeros de node associes a ces ligne dans la nouvelle liste
+    liste[m] <- other_tibble_tree[label, 'node'] # On recuppere les numeros de node associes a ces ligne dans la nouvelle liste
   }
   # N.B. : La colonne 'type' sert a donner des types distinct aux sous-arbres lors du plot via une numerotation pour pouvoir les coloriser tous differement sur l arbre complet
   liste <- t(as.data.frame(unique(liste))) # On transforme la liste ainsi remplie en dataframe dedoublonnee (ca necessite une transposition)
@@ -174,8 +174,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   level_tree <- ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
 
   deb <- "Sous-arbres " # Pour generer le debut du titre en francais
-  fin <- "/ARGs" # Pour generer la fin du titre en francais
-  fin_en <- "/ARGs sub-trees" # Pour generer le titre en anglais
+  fin <- "/ARG" # Pour generer la fin du titre en francais
+  fin_en <- "/ARG sub-trees" # Pour generer le titre en anglais
   # On fait un premier plot avec le titre en francais puis un second avec le titre en anglais
   plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin}")))
   plot(level_tree + ggtitle(str_glue("{level_name[i]}{fin_en}")))
