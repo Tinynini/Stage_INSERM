@@ -57,7 +57,7 @@ sub_grep_level <- function(taxonomy, patern, level, replacement_1, replacement_2
   return(taxonomy)
 }
 
-prev_doublon_cleaner <- function(taxonomy) # Permet d'appliquer plusieurs fois sub_greb_level avec differents parametrage
+prev_doublon_cleaner <- function(taxonomy) # Permet d'appliquer plusieurs fois sub_greb_level() avec differents parametrage
 {
   taxonomy <- sub_grep_level(taxonomy, 'Bacillus', 'Genus', 'Bacillaceae', 'Bacillales')
   taxonomy <- sub_grep_level(taxonomy, 'Ruminococcus sp', 'Species', 'Ruminococcaceae', 'Oscillospirales')
