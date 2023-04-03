@@ -43,28 +43,26 @@ sub_class_cleaner <- function(taxonomy)
   
   sub_espece2 <- grep('(.*) (.*)_(.*)', taxonomy[, 1])
   taxonomy[sub_espece2, 1] <- str_replace(taxonomy[sub_espece2, 1], '(.*) (.*)_(.*)', '\\1\\ \\2')
-
+  
   taxonomy <- unique(taxonomy)
 }
 
 #### Traitement preventif pour eviter la creation de certains doublons lors du join ####
+sub_grep_level <- function(taxonomy, patern, level, replacement_1, replacement_2)
+{
+  sub <- grep(patern, taxonomy[, level])
+  taxonomy[sub, 'Family'] <- replacement_1
+  taxonomy[sub, 'Order'] <- replacement_2
+  
+  return(taxonomy)
+}
+
 prev_doublon_cleaner <- function(taxonomy)
 {
-  sub2 <- grep('Bacillus', taxonomy[, 'Genus'])
-  taxonomy[sub2,'Family'] <- 'Bacillaceae'
-  taxonomy[sub2, 'Order'] <- 'Bacillales'
-  
-  sub3 <- grep('Ruminococcus sp', taxonomy[, 'Species'])
-  taxonomy[sub3, 'Family'] <- 'Ruminococcaceae'
-  taxonomy[sub3, 'Order'] <- 'Oscillospirales'
-  
-  sub4 <- grep('Clostridium sp', taxonomy[, 'Species'])
-  taxonomy[sub4, 'Family'] <- 'Clostridiaceae'
-  taxonomy[sub4, 'Order'] <- 'Clostridiales'
-  
-  sub5 <- grep('Eubacterium sp', taxonomy[, 'Species'])
-  taxonomy[sub5, 'Family'] <- 'Lachnospiraceae'
-  taxonomy[sub5, 'Order'] <- 'Lachnospirales'
+  taxonomy <- sub_grep_level(taxonomy, 'Bacillus', 'Genus', 'Bacillaceae', 'Bacillales')
+  taxonomy <- sub_grep_level(taxonomy, 'Ruminococcus sp', 'Species', 'Ruminococcaceae', 'Oscillospirales')
+  taxonomy <- sub_grep_level(taxonomy, 'Clostridium sp', 'Species', 'Clostridiaceae', 'Clostridiales')
+  taxonomy <- sub_grep_level(taxonomy, 'Eubacterium sp', 'Species', 'Lachnospiraceae', 'Lachnospirales')
   
   taxonomy <- unique(taxonomy)
 }
