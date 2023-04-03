@@ -107,7 +107,7 @@ for (i in 2:4)
   # Creation d une nouvelle dataframe contenant uniquement les especes non matchee lors du join precedent
   ARG_level <- as.data.frame(all_species[c(NA_level), c(1:(i + 6))])
   colnames(ARG_level) <- colnames(all_species[, c(1:(i + 6))])
-  ARG_level <- left_join(ARG_level, Parsed_taxonomy, by = NULL)
+  ARG_level <- left_join(ARG_level, Parsed_taxonomy, by = NULL) # Join au niveau i
   ARG_level <- unique(ARG_level)
   
   # Traitement visant a supprimer les nombreux doublons generes par le join au niveau des genus ####
@@ -123,15 +123,17 @@ for (i in 2:4)
 }
 
 #### Traitement direct (hors join) de cas particuliers d especes (principalement des 'bactérium') trop isolees pour faire l objet d'un join ####
+# N.B. : On peut traiter plusieurs niveaux a la fois pour ce 1er traitement parce qu il ne concerne qu une seule ligne (== on n a pas le probleme du decalage a chaque nouvelle ligne)
 all_species <- except_treat(all_species, 'Bacillus bacterium', c('Genus', 'Family', 'Order', 'Class'), 'Phylum', 'Domain', c('Bacillus', 'Bacillaceae', 'Bacillales', 'Bacilli') , 'Firmicutes', 'Bacteria')
 all_species <- except_treat(all_species, 'Lachnospiraceae oral', 'Genus', 'Family', 'Order', NA, 'Lachnospiraceae', 'Lachnospirales')
 all_species <- except_treat(all_species, c('Clostridia bacterium', 'Lachnospiraceae oral'), 'Class', 'Phylum', 'Domain', 'Clostridia', 'Firmicutes', 'Bacteria')
 all_species <- except_treat(all_species, 'Firmicutes bacterium', 'Phylum', 'Phylum', 'Domain', 'Firmicutes' , 'Firmicutes', 'Bacteria')
-# N.B. : On peut traiter plusieurs niveaux a la fois lors le 1er traitement parce qu il ne concerne qu une seule ligne (== on n a pas le probleme de decalage a chaque nouvelle ligne)
+
+# Traitement de 3 especes 'bacterium' ne pouvant etre fait avec la fonction except_treat()
 ex1 <- which(all_species[, 'species']  %in% c('Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium'))
 all_species[ex1, 'Phylum'] <- str_replace(all_species[ex1, 'species'], '(.*) (.*)', '\\1')
 
-# Completion manuelle de la colonne 'Domain' (il n y en a que 1 : 'Bacteria')
+# Completion manuelle de la colonne 'Domain' (il n y en a qu un : 'Bacteria')
 ex2 <- is.na(all_species[, 'Domain']) # On isole les especes qui n ont pas pu etre matchees
 na_species <- as.data.frame(unique(all_species[ex2, 'species'])) # On les conserve dans une liste au cas ou
 all_species[ex2, 'Domain'] <- 'Bacteria' # On remplit la colonne 'Domain' pour toute ces especes 
