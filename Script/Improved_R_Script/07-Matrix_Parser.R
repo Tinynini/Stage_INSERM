@@ -32,7 +32,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   end <- " sharing"
 
   if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
-  { # N.B. : Il suffit de changer l index dans ARG_matrix et uni_ARG et d adapter les d acces pour tester un autre ARG
+  { # N.B. : Il suffit de changer l index dans ARG_matrix et uni_ARG et d adapter les chemins d acces pour tester un autre ARG
     to_set <- which(ARG_matrix[32,] != 0) # On isole les colonnes pour lesquelles l ARG matche
     m <- ARG_matrix[32, c(to_set)] # On extrait lesdites colonnes
     
