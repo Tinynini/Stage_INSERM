@@ -16,7 +16,6 @@ level_name <- unlist(colnames(all_species[, c(6:11)])) # On extrait aussi leurs 
 #### Preparation des futures listes dans lesquels seront reunies celles obtenues aux 6 niveaux taxonomiques ####
 liste_uni_ARG <- vector(mode = 'list', length = 6) # On prepare une liste des listes des ARG et des distances totales de leurs sous-arbres aux 6 niveaux taxonomiques 
 liste_tree_liste <- vector(mode = 'list', length = 6) # On prepare une liste des listes des sous-arbres aux 6 niveaux taxonomiques 
-
 min_length <- vector(mode = 'list', length = 6) # On prepare une liste des distances totales de sous-arbres minimales aux 6 niveaux taxonomiques
 max_length <- vector(mode = 'list', length = 6) # On prepare une liste des distances totales de sous-arbres maximales aux 6 niveaux taxonomiques
 
@@ -124,7 +123,6 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   # On recupere separement la liste des sous arbre et uni_ARG pour les 2 arbres
   trees <- liste[[1]]
   other_trees <- other_liste[[1]]
-
   uni_ARG <- liste[[2]]
   other_uni_ARG <- other_liste[[2]]
 
@@ -132,7 +130,6 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   debu <- "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Sous_arbres/blaNDM-9/Sub_tree_" 
   fine <- ".png" 
-  
   # N.B. : Il suffit de changer l index dans trees et uni_ARG et d adapter le chemin d acces pour tester un autre ARG
   # Index des 4 ARGs que j ai choisis comme representants : 174 - 320 - 402 - 1446 (meme ordre que dans le ppt)
   png(str_glue("{debu}{level_name[i]}{fine}"), height = 1017, width = 1920, pointsize = 20)
@@ -198,7 +195,6 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
 
   liste_uni_ARG[[i]] <- uni_ARG # On stock uni_ARG dans la liste prevue pour ca
   liste_tree_liste[[i]] <- tree_list # On stock la liste des sous-arbre dans la liste prevue pour ca
-
   min_length[[i]] <- min(uni_ARG[, 2]) # On recupere la valeur de distance totale minimale dans la liste prevue pour ca
   max_length[[i]] <- max(uni_ARG[, 2]) # On recupere la valeur de distance totale maximale dans la liste prevue pour ca
 }
