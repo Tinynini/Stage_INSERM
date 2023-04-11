@@ -21,15 +21,15 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   
   #### Barplot de la presence d un ARG donne (ici aac(6')-31_1_AM283489) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
-  deb_fr = "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(6')-31_1_AM283489/FR/Partage_inter-" 
-  fin_fr = "_fr.png" 
-  deb_en = "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(6')-31_1_AM283489/EN/Partage_inter-" 
-  fin_en = "_en.png"
+  deb_fr <- "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(6')-31_1_AM283489/FR/Partage_inter-" 
+  fin_fr <- "_fr.png" 
+  deb_en <- "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(6')-31_1_AM283489/EN/Partage_inter-" 
+  fin_en <- "_en.png"
   # Pour definir les titres de barplots
-  debut = "Partage inter-" 
-  fin = " de " 
-  start = " inter-" 
-  end = " sharing"
+  debut <- "Partage inter-" 
+  fin <- " de " 
+  start <- " inter-" 
+  end <- " sharing"
 
   if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
   { # N.B. : Il suffit de changer l index dans ARG_matrix et uni_ARG et d adapter les d acces pour tester un autre ARG
@@ -87,8 +87,8 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   }
   
   # Pour definir les noms et destinations de fichiers pour l enregistrement
-  debu = "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Dendrogramme/aac/Dist_" 
-  fine = "_aac.png" 
+  debu <- "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Dendrogramme/aac/Dist_" 
+  fine <- "_aac.png" 
   
   all_dist <- dist(ARG_family, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice
   clust <- hclust(all_dist, "complete") # On clusterise ses distances
