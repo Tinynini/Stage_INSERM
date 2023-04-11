@@ -54,7 +54,7 @@ generate_plot_en <- function(level_share, level_name)
   title_start <- "Inter-"
   title_end <- " sharing value occurences"
   
-  title <- str_glue("{title_start}{level_name}{title_end}") # Le titre de l histogramme est definit par une variabl
+  title <- str_glue("{title_start}{level_name}{title_end}") # Le titre de l histogramme est definit par une variable
   ggplot(level, aes(level_share)) + geom_histogram(bins = (max(level_share)*2 - 1)) + ggtitle(label = title) + xlab("Sharing values") + ylab("Number of occurences") 
   ggsave(str_glue("{start}{level_name}{end}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Taxo_plot/EN", width = 16, height = 8.47504)
 }
