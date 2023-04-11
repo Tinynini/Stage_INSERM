@@ -20,17 +20,29 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   rownames(ARG_matrix) <- uni_ARG 
   
   #### Barplot de la presence d un ARG donne (ici aac(6')-31_1_AM283489) ####
+  # Pour definir les noms et destinations de fichiers pour l enregistrement
+  deb_fr = "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(6')-31_1_AM283489/FR/Partage_inter-" 
+  fin_fr = "_fr.png" 
+  deb_en = "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(6')-31_1_AM283489/EN/Partage_inter-" 
+  fin_en = "_en.png"
+  # Pour definir les titres de barplots
   debut = "Partage inter-" 
   fin = " de " 
   start = " inter-" 
-  end = " sharing" 
-  
+  end = " sharing"
+
   if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
-  { # N.B. : Il suffit de changer l index dans ARG_matrix et uni_ARG pour tester un autre ARG
+  { # N.B. : Il suffit de changer l index dans ARG_matrix et uni_ARG et d adapter les d acces pour tester un autre ARG
     to_set <- which(ARG_matrix[32,] != 0) # On isole les colonnes pour lesquelles l ARG matche
     m <- ARG_matrix[32, c(to_set)] # On extrait lesdites colonnes
+    
+    png(str_glue("{deb_fr}{matrix_name[i]}{fin_fr}"), height = 1017, width = 1920, pointsize = 20)
     barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_ARG[32]}")) # Barblot de la presence de l ARG donne dans la matrice
+    dev.off()
+    
+    png(str_glue("{deb_en}{matrix_name[i]}{fin_en}"), height = 1017, width = 1920, pointsize = 20)
     barplot(m, main = str_glue("{uni_ARG[32]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
+    dev.off()
   }
   
   #### Meme chose mais avec l ensemble des ARGs en meme temps (mais ca ne marche pas donc est qu on garde ca ??) #### 
@@ -73,8 +85,14 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
       j <- j + 1 # On passe directement a la ligne suivante
     }
   }
-
+  
+  # Pour definir les noms et destinations de fichiers pour l enregistrement
+  debu = "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Dendrogramme/aac/Dist_" 
+  fine = "_aac.png" 
+  
   all_dist <- dist(ARG_family, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice
   clust <- hclust(all_dist, "complete") # On clusterise ses distances
+  png(str_glue("{debu}{matrix_name[i]}{fine}"), height = 1017, width = 1920, pointsize = 20)
   plot(clust) # On plot le dendogramme resultant
+  dev.off()
 }
