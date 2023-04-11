@@ -1,0 +1,34 @@
+library(tidyverse)
+
+#### A faire : ####
+# 1 : Switcher en bash pour pouvoir choisir si on travaille en sliced ou total (Tous sauf 01 et 03)/en anglais ou français (07 08 et 10)/avec quels reps (07 et 10) a l avance !!
+# 2 (Optionnel) : Checker l existance des inputs avant 05 06 et 09 (comment gerer ca pour plusieurs inputs ?) ??
+
+#### Main : ####
+
+# N.B. : Le clustering doit prealablement avoir ete effectue via les scripts bash !! 
+# N.B. : Verifier que le traitement 'a la main' des cas particuliers dans 01 03 et 04 est toujours adapte (normalement oui) si les donnees de depart changent !
+
+if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv') == FALSE)
+{
+  source('W:/ninon-species/script/Script_M2/01-Species_filtering.R') # Alright (mais ca prend 3/4h a 2h) !!
+} else if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv') == FALSE) 
+{
+  source('W:/ninon-species/script/Script_M2/02-All_species_cluster.R') # Alright !!
+} else 
+{
+  source('W:/ninon-species/script/Script_M2/03-Taxonomy_parser.R') # Alright !!
+}
+
+if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') == FALSE)
+{
+  source('W:/ninon-species/script/Script_M2/04-Taxo_Join.R') # Alright !!
+} else 
+{
+  source('W:/ninon-species/script/Script_M2/05-Matrix_Binaire.R') # Alright !!
+  source('W:/ninon-species/script/Script_M2/06-Matrix_Pseudo_Binaire.R') # Alright !!
+  source('W:/ninon-species/script/Script_M2/07-Matrix_Parser.R') # # Alright (est ce que je garde la partie commentee ?) !!
+  source('W:/ninon-species/script/Script_M2/08-Taxo_Filter.R') # Alright !!
+  source('W:/ninon-species/script/Script_M2/09-Tree_Pruner.R') # Alright (script reductible ?) !!
+  source('W:/ninon-species/script/Script_M2/10-Tree_Parser.R') # Alright (script reductible ?) !!
+}
