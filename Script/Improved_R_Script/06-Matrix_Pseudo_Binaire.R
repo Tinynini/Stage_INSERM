@@ -36,9 +36,9 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     n_level <- length(uni_level) 
     
     #### Preparation a l ouverture de la matrice binaire associee au niveau i depuis son fichier nominatif ####
-    path_start = "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" 
-    path_end = ".tsv" 
-    file_name = str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
+    path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" 
+    path_end <- ".tsv" 
+    file_name <- str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
     
     #### Ouverture & traitement de la matrice binaire associee au niveau i ####
     ARG_matrix <- read_tsv(file_name) 
@@ -85,9 +85,9 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     } # N.B : Je sais c est un peu complique mais in fine ca donne un matrice ARGx'Level j' avec 0 s il y a pas de match ou le nombre de representants du niveau i au sein du representant du niveau j se partageant l ARG s il y a un match
     
     #### Enregistrement de la matrice pseudo-binaire ainsi obtenue dans un fichier nominatif ####
-    path_start = "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" 
-    path_end = ".tsv" 
-    new_file_name = str_glue("{path_start}{level_name[i]}_{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
+    path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" 
+    path_end <- ".tsv" 
+    new_file_name <- str_glue("{path_start}{level_name[i]}_{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
     
     write.table(cross_matrix, new_file_name, sep = '\t', row.names = FALSE, col.names = TRUE) 
   }
