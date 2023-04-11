@@ -145,16 +145,20 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
 
   #### Histogramme des distances totales des sous-arbres (la encore c est identique pour les 2 arbres donc on le fait que pour le 1er) ####
   level_length <- uni_ARG['length']
-
-  level_plot <- ggplot(level_length, aes(length)) + geom_histogram(bins = n_ARG)
-
-  title <- "Nombres d'occurrences des valeurs de distances inter-" # Pour generer le titre en francais
-  title_start <- "Inter-" # Pour generer le debut du titre en anglais
-  title_end <- " sharing value occurences" # Pour generer la fin du titre en anglais
+  # Pour definir les noms et destinations de fichiers pour l enregistrement
+  start <- 'Dist_'
+  end_fr <- '_fr.png'
+  end_en <- '_en.png'
+  # Pour definir les titres de plots
+  title_fr <- "Nombres d'occurrences des valeurs de distances inter-" 
+  title_start_en <- "Inter-"
+  title_end_en <- " sharing value occurences" 
   # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
-  plot(level_plot + ggtitle(label = str_glue("{title}{level_name[i]}")) + xlab("Valeurs des distances") + ylab("Nombres d'occurrences"))
-  plot(level_plot + ggtitle(label = str_glue("{title_start}{level_name[i]}{title_end}")) + xlab("Distances values") + ylab("Number of occurences"))
-
+  ggplot(level_length, aes(length)) + geom_histogram(bins = n_ARG) + ggtitle(label = str_glue("{title_fr}{level_name[i]}")) + xlab("Valeurs des distances") + ylab("Nombres d'occurrences")
+  ggsave(str_glue("{start}{level_name[i]}{end_fr}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/FR", width = 16, height = 8.47504)
+  ggplot(level_length, aes(length)) + geom_histogram(bins = n_ARG) + ggtitle(label = str_glue("{title_start_en}{level_name[i]}{title_end_en}")) + xlab("Distances values") + ylab("Number of occurences")
+  ggsave(str_glue("{start}{level_name[i]}{end_en}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/EN", width = 16, height = 8.47504)
+  
   #### Plot des sous-arbres des especes par ARGs sur l arbre complet (Pour le 2nd arbre cette fois parce que ca ne peut pas fonctionner sans le traitement supplementaire des labels de nodes !!) ####
   liste <- vector(mode = 'list', length = length(other_tree_list)) # On prepare une nouvelle liste
 
