@@ -129,10 +129,16 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_uni_ARG <- other_liste[[2]]
 
   #### Exemple de plot d un sous_arbre avec "blaNDM-9_1_KC999080" (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
-  plot.phylo(trees[[402]], show.node.label = TRUE, main = uni_ARG[402, 1], sub = uni_ARG[402, 2])
-  # N.B. : Pour travailler avec un autre ARG il faut modifier l index dans trees et uni_ARG dans la ligne ci-avant
+  # Pour definir les noms et destinations de fichiers pour l enregistrement
+  debu <- "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Sous_arbres/blaNDM-9/Sub_tree_" 
+  fine <- ".png" 
+  
+  # N.B. : Il suffit de changer l index dans trees et uni_ARG et d adapter le chemin d acces pour tester un autre ARG
   # Index des 4 ARGs que j ai choisis comme representants : 174 - 320 - 402 - 1446 (meme ordre que dans le ppt)
-
+  png(str_glue("{debu}{level_name[i]}{fine}"), height = 1017, width = 1920, pointsize = 20)
+  plot.phylo(trees[[402]], show.node.label = TRUE, main = uni_ARG[402, 1], sub = uni_ARG[402, 2])
+  dev.off()
+  
   #### Suppresion des sous_arbres vides et de leurs distances totales (genant pour la suite) ####
   err <- which(uni_ARG[, 'length'] == 0.000) # On isole les lignes associees a des distances totales null (celles des sous-arbres vides) pour le 1er arbre
   other_err <- which(other_uni_ARG[, 'length'] == 0.000) # Idem pour le 2nd arbre
@@ -174,15 +180,21 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol = 1)) # On prepare une nouvelle colonne remplie avec des nombres allant de 1 au nombre de sous-arbres
   liste <- cbind(liste, type) # On ajoute cette colonne a notre dataframe dedoublonnee
   names(liste) <- c('node', 'type')
-  # geom_highlight permet de coloriser les sous-arbres en fonction du type associe. Il fallait donc definir autant de types differents qu il y a de sous-arbres pour attribuer une teinte unique a chacun
-  level_tree <- ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
-
-  deb <- "Sous-arbres " # Pour generer le debut du titre en francais
-  fin_fr <- "/ARG" # Pour generer la fin du titre en francais
-  fin_en <- "/ARG sub-trees" # Pour generer le titre en anglais
+  
+  # Pour definir les noms et destinations de fichiers pour l enregistrement
+  debut <- 'Tree_'
+  fin_fr <- '_fr.png'
+  fin_en <- '_en.png'
+  # Pour definir les titres de plots
+  titre_deb_fr <- "Sous-arbres " 
+  titre_fin_fr <- "/ARG" 
+  titre_fin_en <- "/ARG sub-trees"
   # On fait un premier plot avec le titre en francais puis un second avec le titre en anglais
-  plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin_fr}")))
-  plot(level_tree + ggtitle(str_glue("{level_name[i]}{fin_en}")))
+  # N.B. : geom_highlight permet de coloriser les sous-arbres en fonction du type associe. Il fallait donc definir autant de types differents qu il y a de sous-arbres pour attribuer une teinte unique a chacun
+  ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type)) + ggtitle(str_glue("{titre_deb_fr}{level_name[i]}{titre_fin_fr}"))
+  ggsave(str_glue("{debut}{level_name[i]}{fin_fr}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Arbre_sous_arbres/FR", width = 16, height = 8.47504)
+  ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type)) + ggtitle(str_glue("{level_name[i]}{titre_fin_en}"))
+  ggsave(str_glue("{debut}{level_name[i]}{fin_en}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Arbre_sous_arbres/EN", width = 16, height = 8.47504)
 
   liste_uni_ARG[[i]] <- uni_ARG # On stock uni_ARG dans la liste prevue pour ca
   liste_tree_liste[[i]] <- tree_list # On stock la liste des sous-arbre dans la liste prevue pour ca
