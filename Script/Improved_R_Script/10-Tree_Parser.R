@@ -84,10 +84,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   
   tree <- read.tree(file_name_1) # Arbre sans le traitement supplementaire des labels de nodes
   other_tree <- read.tree(file_name_2) # Arbre avec le traitement supplementaire des labels de nodes
-  
   tibble_tree <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
   other_tibble_tree <- as_tibble(other_tree) # On passe au format tibble plus pratique a manipuler
-  
   uni_ARG <- sort(unique(all_species$qseqid)) # On extrait la colonne des ARGs
   n_ARG <- length(uni_ARG)
 
@@ -139,10 +137,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   #### Suppresion des sous_arbres vides et de leurs distances totales (genant pour la suite) ####
   err <- which(uni_ARG[, 'length'] == 0.000) # On isole les lignes associees a des distances totales null (celles des sous-arbres vides) pour le 1er arbre
   other_err <- which(other_uni_ARG[, 'length'] == 0.000) # Idem pour le 2nd arbre
-
   uni_ARG <- uni_ARG[-c(err),] # On supprime ces lignes de uni_ARG pour le 1er arbre
   other_uni_ARG <- other_uni_ARG[-c(other_err),] # Idem pour le 2nd arbre
-
   tree_list <- liste_parser(trees, uni_ARG) # On genere la nouvelle liste des sous-arbres sans ceux vides pour le 1er arbre
   other_tree_list <- liste_parser(other_trees, other_uni_ARG) # Idem pour le 2nd arbre
 
