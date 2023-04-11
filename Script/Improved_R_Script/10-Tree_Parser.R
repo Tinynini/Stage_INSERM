@@ -76,12 +76,12 @@ liste_parser <- function(trees, uni_ARG) # Il faut la liste des sous-arbre et un
 for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espece a phylum)
 {
   #### Ouverture des arbres du niveau i depuis leurs fichiers nominatifs & preparation des donnees ####
-  path_start = "W:/ninon-species/output/Output_M2/ARG/Arbre/"
-  path_end = ".tree"
+  path_start <- "W:/ninon-species/output/Output_M2/ARG/Arbre/"
+  path_end <- ".tree"
   other_path_end = "_version_alt.tree"
   # Les noms des fichiers sont definis par des variables
-  file_name_1 = str_glue("{path_start}{level_name[i]}{path_end}") 
-  file_name_2 = str_glue("{path_start}{level_name[i]}{other_path_end}")
+  file_name_1 <- str_glue("{path_start}{level_name[i]}{path_end}") 
+  file_name_2 <- str_glue("{path_start}{level_name[i]}{other_path_end}")
   
   tree <- read.tree(file_name_1) # Arbre sans le traitement supplementaire des labels de nodes
   other_tree <- read.tree(file_name_2) # Arbre avec le traitement supplementaire des labels de nodes
@@ -148,9 +148,9 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
 
   level_plot <- ggplot(level_length, aes(length)) + geom_histogram(bins = n_ARG)
 
-  title = "Nombres d'occurrences des valeurs de distances inter-" # Pour generer le titre en francais
-  title_start = "Inter-" # Pour generer le debut du titre en anglais
-  title_end = " sharing value occurences" # Pour generer la fin du titre en anglais
+  title <- "Nombres d'occurrences des valeurs de distances inter-" # Pour generer le titre en francais
+  title_start <- "Inter-" # Pour generer le debut du titre en anglais
+  title_end <- " sharing value occurences" # Pour generer la fin du titre en anglais
   # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
   plot(level_plot + ggtitle(label = str_glue("{title}{level_name[i]}")) + xlab("Valeurs des distances") + ylab("Nombres d'occurrences"))
   plot(level_plot + ggtitle(label = str_glue("{title_start}{level_name[i]}{title_end}")) + xlab("Distances values") + ylab("Number of occurences"))
@@ -174,10 +174,10 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   level_tree <- ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
 
   deb <- "Sous-arbres " # Pour generer le debut du titre en francais
-  fin <- "/ARG" # Pour generer la fin du titre en francais
+  fin_fr <- "/ARG" # Pour generer la fin du titre en francais
   fin_en <- "/ARG sub-trees" # Pour generer le titre en anglais
   # On fait un premier plot avec le titre en francais puis un second avec le titre en anglais
-  plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin}")))
+  plot(level_tree + ggtitle(str_glue("{deb}{level_name[i]}{fin_fr}")))
   plot(level_tree + ggtitle(str_glue("{level_name[i]}{fin_en}")))
 
   liste_uni_ARG[[i]] <- uni_ARG # On stock uni_ARG dans la liste prevue pour ca
