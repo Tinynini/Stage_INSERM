@@ -14,47 +14,47 @@ level <- as.data.frame(all_species[, c(6:11)]) # On extrait le contenu des colon
 level_name <- unlist(colnames(all_species[, c(6:11)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
 
 #### Preparation des futures listes dans lesquels seront reunies celles obtenues aux 6 niveaux taxonomiques ####
-liste_uni_ARG <- vector(mode = 'list', length = 6) # On prepare une liste des listes des ARG et des distances totales de leurs sous-arbres aux 6 niveaux taxonomiques 
+liste_uni_gene <- vector(mode = 'list', length = 6) # On prepare une liste des listes des genes et des distances totales de leurs sous-arbres aux 6 niveaux taxonomiques
 liste_tree_liste <- vector(mode = 'list', length = 6) # On prepare une liste des listes des sous-arbres aux 6 niveaux taxonomiques 
 min_length <- vector(mode = 'list', length = 6) # On prepare une liste des distances totales de sous-arbres minimales aux 6 niveaux taxonomiques
 max_length <- vector(mode = 'list', length = 6) # On prepare une liste des distances totales de sous-arbres maximales aux 6 niveaux taxonomiques
 
-#### Fonction servant a la creation de nouvelles listes des sous-arbres par ARGs et de leurs distances totales ####
+#### Fonction servant a la creation de nouvelles listes des sous-arbres par genes et de leurs distances totales ####
 liste_generator <- function(tree, tibble_tree) # Il faut l arbre sous forme phylo et sous forme tibble en entree 
 {
   n_arg <- ncol(tibble_tree)
   
-  trees <- vector(mode = 'list', length = n_ARG) # On prepare une liste des sous-arbres 
-  length <- as.data.frame(matrix(data = 0, nrow = n_ARG, ncol = 1)) # On prepare une colonne des distances des sous-arbres  
-  uni_ARG <- cbind(uni_ARG, length) # On ajoute cette colonne a celle des ARGs
-  colnames(uni_ARG) <- c('ARG', 'length')
+  trees <- vector(mode = 'list', length = n_gene) # On prepare une liste des sous-arbres 
+  length <- as.data.frame(matrix(data = 0, nrow = n_gene, ncol = 1)) # On prepare une colonne des distances des sous-arbres  
+  uni_gene <- cbind(uni_gene, length) # On ajoute cette colonne a celle des genes
+  colnames(uni_gene) <- c('gene', 'length')
   
   l <- 1
   
-  for (k in 5:n_arg) # Permet de parcourir les k colonnes associees aux ARGs dans tibbled_tree (celles issues de la matrice)
+  for (k in 5:n_arg) # Permet de parcourir les k colonnes associees aux genes dans tibbled_tree (celles issues de la matrice)
   { # N.B. : On est donc oblige de demarrer a partir de la 5eme colonnes (les 4 1ere etant celles propres a l arbre)
-    wanted_ARG <- colnames(tibble_tree[, k]) # On recuppere le nom de l ARG associe a la colonne k
-    wanted_tip <- tibble_tree$label[tibble_tree[wanted_ARG] == 1] # On recupere les labels de tips se partagent l ARG (== les lignes pour lesquelles il y a "1" dans la colonne de l ARG)
+    wanted_gene <- colnames(tibble_tree[, k]) # On recuppere le nom de le gene associe a la colonne k
+    wanted_tip <- tibble_tree$label[tibble_tree[wanted_gene] == 1] # On recupere les labels de tips se partagent le gene (== les lignes pour lesquelles il y a "1" dans la colonne du gene)
     wanted_tip <- na.omit(wanted_tip) # On doit exclures les 'NA' qui sont apparement consideres par defauts comme correspondant au '1' recherche ci-dessus (ils correspondent aux lignes des labels de nodes dont on en veut surtout pas !)
     
-    tree_ARG <- keep.tip(tree, tip = wanted_tip) # On prune l arbre complet pour ne garder que les tips selectionnes ci-avant
-    length <- sum(tree_ARG$edge.length) # On somme les distances des branches du sous-arbre pour recuperer sa distance totale
-    uni_ARG[k - 4, 'length'] <- length # On la stock dans la nouvelle colonne de uni_ARG 
-    # N.B. : Les ARGs sont ordonnes de la meme facon dans tibble_tree et uni_ARG donc il suffit de parcourir uni-ARG en parallele (en partant bien de 1 et non plus de 5 cette fois) pour etre toujour a la bonne ligne
-    trees[[l]] <- tree_ARG # On stock le sous-arbre dans la liste des sous-arbre
+    tree_gene <- keep.tip(tree, tip = wanted_tip) # On prune l arbre complet pour ne garder que les tips selectionnes ci-avant
+    length <- sum(tree_gene$edge.length) # On somme les distances des branches du sous-arbre pour recuperer sa distance totale
+    uni_gene[k - 4, 'length'] <- length # On la stock dans la nouvelle colonne de uni_gene
+    # N.B. : Les genes sont ordonnes de la meme facon dans tibble_tree et uni_gene donc il suffit de parcourir uni_gene en parallele (en partant bien de 1 et non plus de 5 cette fois) pour etre toujour a la bonne ligne
+    trees[[l]] <- tree_gene # On stock le sous-arbre dans la liste des sous-arbre
     l <- l + 1
   }
   # Comme return ne peut s appliquer qu a une seule variable on est oblige de stocker temporairement les 2 listes ensemble
-  liste <- list(trees, uni_ARG) 
+  liste <- list(trees, uni_gene) 
   return(liste)
 }
 
 #### Fonction servant a suppimer les sous-arbres vides dans une liste de sous_arbres ####
-liste_parser <- function(trees, uni_ARG) # Il faut la liste des sous-arbre et uni_ARG (le block : ARG + distance) en entree
+liste_parser <- function(trees, uni_gene) # Il faut la liste des sous-arbre et uni_gene (le block : gene + distance) en entree
 {
-  n_ARG <- nrow(uni_ARG)
+  n_gene <- nrow(uni_gene)
   
-  tree_list <- vector(mode = 'list', length = n_ARG) # On prepare une nouvelle liste des sous-arbres 
+  tree_list <- vector(mode = 'list', length = n_gene) # On prepare une nouvelle liste des sous-arbres 
   
   l <- 1
   
@@ -66,8 +66,8 @@ liste_parser <- function(trees, uni_ARG) # Il faut la liste des sous-arbre et un
       l <- l + 1
     }
   }
-  # On renomme les sous_arbres en fonction des ARGs auxquels ils sont associes (sinon il faudrait se referer constamment a uni_ARG pour savoir a quel ARG est associe un sous-arbre)
-  names(tree_list) <- uni_ARG[, 'ARG'] 
+  # On renomme les sous_arbres en fonction des genes auxquels ils sont associes (sinon il faudrait se referer constamment a uni_gene pour savoir a quel gene est associe un sous-arbre)
+  names(tree_list) <- uni_gene[, 'gene'] 
   return(tree_list)
 }
 
@@ -86,64 +86,64 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_tree <- read.tree(file_name_2) # Arbre avec le traitement supplementaire des labels de nodes
   tibble_tree <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
   other_tibble_tree <- as_tibble(other_tree) # On passe au format tibble plus pratique a manipuler
-  uni_ARG <- sort(unique(all_species$qseqid)) # On extrait la colonne des ARGs
-  n_ARG <- length(uni_ARG)
+  uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
+  n_gene <- length(uni_gene)
 
   uni_level <- as.data.frame(sort(unique(level[, i]))) # On extrait la colonne du niveau i
   colnames(uni_level) <- level_name[i]
   n_level <- nrow(uni_level)
 
   #### Creaction d une matrice binaire (0/1) d absence/presence des genes de resistances au niveau i ####
-  ARG_matrix <- matrix(data = 0, nrow = n_ARG, ncol = n_level)
-  rownames(ARG_matrix) <- uni_ARG
+  gene_matrix <- matrix(data = 0, nrow = n_gene, ncol = n_level)
+  rownames(gene_matrix) <- uni_gene
 
-  for (j in 1:n_ARG) # Permet de parcourir les j ARGs distincts
+  for (j in 1:n_gene) # Permet de parcourir les j genes distincts
   {
-    curr_ARG <- uni_ARG[j] # Pour l ARG j
-    curr_level <- all_species[all_species$qseqid == curr_ARG, level_name[i]] # Au niveau i
+    curr_gene <- uni_gene[j] # Pour le j
+    curr_level <- all_species[all_species$qseqid == curr_gene, level_name[i]] # Au niveau i
 
-    to_set <- which(uni_level[, level_name[i]] %in% curr_level) # On extrait les representants du niveau i qui matchent l ARG j
-    ARG_matrix[j, to_set] <- 1 # On attribue la valeur 1 aux cases associees a ces matchs dans la matrice
+    to_set <- which(uni_level[, level_name[i]] %in% curr_level) # On extrait les representants du niveau i qui matchent le gene j
+    gene_matrix[j, to_set] <- 1 # On attribue la valeur 1 aux cases associees a ces matchs dans la matrice
   }
 
   #### Join de l arbre et de la matrice & preparation de nouvelles listes ####
-  ARG_matrix <- t(ARG_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne
-  ARG_matrix <- as.data.frame(ARG_matrix) # On transforme la matrice en dataframe
-  ARG_matrix <- cbind(uni_level, ARG_matrix) # On combine la colonne du niveau i a la matrice en vue du join avec l arbre du niveau i
+  gene_matrix <- t(gene_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne
+  gene_matrix <- as.data.frame(gene_matrix) # On transforme la matrice en dataframe
+  gene_matrix <- cbind(uni_level, gene_matrix) # On combine la colonne du niveau i a la matrice en vue du join avec l arbre du niveau i
 
-  tibble_tree <- left_join(tibble_tree, ARG_matrix, by = c('label' = level_name[i])) # On join la matrice au 1er arbre sur les colonnes du niveau i et des labels
-  other_tibble_tree <- left_join(other_tibble_tree, ARG_matrix, by = c('label' = level_name[i])) # On join la matrice au 2nd arbre sur les colonnes du niveau i et des labels
+  tibble_tree <- left_join(tibble_tree, gene_matrix, by = c('label' = level_name[i])) # On join la matrice au 1er arbre sur les colonnes du niveau i et des labels
+  other_tibble_tree <- left_join(other_tibble_tree, gene_matrix, by = c('label' = level_name[i])) # On join la matrice au 2nd arbre sur les colonnes du niveau i et des labels
 
-  #### Creation des listes des sous-arbres et de leurs distances totales par ARGs ####
-  liste <- liste_generator(tree, tibble_tree) # On genere la listes de sous_arbres et la nouvelle colonne d uni_ARG de leurs distances totales pour le 1er arbre
+  #### Creation des listes des sous-arbres et de leurs distances totales par genes ####
+  liste <- liste_generator(tree, tibble_tree) # On genere la listes de sous_arbres et la nouvelle colonne d uni_gene de leurs distances totales pour le 1er arbre
   other_liste <- liste_generator(other_tree, other_tibble_tree) # Idem pour le 2nd arbre
 
-  # On recupere separement la liste des sous arbre et uni_ARG pour les 2 arbres
+  # On recupere separement la liste des sous arbre et uni_gene pour les 2 arbres
   trees <- liste[[1]]
   other_trees <- other_liste[[1]]
-  uni_ARG <- liste[[2]]
-  other_uni_ARG <- other_liste[[2]]
+  uni_gene <- liste[[2]]
+  other_uni_gene <- other_liste[[2]]
 
   #### Exemple de plot d un sous_arbre avec "blaNDM-9_1_KC999080" (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   debu <- "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Sous_arbres/blaNDM-9/Sub_tree_" 
   fine <- ".png" 
-  # N.B. : Il suffit de changer l index dans trees et uni_ARG et d adapter le chemin d acces pour tester un autre ARG
-  # Index des 4 ARGs que j ai choisis comme representants : 174 - 320 - 402 - 1446 (meme ordre que dans le ppt)
+  # N.B. : Il suffit de changer l index dans trees et uni_gene et d adapter le chemin d acces pour tester un autre gene
+  # Index des 4 genes que j ai choisis comme representants : 174 - 320 - 402 - 1446 (meme ordre que dans le ppt)
   png(str_glue("{debu}{level_name[i]}{fine}"), height = 1017, width = 1920, pointsize = 20)
-  plot.phylo(trees[[402]], show.node.label = TRUE, main = uni_ARG[402, 1], sub = uni_ARG[402, 2])
+  plot.phylo(trees[[402]], show.node.label = TRUE, main = uni_gene[402, 1], sub = uni_gene[402, 2])
   dev.off()
   
   #### Suppresion des sous_arbres vides et de leurs distances totales (genant pour la suite) ####
-  err <- which(uni_ARG[, 'length'] == 0.000) # On isole les lignes associees a des distances totales null (celles des sous-arbres vides) pour le 1er arbre
-  other_err <- which(other_uni_ARG[, 'length'] == 0.000) # Idem pour le 2nd arbre
-  uni_ARG <- uni_ARG[-c(err),] # On supprime ces lignes de uni_ARG pour le 1er arbre
-  other_uni_ARG <- other_uni_ARG[-c(other_err),] # Idem pour le 2nd arbre
-  tree_list <- liste_parser(trees, uni_ARG) # On genere la nouvelle liste des sous-arbres sans ceux vides pour le 1er arbre
-  other_tree_list <- liste_parser(other_trees, other_uni_ARG) # Idem pour le 2nd arbre
+  err <- which(uni_gene[, 'length'] == 0.000) # On isole les lignes associees a des distances totales null (celles des sous-arbres vides) pour le 1er arbre
+  other_err <- which(other_uni_gene[, 'length'] == 0.000) # Idem pour le 2nd arbre
+  uni_gene <- uni_gene[-c(err),] # On supprime ces lignes de uni_gene pour le 1er arbre
+  other_uni_gene <- other_uni_gene[-c(other_err),] # Idem pour le 2nd arbre
+  tree_list <- liste_parser(trees, uni_gene) # On genere la nouvelle liste des sous-arbres sans ceux vides pour le 1er arbre
+  other_tree_list <- liste_parser(other_trees, other_uni_gene) # Idem pour le 2nd arbre
 
   #### Histogramme des distances totales des sous-arbres (la encore c est identique pour les 2 arbres donc on le fait que pour le 1er) ####
-  level_length <- uni_ARG['length']
+  level_length <- uni_gene['length']
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   start <- 'Dist_'
   end_fr <- '_fr.png'
@@ -153,12 +153,12 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   title_start_en <- "Inter-"
   title_end_en <- " sharing value occurences" 
   # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
-  ggplot(level_length, aes(length)) + geom_histogram(bins = n_ARG) + ggtitle(label = str_glue("{title_fr}{level_name[i]}")) + xlab("Valeurs des distances") + ylab("Nombres d'occurrences")
+  ggplot(level_length, aes(length)) + geom_histogram(bins = n_gene) + ggtitle(label = str_glue("{title_fr}{level_name[i]}")) + xlab("Valeurs des distances") + ylab("Nombres d'occurrences")
   ggsave(str_glue("{start}{level_name[i]}{end_fr}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/FR", width = 16, height = 8.47504)
-  ggplot(level_length, aes(length)) + geom_histogram(bins = n_ARG) + ggtitle(label = str_glue("{title_start_en}{level_name[i]}{title_end_en}")) + xlab("Distances values") + ylab("Number of occurences")
+  ggplot(level_length, aes(length)) + geom_histogram(bins = n_gene) + ggtitle(label = str_glue("{title_start_en}{level_name[i]}{title_end_en}")) + xlab("Distances values") + ylab("Number of occurences")
   ggsave(str_glue("{start}{level_name[i]}{end_en}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/EN", width = 16, height = 8.47504)
   
-  #### Plot des sous-arbres des especes par ARGs sur l arbre complet (Pour le 2nd arbre cette fois parce que ca ne peut pas fonctionner sans le traitement supplementaire des labels de nodes !!) ####
+  #### Plot des sous-arbres des especes par genes sur l arbre complet (Pour le 2nd arbre cette fois parce que ca ne peut pas fonctionner sans le traitement supplementaire des labels de nodes !!) ####
   liste <- vector(mode = 'list', length = length(other_tree_list)) # On prepare une nouvelle liste
 
   for (m in 1:length(other_tree_list)) # Permet de parcourir les m sous-arbre de la liste
@@ -189,8 +189,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type)) + ggtitle(str_glue("{level_name[i]}{titre_fin_en}"))
   ggsave(str_glue("{debut}{level_name[i]}{fin_en}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Arbre_sous_arbres/EN", width = 16, height = 8.47504)
 
-  liste_uni_ARG[[i]] <- uni_ARG # On stock uni_ARG dans la liste prevue pour ca
+  liste_uni_gene[[i]] <- uni_gene # On stock uni_gene dans la liste prevue pour ca
   liste_tree_liste[[i]] <- tree_list # On stock la liste des sous-arbre dans la liste prevue pour ca
-  min_length[[i]] <- min(uni_ARG[, 2]) # On recupere la valeur de distance totale minimale dans la liste prevue pour ca
-  max_length[[i]] <- max(uni_ARG[, 2]) # On recupere la valeur de distance totale maximale dans la liste prevue pour ca
+  min_length[[i]] <- min(uni_gene[, 2]) # On recupere la valeur de distance totale minimale dans la liste prevue pour ca
+  max_length[[i]] <- max(uni_gene[, 2]) # On recupere la valeur de distance totale maximale dans la liste prevue pour ca
 }
