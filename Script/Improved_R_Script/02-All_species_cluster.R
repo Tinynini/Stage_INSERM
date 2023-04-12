@@ -29,7 +29,7 @@ for (i in 1:nrow(all_clusters)) # Suppression des donnees non pertinentes dans l
   }
 }
 
-# Harmonisation des donnees de façon a avoir les labels des centroides associes a chaque sequence d'ARG (actuellement dispatches dans 2 colonnes) dans une seule et meme colonne 
+# Harmonisation des donnees de façon a avoir les labels des centroides associes a chaque sequence de gene (actuellement dispatches dans 2 colonnes) dans une seule et meme colonne 
 for (k in 1:nrow(all_centroids)) 
 {
   if (all_centroids[k, 'Centroid'] == '*')
@@ -42,7 +42,7 @@ centro <- as.data.frame(unique(all_centroids[, c('Query', 'Centroid')]))
 
 #### Join des dataframes (== ajout des colonnes 'Centroid' et 'Query') ####
 all_species <- rev(all_species)
-all_species <- left_join(all_species, centro, by = c('qseqid' = 'Query'), keep = TRUE) # On join sur les labels de séquences d'ARG
+all_species <- left_join(all_species, centro, by = c('qseqid' = 'Query'), keep = TRUE) # On join sur les labels de sequences de gene
 all_species <- rev(all_species)
 
 all_species %>%
@@ -53,7 +53,7 @@ all_species %>%
 
 all_species <- as.data.frame(t(do.call(rbind, all_species)))
 
-#### Slice de la dataframe sur les especes par centroides de façon a n avoir plus que une seule occurrence par espece pour un centroid donne ####
+#### Slice de la dataframe sur les especes par centroides de façon a n avoir plus que une seule occurrence par espece et par partage pour un centroid donne ####
 # Ca divise pratiquement par 10 le volume initial de la dataframe !! 
 all_species %>%
   arrange(Centroid, species, shared_by) %>%
