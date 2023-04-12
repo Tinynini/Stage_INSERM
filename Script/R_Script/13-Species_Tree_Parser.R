@@ -8,7 +8,7 @@ tree <- read.tree('W:/ninon-species/output/Output_M1/Arbre/Species_tree.tree')
 tibble_tree <- as_tibble(tree)
 
 all_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Taxo_result.tsv') %>%
-#all_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/New_Taxo_result.tsv') %>% 
+  #all_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/New_Taxo_result.tsv') %>% 
   as.data.frame()
 
 #### Pretraitement des donnees en vue de la creation d une matrice d absence/presence CentroidexEspece ####
@@ -42,7 +42,6 @@ tree_list <- vector(mode = 'list', length = n_centro - 59) # Future liste des so
 length <- as.data.frame(matrix(data = 0, nrow = n_centro, ncol = 1))
 uni_centro <- cbind(uni_centro, length) # Future dataframe des longueurs totales des sous-arbres par centroides
 colnames(uni_centro) <- c('centroid', 'length')
-
 j <- 1
 
 #### Creation des listes des sous-arbres et de leurs longueurs totales par centroides ####
@@ -61,7 +60,6 @@ for (i in 5:n_ARG)
     j <- j + 1
   }
 }
-
 err <- which(uni_centro[, 'length'] == 0.000)
 uni_centro <- uni_centro[-c(err),]
 names(tree_list) <- uni_centro[, 'centroid']
