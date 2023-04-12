@@ -23,8 +23,8 @@ Genus_cleaner <- function(df, level, doublon, ref)
 {
   double1 <- which(df[, level] %in% doublon)
   double2 <- which(df[c(double1), 'Family'] != ref)
-  ARG_double <- df[c(double1),]
-  df[c(double1),] <- ARG_double[-c(double2),]
+  gene_double <- df[c(double1),]
+  df[c(double1),] <- gene_double[-c(double2),]
   
   df <- unique(df)
 }
@@ -40,12 +40,12 @@ Genus_cleaning <- function(df)
   df <- Genus_cleaner(df, 'Genus', 'Mycoplasma', 'Mycoplasmataceae')
   
   double1 <- grep('Clostridium', df[, 'Genus'])
-  ARG_Clos <- df[c(double1),]
+  gene_Clos <- df[c(double1),]
 
-  double2 <- which(ARG_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
-  ARG_Target <- ARG_Clos[-c(double2),]
+  double2 <- which(gene_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
+  gene_Target <- gene_Clos[-c(double2),]
 
-  df <- Genus_cleaner(df, 'species', ARG_Target[, 'species'], 'Clostridiaceae')
+  df <- Genus_cleaner(df, 'species', gene_Target[, 'species'], 'Clostridiaceae')
 
   df <- unique(df)
 }
@@ -67,14 +67,14 @@ all_species <- all_species[, c('qseqid', 'Centroid', 'shared_by', 'pident', 'qco
 # On modifie la nomenclature des noms d especes en vue du join 
 all_species[, 'species'] <- str_replace(all_species[, 'species'], pattern = '(.*)(_)(.*)', replacement = "\\1\\ \\3")
 
-for (j in 1:nrow(all_species)) # Certain noms d especes necessitent un traitement supplementaire
+for (j in 1:nrow(all_species)) # Certains noms d especes necessitent un traitement supplementaire
 {
   all_species <- special_treat(all_species, j, 'ORG-.', "(.*)_(.*) (.*)(..)", "\\1\\ \\2\\_\\3")
   all_species <- special_treat(all_species, j, 'symbiont', "(.*) (.*)", "\\2\\ \\1")
   all_species <- special_treat(all_species, j, 'Bacterium', "(.*) (.*)", "\\2\\ \\1")
 }
 
-#### 1er join au niveau des especes --> consequence : ajout de 6 nouvelle colonnes ('Genus' a 'Domain') ####
+#### 1er join au niveau des especes --> consequence : ajout de 6 nouvelles colonnes ('Genus' a 'Domain') ####
 all_species %>%
   arrange(qseqid) %>%
   identity() -> all_species
@@ -105,20 +105,20 @@ for (i in 2:4)
   }
   
   # Creation d une nouvelle dataframe contenant uniquement les especes non matchee lors du join precedent
-  ARG_level <- as.data.frame(all_species[c(NA_level), c(1:(i + 6))])
-  colnames(ARG_level) <- colnames(all_species[, c(1:(i + 6))])
-  ARG_level <- left_join(ARG_level, Parsed_taxonomy, by = NULL) # Join au niveau i
-  ARG_level <- unique(ARG_level)
+  gene_level <- as.data.frame(all_species[c(NA_level), c(1:(i + 6))])
+  colnames(gene_level) <- colnames(all_species[, c(1:(i + 6))])
+  gene_level <- left_join(gene_level, Parsed_taxonomy, by = NULL) # Join au niveau i
+  gene_level <- unique(gene_level)
   
   # Traitement visant a supprimer les nombreux doublons generes par le join au niveau des genus ####
   if (i == 2)
   {
-    ARG_level <- Genus_cleaning(ARG_level)
+    gene_level <- Genus_cleaning(gene_level)
   }
 
   # Remplacement dans notre dataframe initiale des lignes associees aux especes non-matchees par celles de la nouvelle dataframe 
-  less_NA_level <- which(all_species[, level_name[i - 1]] %in% ARG_level[, level_name[i - 1]])
-  all_species[c(less_NA_level),] <- ARG_level
+  less_NA_level <- which(all_species[, level_name[i - 1]] %in% gene_level[, level_name[i - 1]])
+  all_species[c(less_NA_level),] <- gene_level
   NA_level <- is.na(all_species[, level_name[i]])
 }
 
