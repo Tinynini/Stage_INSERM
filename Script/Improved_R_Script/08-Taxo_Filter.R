@@ -4,7 +4,7 @@ library(tidyverse)
 taxo <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
   as.data.frame()
 
-#### On genere 6 nouvelles colonnes des partages d ARGs du niveau 'species' au niveau 'Phylum' ####
+#### On genere 6 nouvelles colonnes des partages de genes du niveau 'species' au niveau 'Phylum' ####
 # N.B. : Le niveau 'Domain' n est pas traite car cette etude ne porte que sur le domaine des 'bacteria' (== bacterie)
 taxo %>% # Pour chaque partages de chaque centroids on regarde le nombre de representants distincts de chacuns des 6 niveaux taxonomiques
   arrange(Centroid, shared_by) %>%
