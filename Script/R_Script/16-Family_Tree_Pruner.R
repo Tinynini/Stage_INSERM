@@ -43,9 +43,9 @@ Label %>%
 labels %>%
   arrange(node) %>%
   identity() -> labels
+
 # On extrait les tips qui constituent des doublons
 tips <- which((Label[, 'node'] %>% pull()) %in% (labels[, 'node'] %>% pull()) == FALSE) 
-
 new_tree <- as.phylo(taxo_tree) # On passe au format phylo pour pouvoir pruner l arbre
 new_tree <- drop.tip(new_tree, tips) # On prune l arbre en supprimant les tips associes aux doublons
 taxo_tree <- as_tibble(new_tree) # On passe au format tibble plus pratique a manipuler
@@ -53,16 +53,12 @@ taxo_tree <- as_tibble(new_tree) # On passe au format tibble plus pratique a man
 #### Join de l arbre avec les familles de notre dataframe (== pruner l arbre en ne gardant que les familles presentes dans notre dataframe) ####
 phylo_tree <- left_join(taxo_tree, uni_family, by = c('label' = 'Family')) # On join sur les familles
 n_tips <- nrow(phylo_tree) - Nnode(new_tree)
-
 na_label <- is.na(phylo_tree[1:n_tips, 'family_shared_by']) # On extrait les labels des tips matches lors du join
 family <- which(na_label == FALSE)
-
 phylo_tree[family, 'family_shared_by'] <- 1 # On standardise la valeur de la colonne 'family_shared_by' pour ces tips
 phylo_tree <- unique(phylo_tree) # On supprime les doublons
-
 na_label <- is.na(phylo_tree[1:Ntip(new_tree), 'family_shared_by']) # On extrait les labels des tips non-matches
 na_family <- which(na_label == TRUE)
-
 next_tree <- as.phylo(phylo_tree) # On passe au format phylo pour pouvoir pruner l arbre
 next_tree <- drop.tip(next_tree, na_family) # On prune l arbre en supprimant les tips non-matches
 phylo_tree <- as_tibble(next_tree) # On passe au format tibble plus pratique a manipuler
