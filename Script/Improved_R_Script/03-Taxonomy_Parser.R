@@ -70,14 +70,10 @@ prev_doublon_cleaner <- function(taxonomy) # Permet d'appliquer plusieurs fois s
 #### Main ####
 taxonomy_V1 <- nomenclature_cleaner(taxonomy_V1)
 taxonomy_V2 <- nomenclature_cleaner(taxonomy_V2)
-
-taxonomy_V1 <- taxonomy_V1[,-c(1)]
-
+taxonomy_V1 <- taxonomy_V1[, -c(1)]
 taxonomy_V1 <- sub_class_cleaner(taxonomy_V1)
 taxonomy_V2 <- sub_class_cleaner(taxonomy_V2)
-
 taxonomy_V2 <- unique(taxonomy_V2)
-
 taxonomy_V1 <- prev_doublon_cleaner(taxonomy_V1)
 taxonomy_V2 <- prev_doublon_cleaner(taxonomy_V2)
 
