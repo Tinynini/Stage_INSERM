@@ -37,8 +37,7 @@ liste_generator <- function(tree, tibble_tree) # Il faut l arbre sous forme phyl
     # N.B. : Les genes sont ordonnes de la meme facon dans tibble_tree et uni_gene donc il suffit de parcourir uni_gene en parallele (en partant bien de 1 et non plus de 5 cette fois) pour etre toujour a la bonne ligne
     trees[[l]] <- tree_gene # On stock le sous-arbre dans la liste des sous-arbre
     l <- l + 1
-  }
-  # Comme return ne peut s appliquer qu a une seule variable on est oblige de stocker temporairement les 2 listes ensemble
+  } # Comme return ne peut s appliquer qu a une seule variable on est oblige de stocker temporairement les 2 listes ensemble
   liste <- list(trees, uni_gene) 
   return(liste)
 }
@@ -56,8 +55,7 @@ liste_parser <- function(trees, uni_gene) # Il faut la liste des sous-arbre et u
       tree_list[[l]] <- trees[[k]] # On le copie dans la nouvelle liste
       l <- l + 1
     }
-  }
-  # On renomme les sous_arbres en fonction des genes auxquels ils sont associes (sinon il faudrait se referer constamment a uni_gene pour savoir a quel gene est associe un sous-arbre)
+  } # On renomme les sous_arbres en fonction des genes auxquels ils sont associes (sinon il faudrait se referer constamment a uni_gene pour savoir a quel gene est associe un sous-arbre)
   names(tree_list) <- uni_gene[, 'gene'] 
   return(tree_list)
 }
@@ -148,9 +146,9 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
     label <- which(other_tibble_tree$label %in% wanted_tree[root, 'label']) # On isole les lignes de meme label que sa racine dans l arbre complet
     liste[m] <- other_tibble_tree[label, 'node'] # On recuppere les numeros de node associes a ces ligne dans la nouvelle liste
   }
-  # N.B. : La colonne 'type' sert a donner des types distinct aux sous-arbres lors du plot via une numerotation pour pouvoir les coloriser tous differement sur l arbre complet
   liste <- t(as.data.frame(unique(liste))) # On transforme la liste ainsi remplie en dataframe dedoublonnee (ca necessite une transposition)
   type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol = 1)) # On prepare une nouvelle colonne remplie avec des nombres allant de 1 au nombre de sous-arbres
+  # N.B. : La colonne 'type' sert a donner des types distinct aux sous-arbres lors du plot via une numerotation pour pouvoir les coloriser tous differement sur l arbre complet
   liste <- cbind(liste, type) # On ajoute cette colonne a notre dataframe dedoublonnee
   names(liste) <- c('node', 'type')
   # Pour definir les noms et destinations de fichiers pour l enregistrement
