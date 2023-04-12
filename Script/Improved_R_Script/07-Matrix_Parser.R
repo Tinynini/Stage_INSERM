@@ -10,7 +10,6 @@ uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
 # On se rend dans le bon emplacement puis on recherche la parterne de nom de fichier 'Sliced_Matrix_.*.tsv' qui est commune aux 2 types de matrice 
 all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/ARG/Matrice', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE) 
 n_matrix <- length(all_matrix) # On recupere le nombre de fichier contenus dans notre liste de fichier 
-
 matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3') # On recupere les noms de matrices a partir des noms de fichiers 
 
 for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
@@ -30,7 +29,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   fin <- " de " 
   start <- " inter-" 
   end <- " sharing"
-
+  
   if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
   { # N.B. : Il suffit de changer l index dans gene_matrix et uni_gene et d adapter les chemins d acces pour tester un autre gene
     to_set <- which(gene_matrix[32,] != 0) # On isole les colonnes pour lesquelles le gene matche
@@ -45,35 +44,10 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
     dev.off()
   }
   
-  #### Meme chose mais avec l ensemble des genes en meme temps (mais ca ne marche pas donc est qu on garde ca ??) #### 
-  # if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
-  # { 
-  #   to_set2 <- which(gene_matrix != 0) # Ne peut pas etre applique directement a l ensemble de la matrice
-  #   m2 <- gene_matrix[, c(to_set2)]
-  #   barplot(gene_matrix, main = str_glue("{debut}{matrix_name[i]}"))
-  #   barplot(gene_matrix, main = str_glue("{start}{matrix_name[i]}{end}"))
-  # }
-  #
-  # max <- 1
-  # 
-  # for (k in 1:ncol(gene_matrix))
-  # {
-  #   if (max(gene_matrix[, k]) > max)
-  #   {
-  #     max <- max(gene_matrix[, k])
-  #   }
-  # }
-  # 
-  # gene_matrix <- as.data.frame(gene_matrix)
-  #
-  # plot <- ggplot(gene_matrix) + geom_histogram(bins = max) # Ne marche pas pour des raisons qui m echappe
-  # plot + ggtitle(str_glue("{debut}{matrix_name[i]}")) + xlab("??") + ylab("Partage")
-  # plot + ggtitle(str_glue("{start}{matrix_name[i]}{end}")) + xlab("??") + ylab("Sharing")
-  
   #### Dendogramme d une famille de gene (celle du gene teste ci-avant tant qu a faire) ####
   gene_family <- gene_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille de gene
   j <- 1
-
+  
   for (m in 1:nrow(gene_matrix)) # Permet de parcourir la matrice ligne par ligne
   {
     if (startsWith(uni_gene[m], 'aac') != TRUE) # Si la ligne m ne correspond pas a un gene de la famille voulue (ici celle des 'aac')
