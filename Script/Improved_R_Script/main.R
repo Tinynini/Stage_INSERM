@@ -11,24 +11,24 @@ library(tidyverse)
 
 if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv') == FALSE)
 {
-  source('W:/ninon-species/script/Script_M2/01-Species_filtering.R') # Alright (mais ca prend 3/4h a 2h) !!
+  source('W:/ninon-species/script/Script_M2/01-Species_filtering.R') # /!\ Ca prend 3/4h a 2h !!
 } else if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv') == FALSE) 
 {
-  source('W:/ninon-species/script/Script_M2/02-All_species_cluster.R') # Alright !!
+  source('W:/ninon-species/script/Script_M2/02-All_species_cluster.R') 
 } else 
 {
-  source('W:/ninon-species/script/Script_M2/03-Taxonomy_parser.R') # Alright !!
+  source('W:/ninon-species/script/Script_M2/03-Taxonomy_parser.R') 
 }
 
 if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') == FALSE)
 {
-  source('W:/ninon-species/script/Script_M2/04-Taxo_Join.R') # Alright !!
+  source('W:/ninon-species/script/Script_M2/04-Taxo_Join.R') 
 } else 
 {
-  source('W:/ninon-species/script/Script_M2/05-Matrix_Binaire.R') # Alright !!
-  source('W:/ninon-species/script/Script_M2/06-Matrix_Pseudo_Binaire.R') # Alright !!
-  source('W:/ninon-species/script/Script_M2/07-Matrix_Parser.R') # # Alright (est ce que je garde la partie commentee ?) !!
-  source('W:/ninon-species/script/Script_M2/08-Taxo_Filter.R') # Alright !!
-  source('W:/ninon-species/script/Script_M2/09-Tree_Pruner.R') # Alright !!
-  source('W:/ninon-species/script/Script_M2/10-Tree_Parser.R') # Alright !!
+  source('W:/ninon-species/script/Script_M2/05-Matrix_Binaire.R') 
+  source('W:/ninon-species/script/Script_M2/06-Matrix_Pseudo_Binaire.R') 
+  source('W:/ninon-species/script/Script_M2/07-Matrix_Parser.R') 
+  source('W:/ninon-species/script/Script_M2/08-Taxo_Filter.R') 
+  source('W:/ninon-species/script/Script_M2/09-Tree_Pruner.R') 
+  source('W:/ninon-species/script/Script_M2/10-Tree_Parser.R') 
 }
