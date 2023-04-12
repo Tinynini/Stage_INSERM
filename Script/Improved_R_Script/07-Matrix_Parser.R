@@ -4,7 +4,7 @@ library(tidyverse)
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_species.tsv') %>% 
   as.data.frame() 
 
-uni_ARG <- sort(unique(all_species$qseqid)) # On extrait la colonne des ARGs 
+uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes 
 
 #### Obtention de la liste des fichiers contenant nos matrices binaires et pseudo-binaires ####
 # On se rend dans le bon emplacement puis on recherche la parterne de nom de fichier 'Sliced_Matrix_.*.tsv' qui est commune aux 2 types de matrice 
@@ -15,11 +15,11 @@ matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3') # On re
 
 for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
 {
-  ARG_matrix <- read_tsv(file = all_matrix[i]) # On ouvre la matrice depuis la liste de fichier
-  ARG_matrix <- as.matrix(ARG_matrix) 
-  rownames(ARG_matrix) <- uni_ARG 
+  gene_matrix <- read_tsv(file = all_matrix[i]) # On ouvre la matrice depuis la liste de fichier
+  gene_matrix <- as.matrix(gene_matrix) 
+  rownames(gene_matrix) <- uni_gene 
   
-  #### Barplot de la presence d un ARG donne (ici aac(6')-31_1_AM283489) ####
+  #### Barplot de la presence d un gene donne (ici aac(6')-31_1_AM283489) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   deb_fr <- "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(6')-31_1_AM283489/FR/Partage_inter-" 
   fin_fr <- "_fr.png" 
@@ -32,53 +32,53 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   end <- " sharing"
 
   if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
-  { # N.B. : Il suffit de changer l index dans ARG_matrix et uni_ARG et d adapter les chemins d acces pour tester un autre ARG
-    to_set <- which(ARG_matrix[32,] != 0) # On isole les colonnes pour lesquelles l ARG matche
-    m <- ARG_matrix[32, c(to_set)] # On extrait lesdites colonnes
+  { # N.B. : Il suffit de changer l index dans gene_matrix et uni_gene et d adapter les chemins d acces pour tester un autre gene
+    to_set <- which(gene_matrix[32,] != 0) # On isole les colonnes pour lesquelles le gene matche
+    m <- gene_matrix[32, c(to_set)] # On extrait lesdites colonnes
     
     png(str_glue("{deb_fr}{matrix_name[i]}{fin_fr}"), height = 1017, width = 1920, pointsize = 20)
-    barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_ARG[32]}")) # Barblot de la presence de l ARG donne dans la matrice
+    barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_gene[32]}")) # Barblot de la presence du gene donne dans la matrice
     dev.off()
     
     png(str_glue("{deb_en}{matrix_name[i]}{fin_en}"), height = 1017, width = 1920, pointsize = 20)
-    barplot(m, main = str_glue("{uni_ARG[32]}{start}{matrix_name[i]}{end}")) # Barblot de la presence de l ARG donne dans la matrice
+    barplot(m, main = str_glue("{uni_gene[32]}{start}{matrix_name[i]}{end}")) # Barblot de la presence du gene donne dans la matrice
     dev.off()
   }
   
-  #### Meme chose mais avec l ensemble des ARGs en meme temps (mais ca ne marche pas donc est qu on garde ca ??) #### 
+  #### Meme chose mais avec l ensemble des genes en meme temps (mais ca ne marche pas donc est qu on garde ca ??) #### 
   # if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
   # { 
-  #   to_set2 <- which(ARG_matrix != 0) # Ne peut pas etre applique directement a l ensemble de la matrice
-  #   m2 <- ARG_matrix[, c(to_set2)]
-  #   barplot(ARG_matrix, main = str_glue("{debut}{matrix_name[i]}"))
-  #   barplot(ARG_matrix, main = str_glue("{start}{matrix_name[i]}{end}"))
+  #   to_set2 <- which(gene_matrix != 0) # Ne peut pas etre applique directement a l ensemble de la matrice
+  #   m2 <- gene_matrix[, c(to_set2)]
+  #   barplot(gene_matrix, main = str_glue("{debut}{matrix_name[i]}"))
+  #   barplot(gene_matrix, main = str_glue("{start}{matrix_name[i]}{end}"))
   # }
   #
   # max <- 1
   # 
-  # for (k in 1:ncol(ARG_matrix))
+  # for (k in 1:ncol(gene_matrix))
   # {
-  #   if (max(ARG_matrix[, k]) > max)
+  #   if (max(gene_matrix[, k]) > max)
   #   {
-  #     max <- max(ARG_matrix[, k])
+  #     max <- max(gene_matrix[, k])
   #   }
   # }
   # 
-  # ARG_matrix <- as.data.frame(ARG_matrix)
+  # gene_matrix <- as.data.frame(gene_matrix)
   #
-  # plot <- ggplot(ARG_matrix) + geom_histogram(bins = max) # Ne marche pas pour des raisons qui m echappe
+  # plot <- ggplot(gene_matrix) + geom_histogram(bins = max) # Ne marche pas pour des raisons qui m echappe
   # plot + ggtitle(str_glue("{debut}{matrix_name[i]}")) + xlab("??") + ylab("Partage")
   # plot + ggtitle(str_glue("{start}{matrix_name[i]}{end}")) + xlab("??") + ylab("Sharing")
   
-  #### Dendogramme d une famille d ARG (celle de l ARG teste ci-avant tant qu a faire) ####
-  ARG_family <- ARG_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille d ARG
+  #### Dendogramme d une famille de gene (celle du gene teste ci-avant tant qu a faire) ####
+  gene_family <- gene_matrix # Preparation d une nouvelle matrice qu on va rendre specifique a une famille de gene
   j <- 1
 
-  for (m in 1:nrow(ARG_matrix)) # Permet de parcourir la matrice ligne par ligne
+  for (m in 1:nrow(gene_matrix)) # Permet de parcourir la matrice ligne par ligne
   {
-    if (startsWith(uni_ARG[m], 'aac') != TRUE) # Si la ligne m ne correspond pas a un ARG de la famille voulue (ici celle des 'aac')
+    if (startsWith(uni_gene[m], 'aac') != TRUE) # Si la ligne m ne correspond pas a un gene de la famille voulue (ici celle des 'aac')
     { # N.B. : Il suffit de changer la paterne recherchee dans startsWith() pour tester une autre famille
-      ARG_family <- ARG_family[-j,] # On supprime la ligne de notre nouvelle matrice
+      gene_family <- gene_family[-j,] # On supprime la ligne de notre nouvelle matrice
     }
     else # Sinon
     {
@@ -90,7 +90,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   debu <- "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Dendrogramme/aac/Dist_" 
   fine <- "_aac.png" 
   
-  all_dist <- dist(ARG_family, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice
+  all_dist <- dist(gene_family, method = 'binary') # On calcule les distances au sein de notre nouvelle matrice
   clust <- hclust(all_dist, "complete") # On clusterise ses distances
   png(str_glue("{debu}{matrix_name[i]}{fine}"), height = 1017, width = 1920, pointsize = 20)
   plot(clust) # On plot le dendogramme resultant
