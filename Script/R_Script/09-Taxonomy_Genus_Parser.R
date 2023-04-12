@@ -20,7 +20,6 @@ for (i in 1:nrow(ARG_species)) # /!\ On exclus les especes 'bacterium' (!= 'Bact
     J <- J + 1
   }
 }
-
 # Suppression preventive de certaine lignes de la table de taxonomie pour eviter la creation de certains doublons lors du join 
 Parsed_taxonomy <- Parsed_taxonomy[,-c(1)]
 Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),]
@@ -54,18 +53,17 @@ ARG_Genus[c(double5),] <- ARG_double3[-c(double6),]
 
 ARG_Genus <- unique(ARG_Genus) 
 
-# Pourquoi j ai commente ca deja ? 
-# double <- grep('Clostridium', ARG_Genus[, 'genus'])
-# ARG_Clos <- ARG_Genus[c(double),]
-# 
-# double7 <- which(ARG_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
-# ARG_Target <- ARG_Clos[-c(double7),]
-# double8 <- which(ARG_Genus[, 'species'] %in% ARG_Target[, 'species'])
-# double9 <- which(ARG_Genus[c(double8), 'Family'] != 'Clostridiaceae')
-# ARG_double4 <- ARG_Genus[c(double8),]
-# ARG_Genus[c(double8),] <- ARG_double4[-c(double9),]
-# 
-# ARG_Genus <- unique(ARG_Genus) 
+double <- grep('Clostridium', ARG_Genus[, 'genus'])
+ARG_Clos <- ARG_Genus[c(double),]
+
+double7 <- which(ARG_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
+ARG_Target <- ARG_Clos[-c(double7),]
+double8 <- which(ARG_Genus[, 'species'] %in% ARG_Target[, 'species'])
+double9 <- which(ARG_Genus[c(double8), 'Family'] != 'Clostridiaceae')
+ARG_double4 <- ARG_Genus[c(double8),]
+ARG_Genus[c(double8),] <- ARG_double4[-c(double9),]
+
+ARG_Genus <- unique(ARG_Genus)
 
 double10 <- which(ARG_Genus[, 'genus'] == 'Ruminococcus')
 double11 <- which(ARG_Genus[c(double10), 'Family'] != 'Ruminococcaceae')
