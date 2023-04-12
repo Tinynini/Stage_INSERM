@@ -42,7 +42,7 @@ centro <- as.data.frame(unique(all_centroids[, c('Query', 'Centroid')]))
 
 #### Join des dataframes (== ajout des colonnes 'Centroid' et 'Query') ####
 all_species <- rev(all_species)
-all_species <- left_join(all_species, centro, by = c('qseqid' = 'Query'), keep = TRUE) # On join sur les labels de séquences d'ARG
+all_species <- left_join(all_species, centro, by = c('qseqid' = 'Query'), keep = TRUE) # On join sur les labels de sequences d'ARG
 all_species <- rev(all_species)
 
 all_species %>%
