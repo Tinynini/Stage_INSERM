@@ -6,10 +6,8 @@ library(ggtree)
 #### Ouverture de Sliced_Taxo_Result.tsv & recuperation des donnees ####
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv') %>% 
   as.data.frame
-
 # On est oblige de modifier la nomenclature des noms d especes parce qu une modification automatique se fait au niveau des labels de tips de l arbre des especes 
 all_species[, 'species'] <- str_replace(all_species[, 'species'], '(.*) (.*)', '\\1\\_\\2')
-
 level <- as.data.frame(all_species[, c(6:11)]) # On extrait le contenu des colonnes associes aux 6 niveaux taxonomiques etudies
 level_name <- unlist(colnames(all_species[, c(6:11)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
 
@@ -23,20 +21,16 @@ max_length <- vector(mode = 'list', length = 6) # On prepare une liste des dista
 liste_generator <- function(tree, tibble_tree) # Il faut l arbre sous forme phylo et sous forme tibble en entree 
 {
   n_Gene <- ncol(tibble_tree)
-  
   trees <- vector(mode = 'list', length = n_gene) # On prepare une liste des sous-arbres 
   length <- as.data.frame(matrix(data = 0, nrow = n_gene, ncol = 1)) # On prepare une colonne des distances des sous-arbres  
   uni_gene <- cbind(uni_gene, length) # On ajoute cette colonne a celle des genes
   colnames(uni_gene) <- c('gene', 'length')
-  
   l <- 1
-  
   for (k in 5:n_Gene) # Permet de parcourir les k colonnes associees aux genes dans tibbled_tree (celles issues de la matrice)
   { # N.B. : On est donc oblige de demarrer a partir de la 5eme colonnes (les 4 1ere etant celles propres a l arbre)
     wanted_gene <- colnames(tibble_tree[, k]) # On recuppere le nom de le gene associe a la colonne k
     wanted_tip <- tibble_tree$label[tibble_tree[wanted_gene] == 1] # On recupere les labels de tips se partagent le gene (== les lignes pour lesquelles il y a "1" dans la colonne du gene)
     wanted_tip <- na.omit(wanted_tip) # On doit exclures les 'NA' qui sont apparement consideres par defauts comme correspondant au '1' recherche ci-dessus (ils correspondent aux lignes des labels de nodes dont on en veut surtout pas !)
-    
     tree_gene <- keep.tip(tree, tip = wanted_tip) # On prune l arbre complet pour ne garder que les tips selectionnes ci-avant
     length <- sum(tree_gene$edge.length) # On somme les distances des branches du sous-arbre pour recuperer sa distance totale
     uni_gene[k - 4, 'length'] <- length # On la stock dans la nouvelle colonne de uni_gene
@@ -53,11 +47,8 @@ liste_generator <- function(tree, tibble_tree) # Il faut l arbre sous forme phyl
 liste_parser <- function(trees, uni_gene) # Il faut la liste des sous-arbre et uni_gene (le block : gene + distance) en entree
 {
   n_gene <- nrow(uni_gene)
-  
   tree_list <- vector(mode = 'list', length = n_gene) # On prepare une nouvelle liste des sous-arbres 
-  
   l <- 1
-  
   for (k in 1:length(trees)) # Permet de parcourir les k sous-arbres de la liste
   {
     if (is.null(trees[[k]]) == FALSE) # Si le sous-arbre k n est pas vide
@@ -81,14 +72,12 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   # Les noms des fichiers sont definis par des variables
   file_name_1 <- str_glue("{path_start}{level_name[i]}{path_end}") 
   file_name_2 <- str_glue("{path_start}{level_name[i]}{other_path_end}")
-  
   tree <- read.tree(file_name_1) # Arbre sans le traitement supplementaire des labels de nodes
   other_tree <- read.tree(file_name_2) # Arbre avec le traitement supplementaire des labels de nodes
   tibble_tree <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
   other_tibble_tree <- as_tibble(other_tree) # On passe au format tibble plus pratique a manipuler
   uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
   n_gene <- length(uni_gene)
-  
   uni_level <- as.data.frame(sort(unique(level[, i]))) # On extrait la colonne du niveau i
   colnames(uni_level) <- level_name[i]
   n_level <- nrow(uni_level)
@@ -97,7 +86,6 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   m_path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_"
   m_path_end <- ".tsv"
   m_file_name <- str_glue("{m_path_start}{level_name[i]}{m_path_end}") # Le nom de fichier est definit par une variable
-
   gene_matrix <- read_tsv(m_file_name)
   rownames(gene_matrix) <- uni_gene
 
@@ -105,7 +93,6 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   gene_matrix <- t(gene_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne
   gene_matrix <- as.data.frame(gene_matrix) # On transforme la matrice en dataframe
   gene_matrix <- cbind(uni_level, gene_matrix) # On combine la colonne du niveau i a la matrice en vue du join avec l arbre du niveau i
-  
   tibble_tree <- left_join(tibble_tree, gene_matrix, by = c('label' = level_name[i])) # On join la matrice au 1er arbre sur les colonnes du niveau i et des labels
   other_tibble_tree <- left_join(other_tibble_tree, gene_matrix, by = c('label' = level_name[i])) # On join la matrice au 2nd arbre sur les colonnes du niveau i et des labels
   
@@ -154,7 +141,6 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   
   #### Plot des sous-arbres des especes par genes sur l arbre complet (Pour le 2nd arbre cette fois parce que ca ne peut pas fonctionner sans le traitement supplementaire des labels de nodes !!) ####
   liste <- vector(mode = 'list', length = length(other_tree_list)) # On prepare une nouvelle liste
-  
   for (m in 1:length(other_tree_list)) # Permet de parcourir les m sous-arbre de la liste
   {
     wanted_tree <- as_tibble(other_tree_list[[m]]) # On recupere le sous-arbre m sous la forme d un tibble
@@ -167,7 +153,6 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol = 1)) # On prepare une nouvelle colonne remplie avec des nombres allant de 1 au nombre de sous-arbres
   liste <- cbind(liste, type) # On ajoute cette colonne a notre dataframe dedoublonnee
   names(liste) <- c('node', 'type')
-  
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   debut <- 'Tree_'
   fin_fr <- '_fr.png'
@@ -183,6 +168,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type)) + ggtitle(str_glue("{level_name[i]}{titre_fin_en}"))
   ggsave(str_glue("{debut}{level_name[i]}{fin_en}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Arbre_sous_arbres/EN", width = 16, height = 8.47504)
   
+  #### Stockages des listes obtenues au niveau taxonomique i dans les listes prevues a cet effet ####
   liste_uni_gene[[i]] <- uni_gene # On stock uni_gene dans la liste prevue pour ca
   liste_tree_liste[[i]] <- tree_list # On stock la liste des sous-arbre dans la liste prevue pour ca
   min_length[[i]] <- min(uni_gene[, 2]) # On recupere la valeur de distance totale minimale dans la liste prevue pour ca
