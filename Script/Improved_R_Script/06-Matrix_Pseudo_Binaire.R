@@ -38,7 +38,6 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     #### Ouverture & traitement de la matrice binaire associee au niveau i depuis son fichier nominatif ####
     path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" 
     path_end <- ".tsv" 
-    
     file_name <- str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
     
     gene_matrix <- read_tsv(file_name) 
@@ -75,7 +74,6 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
       {
         cross_matrix[, k] <- rowSums(m) # On lui assigne comme contenu la somme des colonnes extraites si-avant de la matrice binaire 
       }
-      
       else # Sinon 
       {
         cross_matrix[, k] <- m # On lui assigne comme contenu celui de l unique colonne extraite si-avant de la matrice binaire
