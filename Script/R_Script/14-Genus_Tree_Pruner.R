@@ -43,9 +43,9 @@ Label %>%
 labels %>%
   arrange(node) %>%
   identity() -> labels
+
 # On extrait les tips qui constituent des doublons
 tips <- which((Label[, 'node'] %>% pull()) %in% (labels[, 'node'] %>% pull()) == FALSE) 
-
 new_tree <- as.phylo(taxo_tree) # On passe au format phylo pour pouvoir pruner l arbre
 new_tree <- drop.tip(new_tree, tips) # On prune l arbre en supprimant les tips associes aux doublons
 taxo_tree <- as_tibble(new_tree) # On passe au format tibble plus pratique a manipuler
