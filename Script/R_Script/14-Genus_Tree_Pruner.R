@@ -53,16 +53,12 @@ taxo_tree <- as_tibble(new_tree) # On passe au format tibble plus pratique a man
 #### Join de l arbre avec les genus de notre dataframe (== pruner l arbre en ne gardant que les genus presents dans notre dataframe) ####
 phylo_tree <- left_join(taxo_tree, uni_genus, by = c('label' = 'Genus')) # On join sur les genus
 n_tips <- nrow(phylo_tree) - Nnode(new_tree)
-
 na_label <- is.na(phylo_tree[1:n_tips, 'genus_shared_by']) # On extrait les labels des tips matches lors du join
 genus <- which(na_label == FALSE)
-
 phylo_tree[genus, 'genus_shared_by'] <- 1 # On standardise la valeur de la colonne 'genus_shared_by' pour ces tips
 phylo_tree <- unique(phylo_tree) # On supprime les doublons
-
 na_label <- is.na(phylo_tree[1:Ntip(new_tree), 'genus_shared_by']) # On extrait les labels des tips non-matches
 na_genus <- which(na_label == TRUE)
-
 next_tree <- as.phylo(phylo_tree) # On passe au format phylo pour pouvoir pruner l arbre
 next_tree <- drop.tip(next_tree, na_genus) # On prune l arbre en supprimant les tips non-matches
 phylo_tree <- as_tibble(next_tree) # On passe au format tibble plus pratique a manipuler
