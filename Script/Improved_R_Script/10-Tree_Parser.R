@@ -58,7 +58,7 @@ liste_parser <- function(trees, uni_gene) # Il faut la liste des sous-arbre et u
   
   l <- 1
   
-  for (k in 1:j) # Permet de parcourir les k sous-arbres de la liste
+  for (k in 1:length(trees)) # Permet de parcourir les k sous-arbres de la liste
   {
     if (is.null(trees[[k]]) == FALSE) # Si le sous-arbre k n est pas vide
     {
@@ -88,42 +88,36 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_tibble_tree <- as_tibble(other_tree) # On passe au format tibble plus pratique a manipuler
   uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
   n_gene <- length(uni_gene)
-
+  
   uni_level <- as.data.frame(sort(unique(level[, i]))) # On extrait la colonne du niveau i
   colnames(uni_level) <- level_name[i]
   n_level <- nrow(uni_level)
+  
+  ### Ouverture & traitement de la matrice binaire associee au niveau i ####
+  m_path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_"
+  m_path_end <- ".tsv"
+  m_file_name <- str_glue("{m_path_start}{level_name[i]}{m_path_end}") # Le nom de fichier est definit par une variable
 
-  #### Creaction d une matrice binaire (0/1) d absence/presence des genes de resistances au niveau i ####
-  gene_matrix <- matrix(data = 0, nrow = n_gene, ncol = n_level)
+  gene_matrix <- read_tsv(m_file_name)
   rownames(gene_matrix) <- uni_gene
-
-  for (j in 1:n_gene) # Permet de parcourir les j genes distincts
-  {
-    curr_gene <- uni_gene[j] # Pour le j
-    curr_level <- all_species[all_species$qseqid == curr_gene, level_name[i]] # Au niveau i
-
-    to_set <- which(uni_level[, level_name[i]] %in% curr_level) # On extrait les representants du niveau i qui matchent le gene j
-    gene_matrix[j, to_set] <- 1 # On attribue la valeur 1 aux cases associees a ces matchs dans la matrice
-  }
 
   #### Join de l arbre et de la matrice & preparation de nouvelles listes ####
   gene_matrix <- t(gene_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne
   gene_matrix <- as.data.frame(gene_matrix) # On transforme la matrice en dataframe
   gene_matrix <- cbind(uni_level, gene_matrix) # On combine la colonne du niveau i a la matrice en vue du join avec l arbre du niveau i
-
+  
   tibble_tree <- left_join(tibble_tree, gene_matrix, by = c('label' = level_name[i])) # On join la matrice au 1er arbre sur les colonnes du niveau i et des labels
   other_tibble_tree <- left_join(other_tibble_tree, gene_matrix, by = c('label' = level_name[i])) # On join la matrice au 2nd arbre sur les colonnes du niveau i et des labels
-
+  
   #### Creation des listes des sous-arbres et de leurs distances totales par genes ####
   liste <- liste_generator(tree, tibble_tree) # On genere la listes de sous_arbres et la nouvelle colonne d uni_gene de leurs distances totales pour le 1er arbre
   other_liste <- liste_generator(other_tree, other_tibble_tree) # Idem pour le 2nd arbre
-
   # On recupere separement la liste des sous arbre et uni_gene pour les 2 arbres
   trees <- liste[[1]]
   other_trees <- other_liste[[1]]
   uni_gene <- liste[[2]]
   other_uni_gene <- other_liste[[2]]
-
+  
   #### Exemple de plot d un sous_arbre avec "blaNDM-9_1_KC999080" (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   debu <- "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Sous_arbres/blaNDM-9/Sub_tree_" 
@@ -141,7 +135,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_uni_gene <- other_uni_gene[-c(other_err),] # Idem pour le 2nd arbre
   tree_list <- liste_parser(trees, uni_gene) # On genere la nouvelle liste des sous-arbres sans ceux vides pour le 1er arbre
   other_tree_list <- liste_parser(other_trees, other_uni_gene) # Idem pour le 2nd arbre
-
+  
   #### Histogramme des distances totales des sous-arbres (la encore c est identique pour les 2 arbres donc on le fait que pour le 1er) ####
   level_length <- uni_gene['length']
   # Pour definir les noms et destinations de fichiers pour l enregistrement
@@ -160,7 +154,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   
   #### Plot des sous-arbres des especes par genes sur l arbre complet (Pour le 2nd arbre cette fois parce que ca ne peut pas fonctionner sans le traitement supplementaire des labels de nodes !!) ####
   liste <- vector(mode = 'list', length = length(other_tree_list)) # On prepare une nouvelle liste
-
+  
   for (m in 1:length(other_tree_list)) # Permet de parcourir les m sous-arbre de la liste
   {
     wanted_tree <- as_tibble(other_tree_list[[m]]) # On recupere le sous-arbre m sous la forme d un tibble
@@ -188,7 +182,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   ggsave(str_glue("{debut}{level_name[i]}{fin_fr}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Arbre_sous_arbres/FR", width = 16, height = 8.47504)
   ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type)) + ggtitle(str_glue("{level_name[i]}{titre_fin_en}"))
   ggsave(str_glue("{debut}{level_name[i]}{fin_en}"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Arbre_sous_arbres/EN", width = 16, height = 8.47504)
-
+  
   liste_uni_gene[[i]] <- uni_gene # On stock uni_gene dans la liste prevue pour ca
   liste_tree_liste[[i]] <- tree_list # On stock la liste des sous-arbre dans la liste prevue pour ca
   min_length[[i]] <- min(uni_gene[, 2]) # On recupere la valeur de distance totale minimale dans la liste prevue pour ca
