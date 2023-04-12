@@ -22,7 +22,7 @@ max_length <- vector(mode = 'list', length = 6) # On prepare une liste des dista
 #### Fonction servant a la creation de nouvelles listes des sous-arbres par genes et de leurs distances totales ####
 liste_generator <- function(tree, tibble_tree) # Il faut l arbre sous forme phylo et sous forme tibble en entree 
 {
-  n_arg <- ncol(tibble_tree)
+  n_Gene <- ncol(tibble_tree)
   
   trees <- vector(mode = 'list', length = n_gene) # On prepare une liste des sous-arbres 
   length <- as.data.frame(matrix(data = 0, nrow = n_gene, ncol = 1)) # On prepare une colonne des distances des sous-arbres  
@@ -31,7 +31,7 @@ liste_generator <- function(tree, tibble_tree) # Il faut l arbre sous forme phyl
   
   l <- 1
   
-  for (k in 5:n_arg) # Permet de parcourir les k colonnes associees aux genes dans tibbled_tree (celles issues de la matrice)
+  for (k in 5:n_Gene) # Permet de parcourir les k colonnes associees aux genes dans tibbled_tree (celles issues de la matrice)
   { # N.B. : On est donc oblige de demarrer a partir de la 5eme colonnes (les 4 1ere etant celles propres a l arbre)
     wanted_gene <- colnames(tibble_tree[, k]) # On recuppere le nom de le gene associe a la colonne k
     wanted_tip <- tibble_tree$label[tibble_tree[wanted_gene] == 1] # On recupere les labels de tips se partagent le gene (== les lignes pour lesquelles il y a "1" dans la colonne du gene)
