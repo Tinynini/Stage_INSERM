@@ -1,7 +1,7 @@
 library(tidyverse)
 
 #### A faire : ####
-# 1 : Switcher en bash pour pouvoir choisir si on travaille en sliced ou total (Tous sauf 01 et 03)/en anglais ou français (07 08 et 10)/avec quels reps (07 et 10) a l avance !!
+# 1 : Switcher en bash pour pouvoir choisir si on travaille en sliced ou total (Tous sauf 01 et 03)/en anglais ou franÃ§ais (07 08 et 10)/avec quels reps (07 et 10) a l avance !!
 # 2 (Optionnel) : Checker l existance des inputs avant 05 06 et 09 (comment gerer ca pour plusieurs inputs ?) ??
 
 #### Main : ####
@@ -29,6 +29,6 @@ if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Spec
   source('W:/ninon-species/script/Script_M2/06-Matrix_Pseudo_Binaire.R') # Alright !!
   source('W:/ninon-species/script/Script_M2/07-Matrix_Parser.R') # # Alright (est ce que je garde la partie commentee ?) !!
   source('W:/ninon-species/script/Script_M2/08-Taxo_Filter.R') # Alright !!
-  source('W:/ninon-species/script/Script_M2/09-Tree_Pruner.R') # Alright (script reductible ?) !!
-  source('W:/ninon-species/script/Script_M2/10-Tree_Parser.R') # Alright (script reductible ?) !!
+  source('W:/ninon-species/script/Script_M2/09-Tree_Pruner.R') # Alright !!
+  source('W:/ninon-species/script/Script_M2/10-Tree_Parser.R') # Alright !!
 }
