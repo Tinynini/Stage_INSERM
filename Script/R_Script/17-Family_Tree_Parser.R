@@ -14,7 +14,6 @@ all_species <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Taxo_result
 #### Pretraitement des donnees en vue de la creation d une matrice d absence/presence CentroidexFamille ####
 uni_centro <- sort(unique(all_species$Centroid))
 n_centro <- length(uni_centro)
-
 uni_family <- as.data.frame(sort(unique(all_species$Family)))
 colnames(uni_family) <- 'Family'
 n_family <- nrow(uni_family)
@@ -37,10 +36,8 @@ centro_matrix <- cbind(uni_family, centro_matrix)
 
 #### Join de l arbre et de la matrice & preparation de nouvelles listes ####
 tibble_tree <- left_join(tibble_tree, centro_matrix, by = c('label' = 'Family'))
-
 n_ARG <- ncol(tibble_tree)
 tree_list <- vector(mode = 'list', length = n_centro - 18) # Future liste des sous-arbres par centroides (18 = n_arbres_null obtenu restrospectivement)
-
 length <- as.data.frame(matrix(data = 0, nrow = n_centro, ncol = 1))
 uni_centro <- cbind(uni_centro, length) # Future dataframe des longueurs totales des sous-arbres par centroides
 colnames(uni_centro) <- c('centroid', 'length')
@@ -52,7 +49,6 @@ for (i in 5:n_ARG)
   wanted_ARG <- colnames(tibble_tree[, i])
   wanted_tip <- tibble_tree$label[tibble_tree[wanted_ARG] == 1]
   wanted_tip <- na.omit(wanted_tip)
-  
   tree_ARG <- keep.tip(tree, tip = wanted_tip)
   length <- sum(tree_ARG$edge.length)
   uni_centro[i - 4, 'length'] <- length
@@ -92,9 +88,7 @@ liste <- t(as.data.frame(unique(liste)))
 type <- as.data.frame(matrix(data = 1:length(liste), nrow = length(liste), ncol = 1))
 liste <- cbind(liste, type)
 names(liste) <- c('node', 'type')
-
 ftree <- ggtree(tree) 
 ftree + ggtitle("Arbre des familles")
-
 ftree <- ggtree(tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type))
 ftree + ggtitle("Sous-arbres des familles par gènes")
