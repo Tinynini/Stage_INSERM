@@ -29,7 +29,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     }
     
     curr_level %>% # On reordonne a present les 2 colonnes en fonction de celle du niveau j
-      arrange_(level_name[j]) %>%  
+      arrange(level_name[j]) %>%  
       identity() -> curr_level
     
     uni_level <- unlist(as.data.frame(sort(unique(curr_level[, 1])))) # On extrait la colonne du niveau j 
