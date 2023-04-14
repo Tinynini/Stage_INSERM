@@ -1,7 +1,7 @@
 library(tidyverse)
 
 #### Ouverture de Sliced_ARG_Species.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_species.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
   as.data.frame() 
 
 uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes 
