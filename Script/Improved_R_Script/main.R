@@ -1,11 +1,11 @@
 library(tidyverse)
 
 #### A faire : ####
-# 1 : Switcher en bash pour pouvoir choisir si on travaille en sliced ou total (Tous sauf 01 et 03)/en anglais ou français (07 08 et 10)/avec quels reps (07 et 10) a l avance !!
-# 2 (Optionnel) : Checker l existance des inputs avant 05 06 et 09 (comment gerer ca pour plusieurs inputs ?) ??
+# 1 : Remarque Nicolas (table excel) + Nouveaux graphes (photo antoine)
+# 2 : Switcher en bash pour pouvoir choisir si on travaille en sliced ou total (Tous sauf 01 et 03)/en anglais ou français (07 08 et 10)/avec quels reps (07 et 10) a l avance !!
+# 3 (Optionnel) : Checker l existance des inputs avant 05 06 et 09 (comment gerer ca pour plusieurs inputs ?) ??
 
 #### Main : ####
-
 # N.B. : Le clustering doit prealablement avoir ete effectue via les scripts bash !! 
 # N.B. : Verifier que le traitement 'a la main' des cas particuliers dans 01 03 et 04 est toujours adapte (normalement oui) si les donnees de depart changent !
 
