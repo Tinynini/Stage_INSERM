@@ -1,8 +1,8 @@
 library(tidyverse)
 
 #### Ouverture de Sliced_ARG_Species.tsv & recuperation des donnees dans une dataframe ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
   as.data.frame() 
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexLevel d un genre un peu different... ####
@@ -41,7 +41,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     path_end <- ".tsv" 
     file_name <- str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
     
-    gene_matrix <- read_tsv(file_name) 
+    gene_matrix <- read_tsv(file_name, show_col_types = FALSE) 
     rownames(gene_matrix) <- uni_gene 
     gene_matrix <- t(gene_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne  
     gene_matrix <- cbind(now_level, gene_matrix) # On fusionne la colonne du niveau i a notre matrice 
