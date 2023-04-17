@@ -1,8 +1,9 @@
-library(tidyverse)
+#library(tidyverse)
 
 #### Ouverture de bac120_taxonomy_r95.tsv et de bac120_taxonomy_r95_new.tsv & recuperation des donnees ####
 taxonomy_V1 <- read.csv('W:/ninon-species/data/bac120/bac120_taxonomy_r95.tsv', sep = ';', header = FALSE)
-taxonomy_V2 <- read.csv('W:/ninon-species/data/bac120/bac120_taxonomy_r95_new.tsv', sep = ';', header = FALSE) 
+taxonomy_V2 <- read.csv('W:/ninon-species/data/bac120/bac120_taxonomy_r95_new.tsv', sep = ';', header = FALSE)
+
 colnames(taxonomy_V1) <- c('Occurrence', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species')
 colnames(taxonomy_V2) <- c('sseqid', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species')
 
@@ -32,7 +33,7 @@ sub_class_cleaner <- function(taxonomy)
 {
   taxonomy <- rev(unique(taxonomy))
   
-  for (k in 2:(ncol(taxonomy) - 1)) # On commence a 2 car la colonne des especes n a pas besoin d etre traitee 
+  for (k in 2:6) # On commence a 2 car la colonne des especes n a pas besoin d etre traitee 
   {
     sub <- grep('(.*)_(.*)', taxonomy[, k])
     taxonomy[sub, k] <- str_replace(taxonomy[sub, k], '(.*)_(.*)', '\\1')
@@ -69,7 +70,8 @@ prev_doublon_cleaner <- function(taxonomy) # Permet d'appliquer plusieurs fois s
 #### Main ####
 taxonomy_V1 <- nomenclature_cleaner(taxonomy_V1)
 taxonomy_V2 <- nomenclature_cleaner(taxonomy_V2)
-taxonomy_V1 <- taxonomy_V1[, -c(1)]
+taxonomy_V1 <- taxonomy_V1[, -c(1, 2)]
+taxonomy_V2 <- taxonomy_V2[, -c(2)]
 taxonomy_V1 <- sub_class_cleaner(taxonomy_V1)
 taxonomy_V2 <- sub_class_cleaner(taxonomy_V2)
 taxonomy_V1 <- prev_doublon_cleaner(taxonomy_V1)
