@@ -61,7 +61,7 @@ generate_plot_en <- function(level_share, level_name)
   ggsave(str_glue("{start}{level_name}{end}"), plot = last_plot(), device = "png", path = path, width = 16, height = 8.47504)
 }
 
-level <- as.data.frame(taxo_small[, c(13:17)]) # On extrait le contenu des colonnes associees aux partages au 6 niveaux taxonomiques etudies
+level <- as.data.frame(taxo_small[, c(12:17)]) # On extrait le contenu des colonnes associees aux partages au 6 niveaux taxonomiques etudies
 level_name <- unlist(colnames(taxo_small[, c(6:11)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
 
 for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomique (d especes a phylum)
