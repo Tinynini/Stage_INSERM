@@ -1,4 +1,4 @@
-#library(tidyverse)
+library(tidyverse)
 
 #### Ouverture de Parsed_taxonomy.tsv et de Sliced_all_species_clust.tsv & recuperation des donnees ####
 Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv', show_col_types = FALSE)
