@@ -1,4 +1,4 @@
-library(tidyverse)
+#library(tidyverse)
 
 #### Ouverture de all_species.tsv et de cluster_fast_all_0.95.txt & recuperation des donnees dans des dataframes ####
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv', show_col_types = FALSE) %>% 
@@ -42,9 +42,7 @@ for (k in 1:nrow(all_centroids))
 centro <- as.data.frame(unique(all_centroids[, c('Query', 'Centroid')]))
 
 #### Join des dataframes (== ajout des colonnes 'Centroid' et 'Query') ####
-all_species <- rev(all_species)
 all_species <- left_join(all_species, centro, by = c('qseqid' = 'Query'), keep = FALSE) # On join sur les labels de sequences de gene
-all_species <- rev(all_species)
 
 all_species %>%
   arrange(Centroid) %>% 
@@ -60,8 +58,6 @@ all_species %>%
   arrange(Centroid, species, shared_by) %>%
   group_by(Centroid, species, shared_by) %>% 
   slice_tail() -> sliced_all_species
-
-sliced_all_species <- as.data.frame(t(do.call(rbind, sliced_all_species))) 
 
 #### Enregistrement de la dataframe slicee dans le fichier Sliced_all_species_clust.tsv ####
 write.table(sliced_all_species, "W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
