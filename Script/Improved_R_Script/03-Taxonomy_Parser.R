@@ -40,7 +40,6 @@ sub_class_cleaner <- function(taxonomy)
   
   sub_espece1 <- grep('(.*)_(.*) (.*)', taxonomy[, 1]) # Cette fois on ne traite que la colonne des especes
   taxonomy[sub_espece1, 1] <- str_replace(taxonomy[sub_espece1, 1], '(.*)_(.*) (.*)', '\\1\\ \\3')
-  
   sub_espece2 <- grep('(.*) (.*)_(.*)', taxonomy[, 1]) # Cette fois on ne traite que la colonne des especes
   taxonomy[sub_espece2, 1] <- str_replace(taxonomy[sub_espece2, 1], '(.*) (.*)_(.*)', '\\1\\ \\2')
   
@@ -73,7 +72,6 @@ taxonomy_V2 <- nomenclature_cleaner(taxonomy_V2)
 taxonomy_V1 <- taxonomy_V1[, -c(1)]
 taxonomy_V1 <- sub_class_cleaner(taxonomy_V1)
 taxonomy_V2 <- sub_class_cleaner(taxonomy_V2)
-taxonomy_V2 <- unique(taxonomy_V2)
 taxonomy_V1 <- prev_doublon_cleaner(taxonomy_V1)
 taxonomy_V2 <- prev_doublon_cleaner(taxonomy_V2)
 
