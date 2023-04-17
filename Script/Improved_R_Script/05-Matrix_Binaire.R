@@ -1,8 +1,8 @@
 library(tidyverse)
 
 #### Ouverture de Sliced_ARG_Species.tsv & recuperation des donnees dans une dataframe ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
   as.data.frame() 
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexLevel ####
