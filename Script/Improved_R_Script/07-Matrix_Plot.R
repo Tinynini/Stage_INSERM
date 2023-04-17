@@ -1,8 +1,8 @@
 library(tidyverse)
 
 #### Ouverture de Sliced_ARG_Species.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
   as.data.frame() 
 
 uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes 
@@ -15,7 +15,7 @@ matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3') # On re
 
 for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
 {
-  gene_matrix <- read_tsv(file = all_matrix[i]) # On ouvre la matrice depuis la liste de fichier
+  gene_matrix <- read_tsv(file = all_matrix[i], show_col_types = FALSE) # On ouvre la matrice depuis la liste de fichier
   gene_matrix <- as.matrix(gene_matrix) 
   rownames(gene_matrix) <- uni_gene 
   
