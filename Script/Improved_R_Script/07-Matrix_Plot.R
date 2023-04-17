@@ -1,4 +1,4 @@
-#library(tidyverse)
+library(tidyverse)
 
 #### Ouverture de Sliced_ARG_Species.tsv & recuperation des donnees ####
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
