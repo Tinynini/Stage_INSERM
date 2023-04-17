@@ -11,8 +11,7 @@ all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_
 #all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_Taxo_Result.tsv', show_col_types = FALSE) %>% 
   as.data.frame()
 
-level_share <- as.data.frame(all_species[, c(6:18)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies et a leurs partages
-level_share <- level_share[, -7] # On supprime celle associee au domaine
+level_share <- as.data.frame(all_species[, c(6:17)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies et a leurs partages
 
 for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espece a phylum)
 {
@@ -23,7 +22,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   taxo <- read_tsv('W:/ninon-species/output/Table_taxonomie/New_Parsed_taxonomy.tsv', show_col_types = FALSE) %>%
     as.data.frame()
   
-  small_taxo <- taxo[, c(8, i)] # On extrait les colonnes des labels d especes et du niveau i 
+  small_taxo <- taxo[, c(7, i)] # On extrait les colonnes des labels d especes et du niveau i 
   
   #### Join de l arbre avec les colonnes de la table de taxonomie (== modification des labels de tips de l arbre) ####
   taxo_tree <- left_join(tree_df, small_taxo, by = c('label' = 'sseqid')) # On join l arbre et les colonnes de la table de taxonomie sur les colonnes de labels de part et d autre
@@ -96,7 +95,6 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   # Les noms des fichiers sont definis par des variables
   file_name_1 <- str_glue("{path_start}{colnames(level_share[i])}{path_end}") 
   file_name_2 <- str_glue("{path_start}{colnames(level_share[i])}{other_path_end}") 
-  
   write.tree(next_tree, file_name_1)
   write.tree(other_tree, file_name_2)
 }
