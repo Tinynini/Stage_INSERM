@@ -7,7 +7,8 @@ tree <- read.tree('W:/ninon-species/data/bac120/bac120_r95.tree')
 tree_df <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
 # N.B. : Les labels de tips et de nodes se suivent sur une meme colonne lorsqu un arbre est au format tibble !!
 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv') %>%
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_Taxo_Result.tsv') %>% 
   as.data.frame()
 
 level_share <- as.data.frame(all_species[, c(6:18)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies et a leurs partages
@@ -29,22 +30,22 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   taxo_tree[1:Ntip(tree), 'label'] <- taxo_tree[1:Ntip(tree), colnames(taxo[i])] # On remplace le contenu de la colonne des labels par celui de la colonne du niveau i pour les labels de tips uniquement (surtout pas ceux de nodes !!) 
   taxo_tree <- taxo_tree[, -5] # On supprime la colonne du niveau i
   Label <- taxo_tree[1:Ntip(tree),] # On extrait les lignes associers aux labels de tips
-
+  
   Label %>% # Permet d isoler les lignes qui ont le meme contenu pour la colonne 'label' (== doublons) et de n en garder qu une seule a chaque fois
     arrange(label, parent) %>%
     group_by(label) %>%
     slice(1) -> labels # On cree une copie des les lignes isolees pour ne pas modifier l ensemble
-
+  
   labels %>% # Permet de reordonner les lignes isolees de la meme facon que l ensemble
     arrange(node) %>%
     identity() -> labels
-
+  
   # On extrait de nos lignes toutes celles qui ne font pas partie du groupe qu on a isole (== les doublons)
   tips <- which((Label[, 'node'] %>% pull()) %in% (labels[, 'node'] %>% pull()) == FALSE)
   new_tree <- as.phylo(taxo_tree) # On passe au format phylo pour pouvoir pruner l arbre
   new_tree <- drop.tip(new_tree, tips) # On prune l arbre en supprimant les lignes associees aux doublons
   taxo_tree <- as_tibble(new_tree) # On passe au format tibble plus pratique a manipuler
-
+  
   #### Join de l arbre avec les colonnes du niveau i et de son partage (== transposition de l arbre a nos propres donnees) ####
   phylo_tree <- left_join(taxo_tree, uni_level, by = c('label' = 'level')) # On join l arbre et les colonnes du niveau i et de son partage sur la colonne des labels et celle du niveau i
   n_tips <- nrow(phylo_tree) - Nnode(new_tree) # Permet de recuperer le nombre de tips malgres l apparition de nombreux doublons
@@ -63,10 +64,10 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   phylo_tree %>% # On reordonne l arbre en fonction des labels parce que ca permet de separer automatiquement les labels de nodes deja uniques des autres et de regrouper ceux identiques
     arrange(label) %>%
     identity -> new_phylo_tree # On continue avec une copie de l arbre et non celui d origine pour avoir les 2 versions (avec ou sans traitement supplementaire pour les labels de nodes)
-
+  
   nodes_exclus = length(grep("(.*)__(.*)", unlist(new_phylo_tree[, 'label']))) + 1 # On recupere le nombre de nodes deja uniques
   k <- 1 # Definit la valeur de la numerotation secondaire qu on va ajouter aux labels de node identiques
-
+  
   for (j in nodes_exclus:Nnode(next_tree)) # On parcours les labels de nodes non uniques uniquement
   {
     if(new_phylo_tree[j + 1, 'label'] == new_phylo_tree[j, 'label']) # Si le label i est identique au label i + 1
@@ -80,15 +81,16 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
       k <- 1 # Et on ramene k a la valeur 1 pour revenir au debut de la numerotation pour le groupe suivant de labels identiques
     }
   }
-
+  
   new_phylo_tree %>% # On reordonne l arbre en fonction des numeros de node pour lui redonner sa structure d arbre
     arrange(node) %>%
     identity -> new_phylo_tree
   
   other_tree <- as.phylo(new_phylo_tree) # On repasse au format phylo pour pouvoir enregistrer l arbre sans risquer de l abimer
-
+  
   #### Enregistrement des arbres ainsi obtenus dans des fichiers nominatifs ####
   path_start <- "W:/ninon-species/output/Output_M2/ARG/Arbre/"
+  #path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Arbre/"
   path_end <- ".tree"
   other_path_end <- "_version_alt.tree"
   # Les noms des fichiers sont definis par des variables
