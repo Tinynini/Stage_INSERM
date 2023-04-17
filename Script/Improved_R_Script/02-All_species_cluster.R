@@ -1,4 +1,4 @@
-#library(tidyverse)
+library(tidyverse)
 
 #### Ouverture de all_species.tsv et de cluster_fast_all_0.95.txt & recuperation des donnees dans des dataframes ####
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv', show_col_types = FALSE) %>% 
@@ -10,6 +10,7 @@ all_species %>%
   identity() -> all_species
 
 all_clusters <- read_tsv('W:/ninon-species/data/Cluster/Cluster_ARG/cluster_fast_all_0.95.txt', col_names = FALSE, show_col_types = FALSE) %>% 
+#all_clusters <- read_tsv('W:/ninon-species/data/Cluster/Cluster_AV_AP_ARG/cluster_fast_0.95.txt', col_names = FALSE, show_col_types = FALSE) %>% 
   as.data.frame()
 
 names(all_clusters) <- c('Type', 'Num_cluster', 'Length', '%_Similarity', 'Match_Orientation', 'Unused1', 'Unused2', 'Align_rep', 'Query', 'Centroid')
