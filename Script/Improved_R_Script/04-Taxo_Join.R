@@ -1,4 +1,4 @@
-library(tidyverse)
+#library(tidyverse)
 
 #### Ouverture de Parsed_taxonomy.tsv et de Sliced_all_species_clust.tsv & recuperation des donnees ####
 Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv', show_col_types = FALSE)
@@ -121,17 +121,13 @@ for (i in 2:4)
 
 #### Traitement direct (hors join) de cas particuliers d especes (principalement des 'bactérium') trop isolees pour faire l objet d'un join ####
 # N.B. : On peut traiter plusieurs niveaux a la fois pour ce 1er traitement parce qu il ne concerne qu une seule ligne (== on n a pas le probleme du decalage a chaque nouvelle ligne)
-all_species <- except_treat(all_species, 'Bacillus bacterium', c('Genus', 'Family', 'Order', 'Class'), 'Phylum', 'Domain', c('Bacillus', 'Bacillaceae', 'Bacillales', 'Bacilli') , 'Firmicutes', 'Bacteria')
+all_species <- except_treat(all_species, 'Bacillus bacterium', c('Genus', 'Family', 'Order'), 'Class', 'Phylum', c('Bacillus', 'Bacillaceae', 'Bacillales'), 'Bacilli', 'Firmicutes')
 all_species <- except_treat(all_species, 'Lachnospiraceae oral', 'Genus', 'Family', 'Order', NA, 'Lachnospiraceae', 'Lachnospirales')
-all_species <- except_treat(all_species, c('Clostridia bacterium', 'Lachnospiraceae oral'), 'Class', 'Phylum', 'Domain', 'Clostridia', 'Firmicutes', 'Bacteria')
-all_species <- except_treat(all_species, 'Firmicutes bacterium', 'Phylum', 'Phylum', 'Domain', 'Firmicutes' , 'Firmicutes', 'Bacteria')
+all_species <- except_treat(all_species, c('Clostridia bacterium', 'Lachnospiraceae oral'), 'Class', 'Phylum', 'Phylum', 'Clostridia', 'Firmicutes', 'Firmicutes')
+all_species <- except_treat(all_species, 'Firmicutes bacterium', 'Phylum', 'Phylum', 'Phylum', 'Firmicutes', 'Firmicutes', 'Firmicutes')
 # Traitement de 3 especes 'bacterium' ne pouvant etre fait avec la fonction except_treat()
-ex1 <- which(all_species[, 'species']  %in% c('Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium'))
-all_species[ex1, 'Phylum'] <- str_replace(all_species[ex1, 'species'], '(.*) (.*)', '\\1')
-# Completion manuelle de la colonne 'Domain' (il n y en a qu un : 'Bacteria')
-ex2 <- is.na(all_species[, 'Domain']) # On isole les especes qui n ont pas pu etre matchees
-na_species <- as.data.frame(unique(all_species[ex2, 'species'])) # On les conserve dans une liste au cas ou
-all_species[ex2, 'Domain'] <- 'Bacteria' # On remplit la colonne 'Domain' pour toute ces especes 
+ex <- which(all_species[, 'species']  %in% c('Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium'))
+all_species[ex, 'Phylum'] <- str_replace(all_species[ex, 'species'], '(.*) (.*)', '\\1')
 
 #### Enregistrement de la dataframe slicee dans le fichier Sliced_ARG_Species.tsv ####
 write.table(all_species, "W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
