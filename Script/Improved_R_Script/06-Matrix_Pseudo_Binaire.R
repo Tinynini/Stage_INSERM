@@ -2,12 +2,12 @@ library(tidyverse)
 
 #### Ouverture de Sliced_ARG_Species.tsv & recuperation des donnees dans une dataframe ####
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv') %>% 
   as.data.frame() 
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexLevel d un genre un peu different... ####
 level <- as.data.frame(all_species[, c(7:12)]) # On extrait le contenu des colonnes associes aux 6 niveaux taxonomiques etudies
 level_name <- unlist(colnames(all_species[, c(7:12)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
-
 uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
 n_gene <- length(uni_gene) 
 
@@ -36,17 +36,16 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     n_level <- length(uni_level) 
     
     #### Ouverture & traitement de la matrice binaire associee au niveau i depuis son fichier nominatif ####
-    path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" 
+    path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_"
+    #path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_" 
     path_end <- ".tsv" 
     file_name <- str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
     
     gene_matrix <- read_tsv(file_name) 
     rownames(gene_matrix) <- uni_gene 
-    
     gene_matrix <- t(gene_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne  
     gene_matrix <- cbind(now_level, gene_matrix) # On fusionne la colonne du niveau i a notre matrice 
     gene_matrix <- left_join(curr_level, gene_matrix, by = NULL) # On join les colonnes des niveaux j et i et la matrice sur les colonnes du niveau i de part et d autre
-    
     gene_matrix <- t(gene_matrix[,-2]) # On supprime la colonne du niveau i & on retranspose la matrice
     colnames(gene_matrix) <- gene_matrix[1,] # On renomme les colonnes d apres le contenu de la ligne (anciennement colonne) du niveau j 
     gene_matrix <- as.data.frame(gene_matrix[-1,]) # On supprime la ligne du niveau j & on transforme la matrice en dataframe (necessaire pour pouvoir utiliser as.integer()) 
@@ -81,9 +80,10 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     } # N.B : Je sais c est un peu complique mais in fine ca donne un matrice Genex'Level j' avec 0 s il y a pas de match ou le nombre de representants du niveau i au sein du representant du niveau j se partageant le gene s il y a un match
     
     #### Enregistrement de la matrice pseudo-binaire ainsi obtenue dans un fichier nominatif ####
-    path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_" 
-    path_end <- ".tsv" 
-    new_file_name <- str_glue("{path_start}{level_name[i]}_{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
+    new_path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_"
+    #new_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_"
+    new_path_end <- ".tsv" 
+    new_file_name <- str_glue("{new_path_start}{level_name[i]}_{level_name[j]}{new_path_end}") # Le nom de fichier est definit par une variable
     
     write.table(cross_matrix, new_file_name, sep = '\t', row.names = FALSE, col.names = TRUE) 
   }
