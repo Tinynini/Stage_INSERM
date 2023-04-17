@@ -4,8 +4,8 @@ library(ape)
 library(ggtree) 
 
 #### Ouverture de Sliced_Taxo_Result.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv') %>%
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_Taxo_Result.tsv') %>%
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv', show_col_types = FALSE) %>%
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_Taxo_Result.tsv', show_col_types = FALSE) %>%
   as.data.frame
 # On est oblige de modifier la nomenclature des noms d especes parce qu une modification automatique se fait au niveau des labels de tips de l arbre des especes 
 all_species[, 'species'] <- str_replace(all_species[, 'species'], '(.*) (.*)', '\\1\\_\\2')
@@ -87,7 +87,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   #m_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_"
   m_path_end <- ".tsv"
   m_file_name <- str_glue("{m_path_start}{level_name[i]}{m_path_end}") # Le nom de fichier est definit par une variable
-  gene_matrix <- read_tsv(m_file_name)
+  gene_matrix <- read_tsv(m_file_name, show_col_types = FALSE)
   rownames(gene_matrix) <- uni_gene
   
   #### Join de l arbre et de la matrice & preparation de nouvelles listes ####
