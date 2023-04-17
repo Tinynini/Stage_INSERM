@@ -4,6 +4,7 @@ library(tidyverse)
 all_species4 <- list.files(path = 'W:/ninon-species/data/diamond_resfinder4', pattern = '.*.tsv', full.names = TRUE)
 all_speciesFG <- list.files(path = 'W:/ninon-species/data/diamond_resfinderFG', pattern = '.*.tsv', full.names = TRUE)
 all_species <- c(all_species4, all_speciesFG)
+#all_species <- list.files(path = 'W:/ninon-species/data/diamond_av_ap_gene', pattern = '.*.tsv', full.names = TRUE)
 
 #### Creation d une liste de dataframe regroupant les donnees de la liste de fichier creee ci-dessus ####
 n_species <- length(all_species)
@@ -14,7 +15,7 @@ for (i in 1:n_species)
 {
   curr_name <- all_names[i] 
   species <- read_tsv(file = all_species[i], col_names = FALSE)
-
+  
   # Si le fichier traite est vide, on passe directement au suivant (== suppression des fichiers vides)
   if(nrow(species) == 0) 
   {
@@ -56,3 +57,4 @@ for (j in 1:nrow(out_df)) # Inversion des 2 parties de nom d'espece pour les esp
 
 #### Enregistrement de la dataframe dans le fichier all_species.tsv ####
 write.table(out_df, "W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#write.table(out_df, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/all_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
