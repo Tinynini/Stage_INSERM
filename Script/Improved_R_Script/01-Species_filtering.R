@@ -14,7 +14,7 @@ species_list <- vector(mode = 'list', length = n_species)
 for (i in 1:n_species)  
 {
   curr_name <- all_names[i] 
-  species <- read_tsv(file = all_species[i], col_names = FALSE)
+  species <- read_tsv(file = all_species[i], col_names = FALSE, show_col_types = FALSE)
   
   # Si le fichier traite est vide, on passe directement au suivant (== suppression des fichiers vides)
   if(nrow(species) == 0) 
