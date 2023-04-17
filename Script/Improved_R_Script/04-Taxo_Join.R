@@ -5,6 +5,7 @@ Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxo
 Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),] # Suppression preventive de certaine lignes de la table de taxonomie pour eviter l apparition de certains doublons 
 
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv') %>%
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/Av_AP_ARG/Dataframe/sliced_all_species_clust.tsv') %>%
   as.data.frame()
 
 #### Fonction servant a effectuer un traitement supplementaire pour les noms d especes qui matchent 'pattern_1' ####
@@ -41,12 +42,12 @@ Genus_cleaning <- function(df)
   
   double1 <- grep('Clostridium', df[, 'Genus'])
   gene_Clos <- df[c(double1),]
-
+  
   double2 <- which(gene_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
   gene_Target <- gene_Clos[-c(double2),]
-
+  
   df <- Genus_cleaner(df, 'species', gene_Target[, 'species'], 'Clostridiaceae')
-
+  
   df <- unique(df)
 }
 
@@ -134,3 +135,4 @@ all_species[ex2, 'Domain'] <- 'Bacteria' # On remplit la colonne 'Domain' pour t
 
 #### Enregistrement de la dataframe slicee dans le fichier Sliced_ARG_Species.tsv ####
 write.table(all_species, "W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
