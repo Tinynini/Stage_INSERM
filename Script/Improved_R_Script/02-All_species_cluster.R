@@ -30,7 +30,6 @@ for (i in 1:nrow(all_clusters)) # Suppression des donnees non pertinentes dans l
     j <- j + 1
   }
 }
-
 # Harmonisation des donnees de façon a avoir les labels des centroides associes a chaque sequence de gene (actuellement dispatches dans 2 colonnes) dans une seule et meme colonne 
 for (k in 1:nrow(all_centroids)) 
 {
