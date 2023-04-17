@@ -1,15 +1,15 @@
 library(tidyverse)
 
 #### Ouverture de all_species.tsv et de cluster_fast_all_0.95.txt & recuperation des donnees dans des dataframes ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv') %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/all_species.tsv') %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv', show_col_types = FALSE) %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/all_species.tsv', show_col_types = FALSE) %>% 
   as.data.frame()
 
 all_species %>%
   arrange(qseqid, shared_by) %>% 
   identity() -> all_species
 
-all_clusters <- read_tsv('W:/ninon-species/data/Cluster/Cluster_ARG/cluster_fast_all_0.95.txt', col_names = FALSE) %>% 
+all_clusters <- read_tsv('W:/ninon-species/data/Cluster/Cluster_ARG/cluster_fast_all_0.95.txt', col_names = FALSE, show_col_types = FALSE) %>% 
   as.data.frame()
 
 names(all_clusters) <- c('Type', 'Num_cluster', 'Length', '%_Similarity', 'Match_Orientation', 'Unused1', 'Unused2', 'Align_rep', 'Query', 'Centroid')
@@ -43,7 +43,7 @@ centro <- as.data.frame(unique(all_centroids[, c('Query', 'Centroid')]))
 
 #### Join des dataframes (== ajout des colonnes 'Centroid' et 'Query') ####
 all_species <- rev(all_species)
-all_species <- left_join(all_species, centro, by = c('qseqid' = 'Query'), keep = TRUE) # On join sur les labels de sequences de gene
+all_species <- left_join(all_species, centro, by = c('qseqid' = 'Query'), keep = FALSE) # On join sur les labels de sequences de gene
 all_species <- rev(all_species)
 
 all_species %>%
