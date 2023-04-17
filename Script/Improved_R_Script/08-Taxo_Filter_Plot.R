@@ -6,7 +6,6 @@ taxo <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Spe
   as.data.frame()
 
 #### On genere 6 nouvelles colonnes des partages de genes du niveau 'species' au niveau 'Phylum' ####
-# N.B. : Le niveau 'Domain' n est pas traite car cette etude ne porte que sur le domaine des 'bacteria' (== bacterie)
 taxo %>% # Pour chaque partages de chaque centroids on regarde le nombre de representants distincts de chacuns des 6 niveaux taxonomiques
   arrange(Centroid, shared_by) %>%
   group_by(Centroid, shared_by) %>%
@@ -30,7 +29,6 @@ taxo %>%
   group_by(Centroid, species_shared_by) %>%
   arrange(pident, qcovhsp) %>%
   slice_tail() -> taxo_small
-
 # On rearrange les données en vue des plots
 taxo_small %>% 
   arrange(phylum_shared_by, class_shared_by, order_shared_by, family_shared_by, genus_shared_by, species_shared_by) %>%
@@ -63,7 +61,7 @@ generate_plot_en <- function(level_share, level_name)
   ggsave(str_glue("{start}{level_name}{end}"), plot = last_plot(), device = "png", path = path, width = 16, height = 8.47504)
 }
 
-level <- as.data.frame(taxo_small[, c(13:18)]) # On extrait le contenu des colonnes associees aux partages au 6 niveaux taxonomiques etudies
+level <- as.data.frame(taxo_small[, c(13:17)]) # On extrait le contenu des colonnes associees aux partages au 6 niveaux taxonomiques etudies
 level_name <- unlist(colnames(taxo_small[, c(6:11)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
 
 for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomique (d especes a phylum)
