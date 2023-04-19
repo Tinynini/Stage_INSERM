@@ -23,7 +23,7 @@ for (i in 1:n_species)
   
   names(species) <- c('qseqid', 'sseqid', 'pident', 'qlen', 'slen', 'qcovhsp', 'length', 'mismatch', 'gapopen', 'qstart', 'qend', 'sstart', 'send', 'evalue', 'bitscore')
   
-  # Suppression des doublons intra-espèces (== une meme sequence d un gene de resistance trouvee dans plusieurs sequences associees a la meme espece)
+  # Suppression des doublons intra-especes (== une meme sequence d un gene de resistance trouvee dans plusieurs sequences associees a la meme espece)
   species %>% 
     group_by(qseqid) %>% 
     arrange(pident, qcovhsp) %>%
