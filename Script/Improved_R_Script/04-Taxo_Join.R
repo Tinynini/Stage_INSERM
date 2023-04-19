@@ -1,5 +1,12 @@
 library(tidyverse)
 
+####################################################################################
+# Ninon ROBIN -- ninon.robin@inserm.fr                                             #
+# Utilite == recuperer la taxonomie d un maximum d espece via des joins successifs #
+# Input == sliced_all_species_clust.tsv et Parsed_taxonomy.tsv (V1)                #
+# Output == sliced_all_species_taxo.tsv                                            #
+####################################################################################
+
 #### Ouverture de Parsed_taxonomy.tsv et de Sliced_all_species_clust.tsv & recuperation des donnees ####
 Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv', show_col_types = FALSE)
 Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),] # Suppression preventive de certaine lignes de la table de taxonomie pour eviter l apparition de certains doublons 
@@ -42,7 +49,6 @@ Genus_cleaning <- function(df)
   
   double1 <- grep('Clostridium', df[, 'Genus'])
   gene_Clos <- df[c(double1),]
-  
   double2 <- which(gene_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
   gene_Target <- gene_Clos[-c(double2),]
   
@@ -129,6 +135,6 @@ all_species <- except_treat(all_species, 'Firmicutes bacterium', 'Phylum', 'Phyl
 ex <- which(all_species[, 'species']  %in% c('Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium'))
 all_species[ex, 'Phylum'] <- str_replace(all_species[ex, 'species'], '(.*) (.*)', '\\1')
 
-#### Enregistrement de la dataframe slicee dans le fichier Sliced_ARG_Species.tsv ####
-write.table(all_species, "W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-#write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#### Enregistrement de la dataframe slicee dans le fichier sliced_all_species_taxo.tsv ####
+write.table(all_species, "W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+#write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
