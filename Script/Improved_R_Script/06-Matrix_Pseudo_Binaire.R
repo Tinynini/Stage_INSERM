@@ -12,7 +12,7 @@ all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_
 #all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
   as.data.frame() 
 
-#### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexLevel d un genre un peu different... ####
+#### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexNiveau d un genre un peu different... ####
 level <- as.data.frame(all_species[, c(7:12)]) # On extrait le contenu des colonnes associes aux 6 niveaux taxonomiques etudies
 level_name <- unlist(colnames(all_species[, c(7:12)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
 uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
