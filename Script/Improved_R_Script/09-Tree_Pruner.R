@@ -2,6 +2,13 @@ library(tidyverse)
 library(tidytree)
 library(ape)
 
+################################################################################################
+# Ninon ROBIN -- ninon.robin@inserm.fr                                                         #
+# Utilite == generer les arbres taxonomiques a chaque niveaux par pruning de bac120_r95.tree   #
+# Input == Sliced_Taxo_Result.tsv, bac120_r95.tree et New_Parsed_taxonomy.tsv (V2)             #
+# Output == les 12 fichiers 'level_name[i]'.tree (V1) et 'level_name[i]'_version_alt.tree (V2) #
+################################################################################################
+
 #### Ouverture de bac120_r95.tree et de Sliced_Taxo_result.tsv & recuperation des donnees ####
 tree <- read.tree('W:/ninon-species/data/bac120/bac120_r95.tree')
 tree_df <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
@@ -94,7 +101,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_path_end <- "_version_alt.tree"
   # Les noms des fichiers sont definis par des variables
   file_name_1 <- str_glue("{path_start}{colnames(level_share[i])}{path_end}") 
-  file_name_2 <- str_glue("{path_start}{colnames(level_share[i])}{other_path_end}") 
+  file_name_2 <- str_glue("{path_start}{colnames(level_share[i])}{other_path_end}")
+  
   write.tree(next_tree, file_name_1)
   write.tree(other_tree, file_name_2)
 }
