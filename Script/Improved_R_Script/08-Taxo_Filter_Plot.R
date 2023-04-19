@@ -1,8 +1,16 @@
 library(tidyverse)
 
-#### Ouverture de de Sliced_ARG_Species.tsv & recuperation des donnees ####
-taxo <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>%
-#taxo <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
+#########################################################################################
+# Ninon ROBIN -- ninon.robin@inserm.fr                                                  #
+# Utilite == generer les colonnes des partages inter-especes aux 6 niveaux taxonomiques #
+# et les histogrammes des nombres d occurrence de valeurs de partages a chaque niveaux  #
+# Input == sliced_all_species_taxo.tsv                                                  #
+# Output == Sliced_Taxo_Result.tsv et les 6 histogrammes (en FR et EN)                  #
+#########################################################################################
+
+#### Ouverture de de sliced_all_species_taxo & recuperation des donnees ####
+taxo <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>%
+#taxo <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
   as.data.frame()
 
 #### On genere 6 nouvelles colonnes des partages de genes du niveau 'species' au niveau 'Phylum' ####
