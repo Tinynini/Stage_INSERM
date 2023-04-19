@@ -1,8 +1,15 @@
 library(tidyverse)
 
-#### Ouverture de Sliced_ARG_Species.tsv & recuperation des donnees dans une dataframe ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
+###########################################################################
+# Ninon ROBIN -- ninon.robin@inserm.fr                                    #
+# Utilite == generer des matrices binaires d absence/presence GenexNiveau #
+# Input == sliced_all_species_taxo.tsv                                    #
+# Output == 6 fichiers Sliced_matrix_'level_name[i]'.tsv                  #
+###########################################################################
+
+#### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees dans une dataframe ####
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
   as.data.frame() 
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexLevel ####
@@ -41,6 +48,5 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   #path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_"
   path_end <- ".tsv" 
   file_name <- str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
-  
   write.table(gene_matrix, file_name, sep = '\t', row.names = FALSE, col.names = TRUE)
 }
