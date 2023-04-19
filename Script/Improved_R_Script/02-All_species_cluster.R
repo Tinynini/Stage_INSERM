@@ -1,5 +1,13 @@
 library(tidyverse)
 
+#########################################################################################
+# Ninon ROBIN -- ninon.robin@inserm.fr                                                  #
+# Utilite == reduire la dataframe en recuperant les centroids obtenus par clustering    #
+# et en ne conservant qu un representant de chaque partages au sein de chaque centroids #
+# Input == all_species.tsv                                                              #
+# Output == sliced_all_species_clust.tsv                                                #
+#########################################################################################
+
 #### Ouverture de all_species.tsv et de cluster_fast_all_0.95.txt & recuperation des donnees dans des dataframes ####
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv', show_col_types = FALSE) %>% 
 #all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/all_species.tsv', show_col_types = FALSE) %>% 
