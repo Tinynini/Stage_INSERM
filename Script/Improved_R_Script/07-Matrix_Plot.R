@@ -1,8 +1,16 @@
 library(tidyverse)
 
-#### Ouverture de Sliced_ARG_Species.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_ARG_Species.tsv', show_col_types = FALSE) %>% 
+###################################################################################
+# Ninon ROBIN -- ninon.robin@inserm.fr                                            #
+# Utilite == generer les barplot de presence d un gene donne avec les 15 matrices #
+# pseudo_binaires et le dendrogramme d un famille de gene donnee avec toutes      #
+# Input == sliced_all_species_taxo.tsv et 21 fichiers Sliced_matrix_*.tsv         #
+# Output == les 15 barplots (en FR et EN) et les 21 dendrogrammes                 #
+###################################################################################
+
+#### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees ####
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
   as.data.frame() 
 
 uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes 
