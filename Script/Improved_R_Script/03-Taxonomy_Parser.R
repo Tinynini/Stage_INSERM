@@ -1,9 +1,15 @@
 library(tidyverse)
 
+##############################################################################
+# Ninon ROBIN -- ninon.robin@inserm.fr                                       #
+# Utilite == pretraiter les 2 versions de la table de taxonomie en parallele #
+# Input == bac120_taxonomy_r95.tsv (V1) et bac120_taxonomy_r95_new.tsv (V2)  #
+# Output == Parsed_taxonomy.tsv (V1) et New_Parsed_taxonomy.tsv (V2)         #
+##############################################################################
+
 #### Ouverture de bac120_taxonomy_r95.tsv et de bac120_taxonomy_r95_new.tsv & recuperation des donnees ####
 taxonomy_V1 <- read.csv('W:/ninon-species/data/bac120/bac120_taxonomy_r95.tsv', sep = ';', header = FALSE)
 taxonomy_V2 <- read.csv('W:/ninon-species/data/bac120/bac120_taxonomy_r95_new.tsv', sep = ';', header = FALSE)
-
 colnames(taxonomy_V1) <- c('Occurrence', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species')
 colnames(taxonomy_V2) <- c('sseqid', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species')
 
