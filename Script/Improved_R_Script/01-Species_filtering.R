@@ -1,5 +1,14 @@
 library(tidyverse)
 
+##################################################################################################
+# Ninon ROBIN -- ninon.robin@inserm.fr                                                           #
+# Utilite principale == recuperer dans une unique dataframe le contenu des fichiers de depart    #
+# Utilites supplementaires == supprimer les doublons intra-espece, generer les colonnes des noms #
+# d especes et des partages inter-especes, rectifier la nommenclature de certains noms d especes #
+# Input == les fichiers TSV du ou des dossiers diamonds que l on veut traiter                    #
+# Output == all_species.tsv                                                                      #
+##################################################################################################
+
 #### Creation d une liste de tous les fichiers .tsv des dossiers diamond_resfinder4 et diamond_resfinderFG ####
 all_species4 <- list.files(path = 'W:/ninon-species/data/diamond_resfinder4', pattern = '.*.tsv', full.names = TRUE)
 all_speciesFG <- list.files(path = 'W:/ninon-species/data/diamond_resfinderFG', pattern = '.*.tsv', full.names = TRUE)
@@ -23,7 +32,6 @@ for (i in 1:n_species)
   }
   
   names(species) <- c('qseqid', 'sseqid', 'pident', 'qlen', 'slen', 'qcovhsp', 'length', 'mismatch', 'gapopen', 'qstart', 'qend', 'sstart', 'send', 'evalue', 'bitscore')
-  
   # Suppression des doublons intra-especes (== une meme sequence d un gene trouvee dans plusieurs sequences associees a la meme espece)
   species %>% 
     group_by(qseqid) %>% 
