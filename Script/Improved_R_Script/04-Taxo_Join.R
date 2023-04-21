@@ -8,11 +8,11 @@ library(tidyverse)
 ####################################################################################
 
 #### Ouverture de Parsed_taxonomy.tsv et de Sliced_all_species_clust.tsv & recuperation des donnees ####
-Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv', show_col_types = FALSE)
+Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv', col_types = "ccccccc")
 Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),] # Suppression preventive de certaine lignes de la table de taxonomie pour eviter l apparition de certains doublons 
 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv', show_col_types = FALSE) %>%
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/Av_AP_ARG/Dataframe/sliced_all_species_clust.tsv', show_col_types = FALSE) %>%
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv', col_types = "ccdddddddddddddcdd") %>%
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/Av_AP_ARG/Dataframe/sliced_all_species_clust.tsv', col_types = "ccdddddddddddddcdd") %>%
   as.data.frame()
 
 #### Fonction servant a effectuer un traitement supplementaire pour les noms d especes qui matchent 'pattern_1' ####
