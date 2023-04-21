@@ -14,8 +14,8 @@ tree <- read.tree('W:/ninon-species/data/bac120/bac120_r95.tree')
 tree_df <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
 # N.B. : Les labels de tips et de nodes se suivent sur une meme colonne lorsqu un arbre est au format tibble !!
 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv', show_col_types = FALSE) %>%
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_Taxo_Result.tsv', show_col_types = FALSE) %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv', col_types = "ccddcccccccdddddd") %>%
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_Taxo_Result.tsv', col_types = "ccddcccccccdddddd") %>% 
   as.data.frame()
 
 level_share <- as.data.frame(all_species[, c(6:17)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies et a leurs partages
@@ -26,7 +26,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   colnames(uni_level) <- c('level', 'share')
   
   #### Ouverture de New_Parsed_taxonomy.tsv & recuperation des donnees ####
-  taxo <- read_tsv('W:/ninon-species/output/Table_taxonomie/New_Parsed_taxonomy.tsv', show_col_types = FALSE) %>%
+  taxo <- read_tsv('W:/ninon-species/output/Table_taxonomie/New_Parsed_taxonomy.tsv', col_types = "cccccccc") %>%
     as.data.frame()
   
   small_taxo <- taxo[, c(7, i)] # On extrait les colonnes des labels d especes et du niveau i 
