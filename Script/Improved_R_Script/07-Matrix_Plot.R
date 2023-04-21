@@ -9,8 +9,8 @@ library(tidyverse)
 ###################################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>% 
   as.data.frame() 
 
 uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes 
