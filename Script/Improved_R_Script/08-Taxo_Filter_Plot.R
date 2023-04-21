@@ -9,8 +9,8 @@ library(tidyverse)
 #########################################################################################
 
 #### Ouverture de de sliced_all_species_taxo & recuperation des donnees ####
-taxo <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>%
-#taxo <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
+taxo <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>%
+#taxo <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>% 
   as.data.frame()
 
 #### On genere 6 nouvelles colonnes des partages de genes du niveau 'species' au niveau 'Phylum' ####
