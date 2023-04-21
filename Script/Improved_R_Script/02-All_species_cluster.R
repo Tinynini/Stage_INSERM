@@ -9,8 +9,8 @@ library(tidyverse)
 #########################################################################################
 
 #### Ouverture de all_species.tsv et de cluster_fast_all_0.95.txt & recuperation des donnees dans des dataframes ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv', show_col_types = FALSE) %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/all_species.tsv', show_col_types = FALSE) %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv', col_types = "ccdddddddddddddcd") %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/all_species.tsv', col_types = "ccdddddddddddddcd") %>% 
   as.data.frame()
 
 all_species %>%
