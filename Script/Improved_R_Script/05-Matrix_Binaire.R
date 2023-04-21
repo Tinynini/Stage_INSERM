@@ -8,8 +8,8 @@ library(tidyverse)
 ###########################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees dans une dataframe ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>% 
+#all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>% 
   as.data.frame() 
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexNiveau ####
