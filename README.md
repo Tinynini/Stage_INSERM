@@ -4,7 +4,7 @@ Ce github vous donne accès à l'ensemble des scripts R et bash (hors période d
 
 En revanche, par respect de la confidentialité qu'implique toute recherche scientifique, les données de départ et les outputs n'y figurent pas. Vous ne pourrez donc pas tester les codes par vous-même. Les scripts sont duement légendés pour compenser cela. 
 
-Vous pouvez ouvrir les scripts bash en passant par un serveur LINUX, ou plus simplement dans Visual Code Studio ou toutes autres plateformes permettant l'ouverture de fichier.txt (ou équivalant à ce format).
+Vous pouvez ouvrir les scripts bash en passant par un serveur LINUX, ou plus simplement dans Visual Code Studio ou toutes autres plateformes permettant l'ouverture de fichier.txt (ou équivalant à ce format). 
 Vous pouvez retrouver les descriptions de tous ces scripts en annexe de mes rapports de stages de M1 et M2 dans la partie "Tout ce que vous avez toujours voulu savoir sur mes scripts...".
 
 **Les scripts bash de clustering :**
@@ -23,6 +23,4 @@ Selon ce même principe, le script "Taxonomy_Parser.R" permet de travailler soit
 
 **Les scripts R de M2 :**
 
-On ne travaille plus qu'avec la version slicee de la dataframe puisque qu'on a eu la preuve avec les résultats obtenus en M1 que les 2 versions donnent bien les mêmes résultats de bout en bout. Par ailleurs, les scripts ayant été optimisés de différentes façon, les 2 versions de la table de taxonomie sont à présent générées simultatnément. 
-
-Par ailleurs, les 2 premières étapes (celles réalisées par les 2 premiers scripts R en M1) sont a présents réaliser en bash, le volume des nouvelles données étant beaucoup trop important pour R Studio.
+On ne travaille plus qu'avec la version slicee de la dataframe puisque qu'on a eu la preuve avec les résultats obtenus en M1 que les 2 versions donnent bien les mêmes résultats de bout en bout. Par ailleurs, les scripts ayant été optimisés de différentes façon, les 2 versions de la table de taxonomie sont à présent générées simultatnément. Par ailleurs, les 2 premières étapes (celles réalisées par les 2 premiers scripts R en M1) sont a présents réaliser en bash, le volume des nouvelles données étant beaucoup trop important pour R Studio.
