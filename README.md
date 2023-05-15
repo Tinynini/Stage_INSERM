@@ -9,7 +9,7 @@ Vous pouvez retrouver les descriptions de tous ces scripts en annexe de mes rapp
 
 **Les scripts bash de clustering :**
 
-Il y a 2 types de scripts, ceux de concaténation de fichier propre à l'étude réalisée en M1, et ceux de clustering via VSearch en mode fast (par taille de séquence) et size (par abondance de séquence). Pour ces derniers, ceux labélisés '4' et 'FG' s'appliquent respectivement au fichiers de Resfinder4 et ResfinderFG, ceux labélisés 'all' aux 2 en même temps, et ceux labélisés 'gene' aux nouvelles données propre à l'étude réalisée en M2.
+Il y a 2 types de scripts, ceux de concaténation de fichier propre à l'étude réalisée en M1, et ceux de clustering via VSearch en mode fast (par taille de séquence) et size (par abondance de séquence). Pour ces derniers, ceux labélisés '4' et 'FG' s'appliquent respectivement au fichiers de Resfinder4 et ResfinderFG, ceux labélisés 'all' aux 2 en même temps, et ceux labélisés 'gene' aux donnés propre à l'étude réalisée en M2.
 
 **Les scripts bash de sélection de gènes :**
 
