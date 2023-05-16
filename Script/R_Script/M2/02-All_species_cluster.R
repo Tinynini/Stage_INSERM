@@ -9,8 +9,7 @@
 #########################################################################################
 
 #### Ouverture de all_species.tsv et de cluster_fast_all_0.95.txt & recuperation des donnees dans des dataframes ####
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv', col_types = "ccdddddddddddddcd") %>% 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/all_species.tsv', col_types = "ccdddddddddddddcd") %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv', col_types = "ccdddddddddddddcd") %>% 
   as.data.frame()
 
 all_species %>%
@@ -38,7 +37,7 @@ for (i in 1:nrow(all_clusters)) # Suppression des donnees non pertinentes dans l
     j <- j + 1
   }
 }
-# Harmonisation des donnees de façon a avoir les labels des centroides associes a chaque sequence de gene (actuellement dispatches dans 2 colonnes) dans une seule et meme colonne 
+# Harmonisation des donnees de faÃ§on a avoir les labels des centroides associes a chaque sequence de gene (actuellement dispatches dans 2 colonnes) dans une seule et meme colonne 
 for (k in 1:nrow(all_centroids)) 
 {
   if (all_centroids[k, 'Centroid'] == '*')
@@ -60,7 +59,7 @@ all_species %>%
 
 all_species <- as.data.frame(t(do.call(rbind, all_species)))
 
-#### Slice de la dataframe sur les especes par centroides de façon a n avoir plus que une seule occurrence par espece et par partage pour un centroid donne ####
+#### Slice de la dataframe sur les especes par centroides de faÃ§on a n avoir plus que une seule occurrence par espece et par partage pour un centroid donne ####
 # Ca divise pratiquement par 10 le volume initial de la dataframe !! 
 all_species %>%
   arrange(Centroid, species, shared_by) %>%
@@ -68,5 +67,4 @@ all_species %>%
   slice_tail() -> sliced_all_species
 
 #### Enregistrement de la dataframe slicee dans le fichier Sliced_all_species_clust.tsv ####
-#write.table(sliced_all_species, "W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-write.table(sliced_all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(sliced_all_species, "W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
