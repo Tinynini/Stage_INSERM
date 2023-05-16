@@ -9,24 +9,26 @@ library(ggtree)
 # 3 (Optionnel) : Checker l existance des inputs avant 05 06 et 09 (comment gerer ca pour plusieurs inputs ?) ??
 
 #### Main : ####
-# N.B. : Le clustering doit prealablement avoir ete effectue via les scripts bash !! 
 # N.B. : Verifier que le traitement 'a la main' des cas particuliers dans 01 03 et 04 est toujours adapte (normalement oui) si les donnees de depart changent !
 
-#if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv') == FALSE)
-if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/all_species.tsv') == FALSE)
+# if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv') == FALSE)
+# {
+#   source('W:/ninon-species/script/Script_M2/01-Species_filtering.R') # /!\ Ca prend 3/4h a 2h !!
+# } else if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv') == FALSE)
+# {
+#   source('W:/ninon-species/script/Script_M2/02-All_species_cluster.R') 
+# } else 
+# {
+#   source('W:/ninon-species/script/Script_M2/03-Taxonomy_parser.R') 
+# }
+
+if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust') == FALSE)
 {
-  source('W:/ninon-species/script/Script_M2/01-Species_filtering.R') # /!\ Ca prend 3/4h a 2h !!
-#} else if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv') == FALSE)
-} else if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust.tsv') == FALSE) 
-{
-  source('W:/ninon-species/script/Script_M2/02-All_species_cluster.R') 
-} else 
-{
-  source('W:/ninon-species/script/Script_M2/03-Taxonomy_parser.R') 
+  source('W:/ninon-species/script/Script_M2/01-02_alt.R') 
 }
 
-#if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_ARG_Species.tsv') == FALSE)
-if (file.exists('W:/ninon-species/output/Output_M2/Av_AP_ARG/Dataframe/Sliced_ARG_Species.tsv') == FALSE)
+#if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv') == FALSE)
+if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv') == FALSE)
 {
   source('W:/ninon-species/script/Script_M2/04-Taxo_Join.R') 
 } else 
