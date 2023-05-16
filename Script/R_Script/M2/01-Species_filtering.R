@@ -10,10 +10,9 @@
 ##################################################################################################
 
 #### Creation d une liste de tous les fichiers .tsv des dossiers diamond_resfinder4 et diamond_resfinderFG ####
-#all_species4 <- list.files(path = 'W:/ninon-species/data/diamond_resfinder4', pattern = '.*.tsv', full.names = TRUE)
-#all_speciesFG <- list.files(path = 'W:/ninon-species/data/diamond_resfinderFG', pattern = '.*.tsv', full.names = TRUE)
-#all_species <- c(all_species4, all_speciesFG)
-all_species <- list.files(path = '../../data/diamond_ninon', pattern = '.*.tsv', full.names = TRUE)
+all_species4 <- list.files(path = 'W:/ninon-species/data/diamond_resfinder4', pattern = '.*.tsv', full.names = TRUE)
+all_speciesFG <- list.files(path = 'W:/ninon-species/data/diamond_resfinderFG', pattern = '.*.tsv', full.names = TRUE)
+all_species <- c(all_species4, all_speciesFG)
 
 #### Creation d une liste de dataframe regroupant les donnees de la liste de fichier creee ci-dessus ####
 n_species <- length(all_species)
@@ -64,5 +63,4 @@ for (j in 1:nrow(out_df)) # Inversion des 2 parties de nom d'espece pour les esp
 }
 
 #### Enregistrement de la dataframe dans le fichier all_species.tsv ####
-#write.table(out_df, "W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-write.table(out_df, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/all_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(out_df, "W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
