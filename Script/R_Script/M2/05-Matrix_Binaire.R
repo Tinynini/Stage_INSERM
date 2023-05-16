@@ -9,12 +9,14 @@
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees dans une dataframe ####
 #all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>% 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
   as.data.frame() 
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexNiveau ####
-level <- as.data.frame(all_species[, c(7:12)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies
-level_name <- unlist(colnames(all_species[, c(7:12)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
+#level <- as.data.frame(all_species[, c(7:12)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies
+level <- as.data.frame(all_species[, c(3:8)])
+#level_name <- unlist(colnames(all_species[, c(7:12)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
+level_name <- unlist(colnames(all_species[, c(3:8)]))
 
 uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
 n_gene <- length(uni_gene) 
