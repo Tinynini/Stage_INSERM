@@ -1,5 +1,4 @@
 library(tidyverse)
-library(png)
 library(tidytree)
 library(ape)
 library(ggtree) 
@@ -11,6 +10,7 @@ library(ggtree)
 # 3 (Optionnel) : Checker l existance des inputs avant 05 06 et 09 (comment gerer ca pour plusieurs inputs ?) ??
 
 #### Main : ####
+
 # N.B. : Verifier que le traitement 'a la main' des cas particuliers dans 01 03 et 04 est toujours adapte (normalement oui) si les donnees de depart changent !
 
 # if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv') == FALSE)
