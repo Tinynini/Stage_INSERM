@@ -2,7 +2,6 @@
 #library(tidytree)
 #library(ape)
 #library(ggtree)
-#library(png)
 
 ##############################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                       #
@@ -62,7 +61,9 @@ liste_parser <- function(trees, uni_gene) # Il faut la liste des sous-arbre et u
 {
   n_gene <- nrow(uni_gene)
   tree_list <- vector(mode = 'list', length = n_gene) # On prepare une nouvelle liste des sous-arbres 
+  
   l <- 1
+  
   for (k in 1:length(trees)) # Permet de parcourir les k sous-arbres de la liste
   {
     if (is.null(trees[[k]]) == FALSE) # Si le sous-arbre k n est pas vide
@@ -71,6 +72,7 @@ liste_parser <- function(trees, uni_gene) # Il faut la liste des sous-arbre et u
       l <- l + 1
     }
   } # On renomme les sous_arbres en fonction des genes auxquels ils sont associes (sinon il faudrait se referer constamment a uni_gene pour savoir a quel gene est associe un sous-arbre)
+  
   names(tree_list) <- uni_gene[, 'gene'] 
   return(tree_list)
 }
