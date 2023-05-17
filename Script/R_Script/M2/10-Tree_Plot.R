@@ -1,12 +1,13 @@
 #library(tidyverse)
 #library(tidytree)
 #library(ape)
-#library(ggtree) 
+#library(ggtree)
+#library(png)
 
 ##############################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                       #
 # Utilite == generer les sous-arbres d un gene donne, les histogrammes des distances totales #
-# des sous-rabres et les arbres complets avec sous-arbres colorises dessus à chaque niveaux  #
+# des sous-rabres et les arbres complets avec sous-arbres colorises dessus Ã  chaque niveaux  #
 # Input == Sliced_Taxo_Result.tsv, les 12 fichiers 'level_name[i]'*.tree                     #
 # et les 6 fichiers Sliced_matrix_'level_name[i]'.tsv                                        #
 # Output == les 6 histogrammes (en FR et EN), les 6 arbres colorises                         #
@@ -36,7 +37,9 @@ liste_generator <- function(tree, tibble_tree) # Il faut l arbre sous forme phyl
   length <- as.data.frame(matrix(data = 0, nrow = n_gene, ncol = 1)) # On prepare une colonne des distances des sous-arbres  
   uni_gene <- cbind(uni_gene, length) # On ajoute cette colonne a celle des genes
   colnames(uni_gene) <- c('gene', 'length')
+  
   l <- 1
+  
   for (k in 5:n_Gene) # Permet de parcourir les k colonnes associees aux genes dans tibbled_tree (celles issues de la matrice)
   { # N.B. : On est donc oblige de demarrer a partir de la 5eme colonnes (les 4 1ere etant celles propres a l arbre)
     wanted_gene <- colnames(tibble_tree[, k]) # On recuppere le nom de le gene associe a la colonne k
@@ -49,6 +52,7 @@ liste_generator <- function(tree, tibble_tree) # Il faut l arbre sous forme phyl
     trees[[l]] <- tree_gene # On stock le sous-arbre dans la liste des sous-arbre
     l <- l + 1
   } # Comme return ne peut s appliquer qu a une seule variable on est oblige de stocker temporairement les 2 listes ensemble
+  
   liste <- list(trees, uni_gene) 
   return(liste)
 }
