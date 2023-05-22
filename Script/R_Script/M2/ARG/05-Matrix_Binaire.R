@@ -8,15 +8,12 @@
 ###########################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees dans une dataframe ####
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>% 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>% 
   as.data.frame() 
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexNiveau ####
-#level <- as.data.frame(all_species[, c(7:12)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies
-level <- as.data.frame(all_species[, c(3:8)])
-#level_name <- unlist(colnames(all_species[, c(7:12)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
-level_name <- unlist(colnames(all_species[, c(3:8)]))
+level <- as.data.frame(all_species[, c(7:12)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies
+level_name <- unlist(colnames(all_species[, c(7:12)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
 
 uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
 n_gene <- length(uni_gene) 
@@ -46,8 +43,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   }
   
   #### Enregistrement de la matrice binaire ainsi obtenue dans un fichier nominatif ####
-  #path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_"
-  path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_"
+  path_start <- "W:/ninon-species/output/Output_M2/ARG/Matrice/Sliced_Matrix_"
   path_end <- ".tsv" 
   file_name <- str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
   write.table(gene_matrix, file_name, sep = '\t', row.names = FALSE, col.names = TRUE)
