@@ -11,7 +11,7 @@ library(ggtree)
 
 #### Main : ####
 
-# N.B. : Verifier que le traitement 'a la main' des cas particuliers dans 01 03 et 04 est toujours adapte (normalement oui) si les donnees de depart changent !
+# N.B. : Verifier les graphs sur l ensemble des especes (pas possible juste avec les vibrio)
 
 # if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv') == FALSE)
 # {
