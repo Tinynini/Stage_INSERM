@@ -11,26 +11,18 @@ library(ggtree)
 
 #### Main : ####
 
-# N.B. : Verifier les graphs sur l ensemble des especes (pas possible juste avec les vibrio)
-
-# if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv') == FALSE)
-# {
-#   source('W:/ninon-species/script/Script_M2/01-Species_filtering.R') # /!\ Ca prend 3/4h a 2h !!
-# } else if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv') == FALSE)
-# {
-#   source('W:/ninon-species/script/Script_M2/02-All_species_cluster.R') 
-# } else 
-# {
-#   source('W:/ninon-species/script/Script_M2/03-Taxonomy_parser.R') 
-# }
-
-if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust') == FALSE)
+if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/all_species.tsv') == FALSE)
 {
-  source('W:/ninon-species/script/Script_M2/01-02_alt.R') 
+  source('W:/ninon-species/script/Script_M2/01-Species_filtering.R') # /!\ Ca prend 3/4h a 2h !!
+} else if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_clust.tsv') == FALSE)
+{
+  source('W:/ninon-species/script/Script_M2/02-All_species_cluster.R')
+} else
+{
+  source('W:/ninon-species/script/Script_M2/03-Taxonomy_parser.R')
 }
 
-#if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv') == FALSE)
-if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv') == FALSE)
+if (file.exists('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv') == FALSE)
 {
   source('W:/ninon-species/script/Script_M2/04-Taxo_Join.R') 
 } else 
