@@ -14,12 +14,10 @@ tree <- read.tree('W:/ninon-species/data/bac120/bac120_r95.tree')
 tree_df <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
 # N.B. : Les labels de tips et de nodes se suivent sur une meme colonne lorsqu un arbre est au format tibble !!
 
-#all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv', col_types = "ccddcccccccdddddd") %>%
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_Taxo_Result.tsv', col_types = "cccccccdddddd") %>% 
   as.data.frame()
 
-#level_share <- as.data.frame(all_species[, c(6:17)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies et a leurs partages
-level_share <- as.data.frame(all_species[, c(2:13)])
+level_share <- as.data.frame(all_species[, c(2:13)]) # On extrait le contenu des colonnes associees aux 6 niveaux taxonomiques etudies et a leurs partages
 
 for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espece a phylum)
 {
@@ -82,10 +80,9 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
       new_phylo_tree[j, 'label'] <- str_glue("{new_phylo_tree[j, 'label']}_{k}") # On ajoute une numerotation secondaire k
       k <- k + 1 # Et on augmente k de 1 pour avancer dans la numerotation
     }
-    
     else # Sinon
     {
-      new_phylo_tree[j, 'label'] <- str_glue("{new_phylo_tree[j, 'label']}_{k}") # On ajoute quand même une numerotation secondaire k
+      new_phylo_tree[j, 'label'] <- str_glue("{new_phylo_tree[j, 'label']}_{k}") # On ajoute quand mÃªme une numerotation secondaire k
       k <- 1 # Et on ramene k a la valeur 1 pour revenir au debut de la numerotation pour le groupe suivant de labels identiques
     }
   }
@@ -97,7 +94,6 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_tree <- as.phylo(new_phylo_tree) # On repasse au format phylo pour pouvoir enregistrer l arbre sans risquer de l abimer
   
   #### Enregistrement des arbres ainsi obtenus dans des fichiers nominatifs ####
-  #path_start <- "W:/ninon-species/output/Output_M2/ARG/Arbre/"
   path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Arbre/"
   path_end <- ".tree"
   other_path_end <- "_version_alt.tree"
