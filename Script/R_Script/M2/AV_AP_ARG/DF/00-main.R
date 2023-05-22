@@ -6,7 +6,7 @@ library(ggtree)
 #### A faire : ####
 
 # 1 : Remarque Nicolas (table excel) + 3 nouveaux graphs (photo antoine)
-# 2 : Switcher en bash pour pouvoir choisir si on travaille en sliced ou total (Tous sauf 01 et 03)/en anglais ou français (07 08 et 10)/avec quels reps (07 et 10) a l avance !!
+# 2 : Switcher en bash pour pouvoir choisir si on travaille en sliced ou total (Tous sauf 01 et 03)/en anglais ou franÃ§ais (07 08 et 10)/avec quels reps (07 et 10) a l avance !!
 # 3 (Optionnel) : Checker l existance des inputs avant 05 06 et 09 (comment gerer ca pour plusieurs inputs ?) ??
 
 #### Main : ####
