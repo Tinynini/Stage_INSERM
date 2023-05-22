@@ -17,10 +17,14 @@ Ces scripts sont propre à l'étude réalisée en M2. generater_liste_data.sh se
 
 **Les scripts R de M1 :**
 
+Ce jeu de scripts est conçu pour travailler avec les données propre à l'étude de M1, autrement dit celles se rapportant aux gènes de résistance (ARGs).
+
 Le script "All_species_cluster.R" génère à la fois un version complète et une version réduite de son output. Aussi, la plupart des autres scripts R sont conçus de ce fait pour pouvoir travailler soit en mode 'complet', soit en mode 'réduit'. Cela correspond à la présence de versions alternatives des lignes de code liées au chargement des données et d'enregistrement des outputs. Dans les 2 cas, la ligne du dessus permet de travailler avec la version complète et celle du dessous avec la version réduite. Il faut juste être vigilant à ce que le script soit régler sur la même version en entrée et en sortie. D'autres lignes de code internes aux scriptes peuvent parfois aussi nécessiter d'être commentées/décommentées en fonction de la version dans laquelle on souhaite travailler.
 
 Selon ce même principe, le script "Taxonomy_Parser.R" permet de travailler soit à partir de la version prétraitée de la table de taxonomie (1ère version), soit à partir de la version originale (2nde version). Comme indiqué dans le script lui-même, une des lignes doit être décommentée et une autre plus loin commentée si l'on travaille avec la 1ère version, ou bien la 1ère de ces lignes commentée et l'autre décommentée si l'on travaille avec la 2nde version.
 
 **Les scripts R de M2 :**
 
-On ne travaille plus qu'avec la version slicee de la dataframe puisque qu'on a eu la preuve avec les résultats obtenus en M1 que les 2 versions donnent bien les mêmes résultats de bout en bout. Par ailleurs, les scripts ayant été optimisés de différentes façon, les 2 versions de la table de taxonomie sont à présent générées simultatnément. Par ailleurs, les 2 premières étapes (celles réalisées par les 2 premiers scripts R en M1) sont a présents réaliser en bash, le volume des nouvelles données étant beaucoup trop important pour R Studio.
+Le dossier 'ARG' contient un jeu de scripts qui est la version optimisée de celui de M1. On ne travaille plus qu'avec la version slicee de la dataframe puisque qu'on a eu la preuve avec les résultats obtenus en M1 que les 2 versions donnent bien les mêmes résultats de bout en bout. Par ailleurs, les 2 versions de la table de taxonomie sont à présent générées simultatnément. 
+
+Le dossier 'AV_AP_ARG' contient 2 jeux de scripts tous 2 conçus pour travailler avec les données propre à l'étude de M2, autrement dit celles se rapportant aux gènes avant/après ceux de résistance. Les 2 premières étapes (celles réalisées par les 2 premiers scripts R pour les ARGs) sont à présent réalisées en bash puis finalisées dans un unique script R en raison du volume astronomique des données de M2. Le 1er jeu de scripts est une transposition de celui du dossier 'ARG' adaptée au traitement des données de M2. Le 2nd est une variante du 1er proposant une approche 100% matricielle. Cette nouvelle approche s'est en effet révélée nécessaire toujours en raison du volume astronomique des données de M2.
