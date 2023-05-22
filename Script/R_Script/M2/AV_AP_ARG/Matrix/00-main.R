@@ -10,23 +10,25 @@ library(ggtree)
 # 3 (Optionnel) : Checker l existance des inputs avant 05 06 et 09 (comment gerer ca pour plusieurs inputs ?) ??
 
 #### Main : ####
-
 # N.B. : Verifier les graphs sur l ensemble des especes (pas possible juste avec les vibrio)
 
 if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust') == FALSE)
 {
-  source('W:/ninon-species/script/Script_M2/01-02_alt.R') 
+  source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/01-02_alt.R') 
+} else
+{
+  source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/03-Taxonomy_parser.R')
 }
 
 if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv') == FALSE)
 {
-  source('W:/ninon-species/script/Script_M2/04-Taxo_Join.R') 
+  source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/04-Taxo_Join.R') 
 } else 
 {
-  source('W:/ninon-species/script/Script_M2/05-Matrix_Binaire.R') 
-  source('W:/ninon-species/script/Script_M2/06-Matrix_Pseudo_Binaire.R') 
-  source('W:/ninon-species/script/Script_M2/07-Matrix_Plot.R') 
-  source('W:/ninon-species/script/Script_M2/08-Taxo_Filter_Plot.R') 
-  source('W:/ninon-species/script/Script_M2/09-Tree_Pruner.R') 
-  source('W:/ninon-species/script/Script_M2/10-Tree_Plot.R') 
+  source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/05-Matrix_Binaire.R') 
+  source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/06-Matrix_Pseudo_Binaire.R') 
+  source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/07-Matrix_Plot.R') 
+  source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/08-Taxo_Filter_Plot.R') 
+  source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/09-Tree_Pruner.R') 
+  source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/10-Tree_Plot.R') 
 }
