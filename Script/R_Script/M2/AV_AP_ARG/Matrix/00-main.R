@@ -12,7 +12,7 @@ library(ggtree)
 #### Main : ####
 # N.B. : Verifier les graphs sur l ensemble des especes (pas possible juste avec les vibrio)
 
-if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust') == FALSE)
+if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust.tsv') == FALSE)
 {
   source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/01-02_alt.R') 
 } else
