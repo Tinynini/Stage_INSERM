@@ -15,12 +15,14 @@
 
 #### Ouverture de Sliced_Taxo_Result.tsv & recuperation des donnees ####
 #all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_Result.tsv', col_types = "ccddcccccccdddddd") %>%
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_Taxo_Result.tsv', col_types = "ccddcccccccdddddd") %>%
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_Taxo_Result.tsv', col_types = "cccccccdddddd") %>%
   as.data.frame
 # On est oblige de modifier la nomenclature des noms d especes parce qu une modification automatique se fait au niveau des labels de tips de l arbre des especes 
 all_species[, 'species'] <- str_replace(all_species[, 'species'], '(.*) (.*)', '\\1\\_\\2')
-level <- as.data.frame(all_species[, c(6:11)]) # On extrait le contenu des colonnes associes aux 6 niveaux taxonomiques etudies
-level_name <- unlist(colnames(all_species[, c(6:11)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
+#level <- as.data.frame(all_species[, c(6:11)]) # On extrait le contenu des colonnes associes aux 6 niveaux taxonomiques etudies
+level <- as.data.frame(all_species[, c(2:7)])
+#level_name <- unlist(colnames(all_species[, c(6:11)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
+level_name <- unlist(colnames(all_species[, c(2:7)]))
 
 #### Preparation des futures listes dans lesquels seront reunies celles obtenues aux 6 niveaux taxonomiques ####
 liste_uni_gene <- vector(mode = 'list', length = 6) # On prepare une liste des listes des genes et des distances totales de leurs sous-arbres aux 6 niveaux taxonomiques
@@ -125,7 +127,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   #### Exemple de plot d un sous_arbre avec "blaNDM-9_1_KC999080" (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   #debu <- "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Sous_arbres/blaNDM-9/Sub_tree_"
-  debu <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Tree_plot/Sous_arbres/blaNDM-9/Sub_tree_"
+  debu <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Tree_plot/Sous_arbres/rep~blaNDM-9/Sub_tree_"
   fine <- ".png" 
   # N.B. : Il suffit de changer l index dans trees et uni_gene et d adapter le chemin d acces pour tester un autre gene
   # Index des 4 genes que j ai choisis comme representants : 174 - 320 - 402 - 1446 (meme ordre que dans le ppt)
