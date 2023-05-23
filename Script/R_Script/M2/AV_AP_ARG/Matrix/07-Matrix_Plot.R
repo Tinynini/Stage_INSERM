@@ -9,7 +9,7 @@
 ###################################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
   as.data.frame() 
 
 uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes 
@@ -28,9 +28,9 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   
   #### Barplot de la presence d un gene donne (ici aac(6')-31_1_AM283489) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
-  deb_fr <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Matrice_plot/Barplot_Pres_ARG/rep/FR/Partage_inter-" 
+  deb_fr <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Matrice_plot/Barplot_Pres_ARG/rep/FR/Partage_inter-" 
   fin_fr <- "_fr.png" 
-  deb_en <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Matrice_plot/Barplot_Pres_ARG/rep/EN/Partage_inter-" 
+  deb_en <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Matrice_plot/Barplot_Pres_ARG/rep/EN/Partage_inter-" 
   fin_en <- "_en.png"
   # Pour definir les titres de barplots
   debut <- "Partage inter-" 
