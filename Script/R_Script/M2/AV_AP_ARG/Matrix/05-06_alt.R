@@ -32,7 +32,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
   
   for (j in (i + 1):6) # Permet de parcourir en parrallele du niveau i les j niveaux suivants
   {
-    curr_level <- species[, c(j, i)] # On extrait simultanement les colonnes des niveaux j et i 
+    curr_level <- unique(species[, c(j, i)]) # On extrait simultanement les colonnes des niveaux j et i 
     # na_level_1 <- which(is.na(curr_level[, 1]) == TRUE) # On isole les lignes du niveau j contenant NA (== valeur non renseignee)
     # curr_level <- curr_level[-c(na_level_1),] # On supprimer ces lignes 
     #
@@ -50,7 +50,6 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     n_level <- length(uni_level)
     
     gene_matrix <- curr_matrix
-    rownames(gene_matrix) <- uni_gene
     gene_matrix <- t(gene_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne
     gene_matrix <- cbind(now_level, gene_matrix) # On fusionne la colonne du niveau i a notre matrice
     gene_matrix <- left_join(curr_level, gene_matrix, by = NULL) # On join les colonnes des niveaux j et i et la matrice sur les colonnes du niveau i de part et d autre
@@ -108,7 +107,6 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
       }
       
       next_matrix <- cross_matrix
-      
       new_file_name <- str_glue("{path_start}{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
       write.table(cross_matrix, new_file_name, sep = '\t', row.names = FALSE, col.names = TRUE)
     }
