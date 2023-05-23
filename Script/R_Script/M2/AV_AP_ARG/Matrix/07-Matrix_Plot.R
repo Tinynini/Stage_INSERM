@@ -9,14 +9,14 @@
 ###################################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
   as.data.frame() 
 
-uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes 
+uni_gene <- all_species$qseqid # On extrait la colonne des genes 
 
 #### Obtention de la liste des fichiers contenant nos matrices binaires et pseudo-binaires ####
 # On se rend dans le bon emplacement puis on recherche la parterne de nom de fichier 'Sliced_Matrix_.*.tsv' qui est commune aux 2 types de matrice 
-all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE) 
+all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE) 
 n_matrix <- length(all_matrix) # On recupere le nombre de fichier contenus dans notre liste de fichier 
 matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3') # On recupere les noms de matrices a partir des noms de fichiers 
 
@@ -42,7 +42,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   { # N.B. : Il suffit de changer l index dans gene_matrix et uni_gene et d adapter les chemins d acces pour tester un autre gene
     to_set <- which(gene_matrix[32,] != 0) # On isole les colonnes pour lesquelles le gene matche
     m <- gene_matrix[32, c(to_set)] # On extrait lesdites colonnes
-
+    
     png(str_glue("{deb_fr}{matrix_name[i]}{fin_fr}"), height = 1017, width = 1920, pointsize = 20)
     barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_gene[32]}")) # Barblot de la presence du gene donne dans la matrice
     dev.off()
