@@ -8,7 +8,7 @@
 ##############################################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees dans une dataframe ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
   as.data.frame() 
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexNiveau d un genre un peu different... ####
@@ -42,7 +42,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     n_level <- length(uni_level)
 
     #### Ouverture & traitement de la matrice binaire associee au niveau i depuis son fichier nominatif ####
-    path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_"
+    path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Matrice/Sliced_Matrix_"
     path_end <- ".tsv"
     file_name <- str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
 
@@ -86,7 +86,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     } # N.B : Je sais c est un peu complique mais in fine ca donne un matrice Genex'Level j' avec 0 s il y a pas de match ou le nombre de representants du niveau i au sein du representant du niveau j se partageant le gene s il y a un match
 
     #### Enregistrement de la matrice pseudo-binaire ainsi obtenue dans un fichier nominatif ####
-    new_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_"
+    new_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Matrice/Sliced_Matrix_"
     new_path_end <- ".tsv"
     new_file_name <- str_glue("{new_path_start}{level_name[i]}_{level_name[j]}{new_path_end}") # Le nom de fichier est definit par une variable
     write.table(cross_matrix, new_file_name, sep = '\t', row.names = FALSE, col.names = TRUE)
