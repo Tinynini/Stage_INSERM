@@ -9,14 +9,14 @@
 ###################################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
   as.data.frame() 
 
 uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes 
 
 #### Obtention de la liste des fichiers contenant nos matrices binaires et pseudo-binaires ####
 # On se rend dans le bon emplacement puis on recherche la parterne de nom de fichier 'Sliced_Matrix_.*.tsv' qui est commune aux 2 types de matrice 
-all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE) 
+all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Matrice', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE) 
 n_matrix <- length(all_matrix) # On recupere le nombre de fichier contenus dans notre liste de fichier 
 matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3') # On recupere les noms de matrices a partir des noms de fichiers 
 
@@ -28,9 +28,9 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   
   #### Barplot de la presence d un gene donne (ici aac(6')-31_1_AM283489) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
-  deb_fr <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Matrice_plot/Barplot_Pres_ARG/rep/FR/Partage_inter-" 
+  deb_fr <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Plot/Matrice_plot/Barplot_Pres_ARG/rep/FR/Partage_inter-" 
   fin_fr <- "_fr.png" 
-  deb_en <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Matrice_plot/Barplot_Pres_ARG/rep/EN/Partage_inter-" 
+  deb_en <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Plot/Matrice_plot/Barplot_Pres_ARG/rep/EN/Partage_inter-" 
   fin_en <- "_en.png"
   # Pour definir les titres de barplots
   debut <- "Partage inter-" 
