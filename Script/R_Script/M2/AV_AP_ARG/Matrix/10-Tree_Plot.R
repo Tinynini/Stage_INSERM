@@ -14,7 +14,7 @@
 ##############################################################################################
 
 #### Ouverture de Sliced_Taxo_Result.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/Sliced_Taxo_Result.tsv', col_types = "cccccccdddddd") %>%
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/Sliced_Taxo_Result.tsv', col_types = "cccccccdddddd") %>%
   as.data.frame
 # On est oblige de modifier la nomenclature des noms d especes parce qu une modification automatique se fait au niveau des labels de tips de l arbre des especes 
 all_species[, 'species'] <- str_replace(all_species[, 'species'], '(.*) (.*)', '\\1\\_\\2')
@@ -80,7 +80,7 @@ liste_parser <- function(trees, uni_gene) # Il faut la liste des sous-arbre et u
 for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espece a phylum)
 {
   #### Ouverture des arbres du niveau i depuis leurs fichiers nominatifs & preparation des donnees ####
-  path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Arbre/"
+  path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Arbre/"
   path_end <- ".tree"
   other_path_end = "_version_alt.tree"
   # Les noms des fichiers sont definis par des variables
@@ -97,7 +97,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   n_level <- nrow(uni_level)
   
   ### Ouverture & traitement de la matrice binaire associee au niveau i ####
-  m_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_"
+  m_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice/Sliced_Matrix_"
   m_path_end <- ".tsv"
   m_file_name <- str_glue("{m_path_start}{level_name[i]}{m_path_end}") # Le nom de fichier est definit par une variable
   gene_matrix <- read_tsv(m_file_name, show_col_types = FALSE)
@@ -121,7 +121,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   
   #### Exemple de plot d un sous_arbre avec "blaNDM-9_1_KC999080" (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
-  debu <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Tree_plot/Sous_arbres/rep~blaNDM-9/Sub_tree_"
+  debu <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Tree_plot/Sous_arbres/rep~blaNDM-9/Sub_tree_"
   fine <- ".png" 
   # N.B. : Il suffit de changer l index dans trees et uni_gene et d adapter le chemin d acces pour tester un autre gene
   # Index des 4 genes que j ai choisis comme representants : 174 - 320 - 402 - 1446 (meme ordre que dans le ppt)
@@ -143,8 +143,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   start <- 'Dist_'
   end_fr <- '_fr.png'
   end_en <- '_en.png'
-  path_fr = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Distance_plot/FR"
-  path_en = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Distance_plot/EN"
+  path_fr = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Distance_plot/FR"
+  path_en = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Distance_plot/EN"
   # Pour definir les titres de plots
   title_fr <- "Nombres d'occurrences des valeurs de distances inter-" 
   title_start_en <- "Inter-"
@@ -173,8 +173,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   debut <- 'Tree_'
   fin_fr <- '_fr.png'
   fin_en <- '_en.png'
-  dir_fr = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Tree_plot/Arbre_sous_arbres/FR"
-  dir_en = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Tree_plot/Arbre_sous_arbres/EN"
+  dir_fr = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Tree_plot/Arbre_sous_arbres/FR"
+  dir_en = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Tree_plot/Arbre_sous_arbres/EN"
   # Pour definir les titres de plots
   titre_deb_fr <- "Sous-arbres " 
   titre_fin_fr <- "/ARG" 
