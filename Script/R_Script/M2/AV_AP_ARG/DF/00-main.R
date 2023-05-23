@@ -12,7 +12,7 @@ library(ggtree)
 #### Main : ####
 # N.B. : Verifier les graphs sur l ensemble des especes (pas possible juste avec les vibrio)
 
-if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust.tsv') == FALSE)
+if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Dataframe/sliced_all_species_clust.tsv') == FALSE)
 {
   source('W:/ninon-species/script/Script_M2/AV_AP_ARG/DF/01-02_alt.R') 
 } else
@@ -20,7 +20,7 @@ if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_al
   source('W:/ninon-species/script/Script_M2/AV_AP_ARG/DF/03-Taxonomy_parser.R')
 }
 
-if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv') == FALSE)
+if (file.exists('W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Dataframe/sliced_all_species_taxo.tsv') == FALSE)
 {
   source('W:/ninon-species/script/Script_M2/AV_AP_ARG/DF/04-Taxo_Join.R') 
 } else 
