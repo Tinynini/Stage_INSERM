@@ -1,4 +1,5 @@
 library(tidyverse)
+library(ggtree)
 
 #### Ouverture de Final_ARG_species.tsv (ou de Final_New_ARG_species.tsv) & recuperation des donnees ####
 taxo <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Final_ARG_species.tsv') %>% 
@@ -7,6 +8,7 @@ taxo <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Final_ARG_species.
 
 #### On genere 6 nouvelles colonnes des partages de centroides du niveau 'species' au niveau 'Phylum' ####
 # N.B. : Le niveau 'Domain' n est pas traite car cette etude ne porte que sur le domaine des 'bacteria' (== bacterie)
+
 taxo %>%
   arrange(Centroid) %>%
   group_by(Centroid) %>%
@@ -31,7 +33,7 @@ taxo %>%
   arrange(pident, qcovhsp) %>%
   slice_tail() -> taxo_small
 
-# On rearrange les données en vue des plots
+# On rearrange les donnÃ©es en vue des plots
 taxo_small %>% 
   arrange(phylum_shared_by, class_shared_by, order_shared_by, family_shared_by, genus_shared_by, species_shared_by) %>%
   identity() -> taxo_small
@@ -40,7 +42,7 @@ taxo_small %>%
 species_share <- taxo_small['species_shared_by']
 species_num <- nrow(unique(species_share)) # Donne le nombre de barre que doit contenir l histogramme
 splot <- ggplot(species_share, aes(species_shared_by)) + geom_histogram(bins = (max(species_share)*2 - 1))
-splot + ggtitle("Nombres d'occurrences des valeurs de partages inter-espèces") + xlab("Valeurs des partages") + ylab("Nombres d'occurences")
+splot + ggtitle("Nombres d'occurrences des valeurs de partages inter-espÃ¨ces") + xlab("Valeurs des partages") + ylab("Nombres d'occurences")
 
 genus_share <- taxo_small['genus_shared_by']
 genus_num <- nrow(unique(genus_share)) # Donne le nombre de barre que doit contenir l histogramme
