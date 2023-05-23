@@ -8,7 +8,7 @@
 ###########################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees dans une dataframe ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
   as.data.frame() 
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexNiveau ####
@@ -43,7 +43,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   }
   
   #### Enregistrement de la matrice binaire ainsi obtenue dans un fichier nominatif ####
-  path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_"
+  path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Matrice/Sliced_Matrix_"
   path_end <- ".tsv" 
   file_name <- str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
   write.table(gene_matrix, file_name, sep = '\t', row.names = FALSE, col.names = TRUE)
