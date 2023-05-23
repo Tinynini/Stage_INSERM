@@ -1,11 +1,11 @@
 #library(tidyverse)
 
-########################################################################
-# Ninon ROBIN -- ninon.robin@inserm.fr                                 #
-# Utilite == obtenir la dataframe slicee a partir de la matrice slicee #
-# Input == matrix.tsv                                                  #
-# Output == sliced_all_species_clust.tsv                               #
-########################################################################
+##################################################################
+# Ninon ROBIN -- ninon.robin@inserm.fr                           #
+# Utilite == ajouter la colonne des partages en format matriciel #
+# Input == matrix.tsv                                            #
+# Output == sliced_all_species_clust.tsv                         #
+##################################################################
 
 #### Ouverture de matrix.tsv & recuperation des donnees dans des dataframes ####
 matrix <- read.csv('W:/ninon-species/data/vib_matrix.tsv', header = TRUE, sep = ",")
