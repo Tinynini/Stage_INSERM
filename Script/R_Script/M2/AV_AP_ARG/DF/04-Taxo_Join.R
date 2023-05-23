@@ -11,7 +11,7 @@
 Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv', col_types = "ccccccc")
 Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),] # Suppression preventive de certaine lignes de la table de taxonomie pour eviter l apparition de certains doublons 
 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust.tsv', col_types = "ccc") %>%
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Dataframe/sliced_all_species_clust.tsv', col_types = "ccc") %>%
   as.data.frame()
 
 #### Fonction servant a effectuer un traitement supplementaire pour les noms d especes qui matchent 'pattern_1' ####
@@ -133,4 +133,4 @@ ex <- which(all_species[, 'species']  %in% c('Actinobacteria bacterium', 'Tissie
 all_species[ex, 'Phylum'] <- str_replace(all_species[ex, 'species'], '(.*) (.*)', '\\1')
 
 #### Enregistrement de la dataframe slicee dans le fichier sliced_all_species_taxo.tsv ####
-write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_taxo.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Dataframe/sliced_all_species_taxo.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
