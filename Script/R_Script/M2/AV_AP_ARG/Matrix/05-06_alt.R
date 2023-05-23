@@ -22,7 +22,7 @@ write.table(species_matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexNiveau ####
 level_name <- unlist(colnames(species)) # On extrait les labels des 6 niveaux taxonomiques etudies pour pouvoir travailler a un niveau donne plus facilement
 curr_matrix <- species_matrix
-uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
+uni_gene <- all_species$qseqid # On extrait la colonne des genes
 n_gene <- length(uni_gene) 
 
 for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espece a classe)
