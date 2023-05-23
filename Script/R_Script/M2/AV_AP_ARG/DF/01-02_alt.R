@@ -55,4 +55,4 @@ for (l in 1:nrow(all_species)) # Inversion des 2 parties de nom d'espece pour le
 }
 
 #### Enregistrement de la dataframe dans le fichier sliced_all_species_clust.tsv ####
-write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
