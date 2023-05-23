@@ -4,15 +4,19 @@
 # Ninon ROBIN -- ninon.robin@inserm.fr                                             #
 # Utilite == recuperer la taxonomie d un maximum d espece via des joins successifs #
 # Input == sliced_all_species_clust.tsv et Parsed_taxonomy.tsv (V1)                #
-# Output == sliced_all_species_taxo.tsv                                            #
+# Output == sliced_all_species_clust.tsv & taxo_species.tsv                        #
 ####################################################################################
 
 #### Ouverture de Parsed_taxonomy.tsv et de sliced_all_species_clust.tsv & recuperation des donnees ####
 Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv', col_types = "ccccccc")
 Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),] # Suppression preventive de certaine lignes de la table de taxonomie pour eviter l apparition de certains doublons 
 
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv', col_types = "ccc") %>%
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv', show_col_types = FALSE) %>%
   as.data.frame()
+
+species <- colnames(all_species)
+species <- as.data.frame(species[-c(1,2)])
+colnames(species) <- 'species'
 
 #### Fonction servant a effectuer un traitement supplementaire pour les noms d especes qui matchent 'pattern_1' ####
 special_treat <- function(df, j, pattern_1, pattern_2, replacement)
@@ -69,21 +73,20 @@ except_treat <- function(df, wanted, level_1, level_2, level_3, rep_1, rep_2, re
 
 #### Preparation des donnees en vue d un 1er join au niveau des especes ####
 # On modifie la nomenclature des noms d especes en vue du join 
-all_species[, 'species'] <- str_replace(all_species[, 'species'], pattern = '(.*)_(.*)', replacement = "\\1\\ \\2")
+species[, 'species'] <- str_replace(species[, 'species'], pattern = '(.*)_(.*)', replacement = "\\1\\ \\2")
 
-for (j in 1:nrow(all_species)) # Certains noms d especes necessitent un traitement supplementaire
+for (j in 1:nrow(species)) # Certains noms d especes necessitent un traitement supplementaire
 {
-  all_species <- special_treat(all_species, j, 'ORG-.', "(.*)_(.*) (.*)(..)", "\\1\\ \\2\\_\\3")
-  all_species <- special_treat(all_species, j, 'symbiont', "(.*) (.*)", "\\2\\ \\1")
-  all_species <- special_treat(all_species, j, 'Bacterium', "(.*) (.*)", "\\2\\ \\1")
+  species <- special_treat(species, j, 'ORG-.', "(.*)_(.*) (.*)(..)", "\\1\\ \\2\\_\\3")
+  species <- special_treat(species, j, 'symbiont', "(.*) (.*)", "\\2\\ \\1")
+  species <- special_treat(species, j, 'Bacterium', "(.*) (.*)", "\\2\\ \\1")
 }
 
-#### 1er join au niveau des especes --> consequence : ajout de 6 nouvelles colonnes ('Genus' a 'Domain') ####
-all_species %>%
-  arrange(qseqid) %>%
-  identity() -> all_species
+colnames(all_species) <- c('qseqid', 'shared_by', unlist(species))
 
-all_species <- left_join(all_species, Parsed_taxonomy, by = c('species' = 'Species'))
+#### 1er join au niveau des especes --> consequence : ajout de 6 nouvelles colonnes ('Genus' a 'Domain') ####
+
+species <- left_join(species, Parsed_taxonomy, by = c('species' = 'Species'))
 
 #### Preparation des donnees en vue des 3 joins successifs a venir ####
 level_name <- unlist(colnames(Parsed_taxonomy[, c(1:4)]))
@@ -91,7 +94,7 @@ level_name[1] <- 'species'
 # On liste les suffix des especes 'bacterium' pour pouvoir les traiter selon le niveau taxonomique a partir duquel elles sont referencees
 suffix <- c('', '(.*) (bacterium)', '(.*)(ceae) (bacterium)', '(.*)(ales) (bacterium)')
 cond <- c('', FALSE, TRUE, TRUE) # On adapte la condition de traitement selon le niveau taxonomique
-NA_level <- is.na(all_species[, level_name[2]]) # Extraction des especes qui n ont pas pu etre matchees lors du 1er join 
+NA_level <- is.na(species[, level_name[2]]) # Extraction des especes qui n ont pas pu etre matchees lors du 1er join 
 
 #### joins successifs au niveau des genus puis des familles et enfin des ordres ####
 for (i in 2:4)
@@ -99,16 +102,16 @@ for (i in 2:4)
   # On supprime le niveau traite precedement de la table de taxonomie en vue du nouveau join
   Parsed_taxonomy <- Parsed_taxonomy[,-c(1)] 
   # Traitement specifiques des especes 'bacterium' qui ne peuvent etre matchees qu au niveau i 
-  for (k in 1:nrow(all_species))
+  for (k in 1:nrow(species))
   {
-    if (NA_level[k] == TRUE & grepl(suffix[i], all_species[k, 'species']) == cond[i])
+    if (NA_level[k] == TRUE & grepl(suffix[i], species[k, 'species']) == cond[i])
     {
-      all_species[k, level_name[i]] <- str_replace(all_species[k, 'species'], '(.*) (.*)', '\\1')
+      species[k, level_name[i]] <- str_replace(species[k, 'species'], '(.*) (.*)', '\\1')
     }
   }
   # Creation d une nouvelle dataframe contenant uniquement les especes non matchee lors du join precedent
-  gene_level <- as.data.frame(all_species[c(NA_level), c(1:(i + 2))])
-  colnames(gene_level) <- colnames(all_species[, c(1:(i + 2))])
+  gene_level <- as.data.frame(species[c(NA_level), c(1:i)])
+  colnames(gene_level) <- colnames(species[, c(1:i)])
   gene_level <- left_join(gene_level, Parsed_taxonomy, by = NULL) # Join au niveau i
   gene_level <- unique(gene_level)
   # Traitement visant a supprimer les nombreux doublons generes par le join au niveau des genus ####
@@ -117,20 +120,21 @@ for (i in 2:4)
     gene_level <- Genus_cleaning(gene_level)
   }
   # Remplacement dans notre dataframe initiale des lignes associees aux especes non-matchees par celles de la nouvelle dataframe 
-  less_NA_level <- which(all_species[, level_name[i - 1]] %in% gene_level[, level_name[i - 1]])
-  all_species[c(less_NA_level),] <- gene_level
-  NA_level <- is.na(all_species[, level_name[i]])
+  less_NA_level <- which(species[, level_name[i - 1]] %in% gene_level[, level_name[i - 1]])
+  species[c(less_NA_level),] <- gene_level
+  NA_level <- is.na(species[, level_name[i]])
 }
 
 #### Traitement direct (hors join) de cas particuliers d especes (principalement des 'bactérium') trop isolees pour faire l objet d'un join ####
 # N.B. : On peut traiter plusieurs niveaux a la fois pour ce 1er traitement parce qu il ne concerne qu une seule ligne (== on n a pas le probleme du decalage a chaque nouvelle ligne)
-all_species <- except_treat(all_species, 'Bacillus bacterium', c('Genus', 'Family', 'Order'), 'Class', 'Phylum', c('Bacillus', 'Bacillaceae', 'Bacillales'), 'Bacilli', 'Firmicutes')
-all_species <- except_treat(all_species, 'Lachnospiraceae oral', 'Genus', 'Family', 'Order', NA, 'Lachnospiraceae', 'Lachnospirales')
-all_species <- except_treat(all_species, c('Clostridia bacterium', 'Lachnospiraceae oral'), 'Class', 'Phylum', 'Phylum', 'Clostridia', 'Firmicutes', 'Firmicutes')
-all_species <- except_treat(all_species, 'Firmicutes bacterium', 'Phylum', 'Phylum', 'Phylum', 'Firmicutes', 'Firmicutes', 'Firmicutes')
+species <- except_treat(species, 'Bacillus bacterium', c('Genus', 'Family', 'Order'), 'Class', 'Phylum', c('Bacillus', 'Bacillaceae', 'Bacillales'), 'Bacilli', 'Firmicutes')
+species <- except_treat(species, 'Lachnospiraceae oral', 'Genus', 'Family', 'Order', NA, 'Lachnospiraceae', 'Lachnospirales')
+species <- except_treat(species, c('Clostridia bacterium', 'Lachnospiraceae oral'), 'Class', 'Phylum', 'Phylum', 'Clostridia', 'Firmicutes', 'Firmicutes')
+species <- except_treat(species, 'Firmicutes bacterium', 'Phylum', 'Phylum', 'Phylum', 'Firmicutes', 'Firmicutes', 'Firmicutes')
 # Traitement de 3 especes 'bacterium' ne pouvant etre fait avec la fonction except_treat()
-ex <- which(all_species[, 'species']  %in% c('Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium'))
-all_species[ex, 'Phylum'] <- str_replace(all_species[ex, 'species'], '(.*) (.*)', '\\1')
+ex <- which(species[, 'species']  %in% c('Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium'))
+species[ex, 'Phylum'] <- str_replace(species[ex, 'species'], '(.*) (.*)', '\\1')
 
-#### Enregistrement de la dataframe slicee dans le fichier sliced_all_species_taxo.tsv ####
+#### Enregistrement de la dataframe slicee dans le fichier sliced_all_species_taxo.tsv et de 'species' dans taxo_species ####
 write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_taxo.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/taxo_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
