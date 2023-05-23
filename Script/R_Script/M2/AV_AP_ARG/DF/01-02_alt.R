@@ -13,6 +13,14 @@ matrix <- read.csv('W:/ninon-species/data/vib_matrix.tsv', header = TRUE, sep = 
 species <- colnames(matrix)
 species <- species[-1]
 
+for (l in 1:length(species)) # Inversion des 2 parties de nom d'espece pour les especes 'UNVERIFIED_ORG' pour avoir la bonne nomenclature
+{
+  if (startsWith(species[l], 'UNV') == TRUE)
+  {
+    species[l] <- str_replace(species[l], pattern = "(.*)_(.*)_(.*)", replacement = "\\3\\_\\1\\_\\2.")
+  }
+}
+
 gene <- matrix[, 1]
 sharing <- matrix[, -1] 
 
@@ -45,14 +53,6 @@ for (i in 1:length(gene))
 }
 
 all_species <- all_species[-1,]
-
-for (l in 1:nrow(all_species)) # Inversion des 2 parties de nom d'espece pour les especes 'UNVERIFIED_ORG' pour avoir la bonne nomenclature
-{
-  if (startsWith(all_species[l, 'species'], 'UNV') == TRUE)
-  {
-    all_species[l,'species'] <- str_replace(all_species[l,'species'], pattern = "(.*)_(.*)_(.*)", replacement = "\\3\\_\\1\\_\\2.")
-  }
-}
 
 #### Enregistrement de la dataframe dans le fichier sliced_all_species_clust.tsv ####
 write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
