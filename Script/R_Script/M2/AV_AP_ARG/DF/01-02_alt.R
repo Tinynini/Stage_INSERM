@@ -48,9 +48,9 @@ all_species <- all_species[-1,]
 
 for (l in 1:nrow(all_species)) # Inversion des 2 parties de nom d'espece pour les especes 'UNVERIFIED_ORG' pour avoir la bonne nomenclature
 {
-  if (startsWith(all_species[j, 'species'], 'UNV') == TRUE)
+  if (startsWith(all_species[l, 'species'], 'UNV') == TRUE)
   {
-    all_species[j,'species'] <- str_replace(all_species[j,'species'], pattern = "(.*)_(.*)_(.*)", replacement = "\\3\\_\\1\\_\\2.")
+    all_species[l,'species'] <- str_replace(all_species[l,'species'], pattern = "(.*)_(.*)_(.*)", replacement = "\\3\\_\\1\\_\\2.")
   }
 }
 
