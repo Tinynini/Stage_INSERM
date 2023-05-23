@@ -1,5 +1,4 @@
 library(tidyverse)
-library(ggtree)
 
 #### Ouverture de Final_ARG_species.tsv (ou de Final_New_ARG_species.tsv) & recuperation des donnees ####
 taxo <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Final_ARG_species.tsv') %>% 
@@ -8,7 +7,6 @@ taxo <- read_tsv('W:/ninon-species/output/Output_M1/Dataframe/Final_ARG_species.
 
 #### On genere 6 nouvelles colonnes des partages de centroides du niveau 'species' au niveau 'Phylum' ####
 # N.B. : Le niveau 'Domain' n est pas traite car cette etude ne porte que sur le domaine des 'bacteria' (== bacterie)
-
 taxo %>%
   arrange(Centroid) %>%
   group_by(Centroid) %>%
