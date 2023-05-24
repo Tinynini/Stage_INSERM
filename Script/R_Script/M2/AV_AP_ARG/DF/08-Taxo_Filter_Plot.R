@@ -8,7 +8,7 @@
 # Output == Sliced_Taxo_Result.tsv et les 6 histogrammes (en FR et EN)                  #
 #########################################################################################
 
-#### Ouverture de de sliced_all_species_taxo.tsv & recuperation des donnees ####
+#### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees ####
 taxo <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/DF/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
   as.data.frame()
 
