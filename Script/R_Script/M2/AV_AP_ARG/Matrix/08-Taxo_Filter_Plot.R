@@ -9,51 +9,49 @@
 #########################################################################################
 
 #### Ouverture de de sliced_all_species_taxo.tsv & recuperation des donnees ####
-taxo <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_taxo.tsv', col_types = "cccccccc") %>% 
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
   as.data.frame()
 
-#### On genere 6 nouvelles colonnes des partages de genes du niveau 'species' au niveau 'Phylum' ####
-taxo %>% # Pour chaque partages de chaque centroids on regarde le nombre de representants distincts de chacuns des 6 niveaux taxonomiques
-  arrange(qseqid, shared_by) %>%
-  group_by(qseqid, shared_by) %>%
-  mutate(species_shared_by = length(unique(species))) %>% # Partages inter-especes
-  mutate(genus_shared_by = length(unique(Genus))) %>% # Partages inter-genus
-  mutate(family_shared_by = length(unique(Family))) %>% # Partages inter-familles
-  mutate(order_shared_by = length(unique(Order))) %>% # Partages inter-ordres
-  mutate(class_shared_by = length(unique(Class))) %>% # Partages inter-classes
-  mutate(phylum_shared_by = length(unique(Phylum))) %>% # Partages inter-phyla (N.B. : phyla == pluriel de phylum)
-  identity() -> taxo
+species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
+  as.data.frame() 
 
-taxo <- taxo[, -2] # On supprime la colonne 'shared_by' car elle est identique a 'species_shared_by' et donc redondante
+#### Recuperation des partages au 6 niveaux taxonomiques etudies ####
+level_name <- unlist(colnames(species)) # On extrait les labels des 6 niveaux taxonomiques etudies pour pouvoir travailler a un niveau donne plus facilement
+level_shared <- as.data.frame(matrix(data=0, nrow=nrow(all_species), ncol=6))
 
-#### Enregistrement de la dataframe slicee dans le fichier Sliced_Taxo_Result.tsv ####
-write.table(taxo, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/Sliced_Taxo_Result.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+m_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice/Sliced_Matrix_"
+m_path_end <- ".tsv"
 
-#### Slice de la dataframe sur les partages inter-especes des centroides de facon a n avoir plus qu une seule occurrence de chaques partages par centroides ####
-taxo %>% 
-  ungroup() %>% 
-  group_by(qseqid, species_shared_by) %>%
-  slice_tail() -> taxo_small
+for (i in 1:6)
+{
+  m_file_name <- str_glue("{m_path_start}{level_name[i]}{m_path_end}") # Le nom de fichier est definit par une variable
+  matrix <- read_tsv(m_file_name, show_col_types = FALSE)
+  rownames(matrix) <- all_species$qseqid
+  
+  level_share <- as.data.frame(matrix(data=0, nrow=nrow(all_species), ncol=1))
+  
+  for (j in 1:nrow(matrix))
+  {
+    level_share[j, ] <- sum(matrix[j,])
+  }
+  
+  level_shared[, i] <- level_share
+}
 
-# On rearrange les données en vue des plots
-taxo_small %>% 
-  arrange(phylum_shared_by, class_shared_by, order_shared_by, family_shared_by, genus_shared_by, species_shared_by) %>%
-  identity() -> taxo_small
-
-#### histogrammes des nombres d occurrences des valeurs de partage aux 6 niveaux taxonomiques etudies ####
-# Fonction pour generer les plots avec le titre et les labels en francais
-generate_plot_fr <- function(level_share, level_name)
+#### Fonction pour generer les plots avec le titre et les labels en francais ####
+generate_plot_fr <- function(shared_by, level_name)
 {
   start <- 'Taxo_'
   end <- '_fr.png'
   title_start <- "Nombres d'occurrences des valeurs de partages inter-"
   path = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Taxo_plot/FR"
   title <- str_glue("{title_start}{level_name}") # Le titre de l histogramme est definit par une variable
-  ggplot(level, aes(level_share)) + geom_histogram(bins = (max(level_share)*2 - 1)) + ggtitle(label = title) + xlab("Valeurs des partages") + ylab("Nombres d'occurences") 
+  ggplot(level_shared, aes(shared_by)) + geom_histogram(bins = max(shared_by*2 - 1)) + ggtitle(label = title) + xlab("Valeurs des partages") + ylab("Nombres d'occurences") 
   ggsave(str_glue("{start}{level_name}{end}"), plot = last_plot(), device = "png", path = path, width = 16, height = 8.47504)
 }
-# Fonction pour generer les plots avec le titre et les labels en anglais
-generate_plot_en <- function(level_share, level_name)
+
+#### Fonction pour generer les plots avec le titre et les labels en anglais ####
+generate_plot_en <- function(shared_by, level_name)
 {
   start <- 'Taxo_'
   end <- '_en.png'
@@ -61,16 +59,14 @@ generate_plot_en <- function(level_share, level_name)
   title_end <- " sharing value occurences"
   path = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Taxo_plot/EN"
   title <- str_glue("{title_start}{level_name}{title_end}") # Le titre de l histogramme est definit par une variable
-  ggplot(level, aes(level_share)) + geom_histogram(bins = (max(level_share)*2 - 1)) + ggtitle(label = title) + xlab("Sharing values") + ylab("Number of occurences") 
+  ggplot(level_shared, aes(shared_by)) + geom_histogram(bins = max(shared_by*2 - 1)) + ggtitle(label = title) + xlab("Sharing values") + ylab("Number of occurences") 
   ggsave(str_glue("{start}{level_name}{end}"), plot = last_plot(), device = "png", path = path, width = 16, height = 8.47504)
 }
 
-level <- as.data.frame(taxo_small[, c(8:13)]) # On extrait le contenu des colonnes associees aux partages au 6 niveaux taxonomiques etudies
-level_name <- unlist(colnames(taxo_small[, c(2:7)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
-
-for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomique (d especes a phylum)
+#### histogrammes des nombres d occurrences des valeurs de partage aux 6 niveaux taxonomiques etudies ####
+for (i in 1:6)
 {
-  level_share <- level[, i] # On extrai la colonne associe au niveau i
-  generate_plot_fr(level_share, level_name[i]) # On lui applique la fonction generate_plot_fr()
-  generate_plot_en(level_share, level_name[i]) # On lui applique la fonction generate_plot_en()
+  shared_by <- level_shared[, i]
+  generate_plot_fr(shared_by, level_name[i]) # On lui applique la fonction generate_plot_fr()
+  generate_plot_en(shared_by, level_name[i]) # On lui applique la fonction generate_plot_en()
 }
