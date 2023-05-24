@@ -21,7 +21,7 @@ matrix %>%
   identity() -> matrix
 
 matrix <- as.data.frame(t(matrix[, -1]))
-species <- species[-1]
+species <- sort(species[-1])
 
 for (l in length(species)) # Inversion des 2 parties de nom d'espece pour les especes 'UNVERIFIED_ORG' pour avoir la bonne nomenclature
 {
