@@ -1,12 +1,11 @@
 #library(tidyverse)
 
-###################################################################################
-# Ninon ROBIN -- ninon.robin@inserm.fr                                            #
-# Utilite == generer les barplot de presence d un gene donne avec les 15 matrices #
-# pseudo_binaires et le dendrogramme d un famille de gene donnee avec toutes      #
-# Input == sliced_all_species_taxo.tsv et 21 fichiers Sliced_matrix_*.tsv         #
-# Output == les 15 barplots (en FR et EN) et les 21 dendrogrammes                 #
-###################################################################################
+###################################################################################################
+# Ninon ROBIN -- ninon.robin@inserm.fr                                                            #
+# Utilite == generer les barplot de presence d un gene donne avec les 15 matrices pseudo_binaires #
+# Input == sliced_all_species_taxo.tsv et 21 fichiers Sliced_matrix_*.tsv                         #
+# Output == les 15 barplots (en FR et EN)                                                         #
+###################################################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees ####
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
