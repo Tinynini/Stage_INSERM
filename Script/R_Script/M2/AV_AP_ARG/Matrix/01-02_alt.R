@@ -11,6 +11,16 @@
 matrix <- read.csv('W:/ninon-species/data/vib_matrix.tsv', header = TRUE, sep = ",")
 
 species <- colnames(matrix)
+
+matrix <- as.data.frame(t(matrix))
+colnames(matrix) <- matrix[1,]
+matrix <- cbind(species, matrix)
+
+matrix %>%
+  arrange(species) %>%
+  identity() -> matrix
+
+matrix <- as.data.frame(t(matrix[, -1]))
 species <- species[-1]
 
 for (l in length(species)) # Inversion des 2 parties de nom d'espece pour les especes 'UNVERIFIED_ORG' pour avoir la bonne nomenclature
@@ -29,7 +39,7 @@ colnames(all_species) <- c('qseqid', 'shared_by', species)
 
 for (i in 1:nrow(matrix))
 {
-  share <- sum(sharing[i,])
+  share <- sum(strtoi(sharing[i,]))
   
   if (share > 0) # uniquement necessaire avec la matrice de test
   {
