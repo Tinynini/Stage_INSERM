@@ -7,19 +7,22 @@
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                       #
 # Utilite == generer les sous-arbres d un gene donne, les histogrammes des distances totales #
 # des sous-rabres et les arbres complets avec sous-arbres colorises dessus à chaque niveaux  #
-# Input == Sliced_Taxo_Result.tsv, les 12 fichiers 'level_name[i]'*.tree                     #
+# Input == taxo_species.tsv, les 12 fichiers 'level_name[i]'*.tree                           #
 # et les 6 fichiers Sliced_matrix_'level_name[i]'.tsv                                        #
-# Output == les 6 histogrammes (en FR et EN), les 6 arbres colorises                         #
-# (en FR et EN) et les sous-arbres (6 ou moins)                                              #
+# Output == les 6 histogrammes (en FR et EN), les 6 arbres colorises (en FR et EN)           #
+# et les sous-arbres (6 ou moins)                                                            #
 ##############################################################################################
 
-#### Ouverture de Sliced_Taxo_Result.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/Sliced_Taxo_Result.tsv', col_types = "cccccccdddddd") %>%
-  as.data.frame
+#### Ouverture de sliced_all_species_taxo.tsv et taxo_species.tsv & recuperation des donnees ####
+all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
+  as.data.frame()
+
+species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
+  as.data.frame() 
+
 # On est oblige de modifier la nomenclature des noms d especes parce qu une modification automatique se fait au niveau des labels de tips de l arbre des especes 
-all_species[, 'species'] <- str_replace(all_species[, 'species'], '(.*) (.*)', '\\1\\_\\2')
-level <- as.data.frame(all_species[, c(2:7)]) # On extrait le contenu des colonnes associes aux 6 niveaux taxonomiques etudies
-level_name <- unlist(colnames(all_species[, c(2:7)])) # On extrait aussi leurs labels pour pouvoir travailler a un niveau donne plus facilement
+species[, 'species'] <- str_replace(species[, 'species'], '(.*) (.*)', '\\1\\_\\2')
+level_name <- unlist(colnames(species)) # On extrait les labels des 6 niveaux taxonomiques etudies pour pouvoir travailler a un niveau donne plus facilement
 
 #### Preparation des futures listes dans lesquels seront reunies celles obtenues aux 6 niveaux taxonomiques ####
 liste_uni_gene <- vector(mode = 'list', length = 6) # On prepare une liste des listes des genes et des distances totales de leurs sous-arbres aux 6 niveaux taxonomiques
@@ -90,9 +93,9 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_tree <- read.tree(file_name_2) # Arbre avec le traitement supplementaire des labels de nodes
   tibble_tree <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
   other_tibble_tree <- as_tibble(other_tree) # On passe au format tibble plus pratique a manipuler
-  uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
+  uni_gene <- sort(all_species$qseqid) # On extrait la colonne des genes
   n_gene <- length(uni_gene)
-  uni_level <- as.data.frame(sort(unique(level[, i]))) # On extrait la colonne du niveau i
+  uni_level <- as.data.frame(sort(unique(species[, i]))) # On extrait la colonne du niveau i
   colnames(uni_level) <- level_name[i]
   n_level <- nrow(uni_level)
   
@@ -169,6 +172,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   # N.B. : La colonne 'type' sert a donner des types distinct aux sous-arbres lors du plot via une numerotation pour pouvoir les coloriser tous differement sur l arbre complet
   liste <- cbind(liste, type) # On ajoute cette colonne a notre dataframe dedoublonnee
   names(liste) <- c('node', 'type')
+  
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   debut <- 'Tree_'
   fin_fr <- '_fr.png'
