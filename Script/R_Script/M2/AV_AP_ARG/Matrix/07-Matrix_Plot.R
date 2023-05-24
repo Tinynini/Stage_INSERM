@@ -45,7 +45,6 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
     png(str_glue("{deb_fr}{matrix_name[i]}{fin_fr}"), height = 1017, width = 1920, pointsize = 20)
     barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_gene[32]}")) # Barblot de la presence du gene donne dans la matrice
     dev.off()
-    
     png(str_glue("{deb_en}{matrix_name[i]}{fin_en}"), height = 1017, width = 1920, pointsize = 20)
     barplot(m, main = str_glue("{uni_gene[32]}{start}{matrix_name[i]}{end}")) # Barblot de la presence du gene donne dans la matrice
     dev.off()
