@@ -4,7 +4,7 @@
 # Ninon ROBIN -- ninon.robin@inserm.fr                                             #
 # Utilite == recuperer la taxonomie d un maximum d espece via des joins successifs #
 # Input == sliced_all_species_clust.tsv et Parsed_taxonomy.tsv (V1)                #
-# Output == sliced_all_species_clust.tsv & taxo_species.tsv                        #
+# Output == sliced_all_species_clust.tsv et taxo_species.tsv                       #
 ####################################################################################
 
 #### Ouverture de Parsed_taxonomy.tsv et de sliced_all_species_clust.tsv & recuperation des donnees ####
