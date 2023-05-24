@@ -7,7 +7,7 @@
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                       #
 # Utilite == generer les sous-arbres d un gene donne, les histogrammes des distances totales #
 # des sous-rabres et les arbres complets avec sous-arbres colorises dessus à chaque niveaux  #
-# Input == taxo_species.tsv, les 12 fichiers 'level_name[i]'*.tree                           #
+# Input == Sliced_Taxo_Result.tsv, les 12 fichiers 'level_name[i]'*.tree                     #
 # et les 6 fichiers Sliced_matrix_'level_name[i]'.tsv                                        #
 # Output == les 6 histogrammes (en FR et EN), les 6 arbres colorises (en FR et EN)           #
 # et les sous-arbres (6 ou moins)                                                            #
