@@ -4,8 +4,8 @@
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                  #
 # Utilite == generer les colonnes des partages inter-especes aux 6 niveaux taxonomiques #
 # et les histogrammes des nombres d occurrence de valeurs de partages a chaque niveaux  #
-# Input == sliced_all_species_taxo.tsv                                                  #
-# Output == Sliced_Taxo_Result.tsv et les 6 histogrammes (en FR et EN)                  #
+# Input == sliced_all_species_taxo.tsv et taxo_species.tsv                              #
+# Output == Les 6 histogrammes (en FR et EN)                                            #
 #########################################################################################
 
 #### Ouverture de de sliced_all_species_taxo.tsv & recuperation des donnees ####
