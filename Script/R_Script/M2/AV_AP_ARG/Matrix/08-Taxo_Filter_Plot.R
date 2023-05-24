@@ -26,7 +26,7 @@ for (i in 1:6)
 {
   m_file_name <- str_glue("{m_path_start}{level_name[i]}{m_path_end}") # Le nom de fichier est definit par une variable
   matrix <- read_tsv(m_file_name, show_col_types = FALSE)
-  rownames(matrix) <- all_species$qseqid
+  rownames(matrix) <- sort(all_species$qseqid)
   
   level_share <- as.data.frame(matrix(data=0, nrow=nrow(all_species), ncol=1))
   
