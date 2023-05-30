@@ -137,7 +137,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   tree_list <- liste_parser(trees, uni_gene) # On genere la nouvelle liste des sous-arbres sans ceux vides pour le 1er arbre
   other_tree_list <- liste_parser(other_trees, other_uni_gene) # Idem pour le 2nd arbre
   
-  #### Histogramme des distances totales des sous-arbres (la encore c est identique pour les 2 arbres donc on le fait que pour le 1er) ####
+  #### Histogrammes des distances totales des sous-arbres (la encore c est identique pour les 2 arbres donc on le fait que pour le 1er) ####
   level_length <- uni_gene['length']
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   start <- 'Dist_'
@@ -148,7 +148,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   # Pour definir les titres de plots
   title_fr <- "Nombres d'occurrences des valeurs de distances inter-" 
   title_start_en <- "Inter-"
-  title_end_en <- " sharing value occurences" 
+  title_end_en <- " distance value occurences" 
   # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
   ggplot(level_length, aes(length)) + geom_histogram(bins = n_gene) + ggtitle(label = str_glue("{title_fr}{level_name[i]}")) + xlab("Valeurs des distances") + ylab("Nombres d'occurrences")
   ggsave(str_glue("{start}{level_name[i]}{end_fr}"), plot = last_plot(), device = "png", path = path_fr, width = 16, height = 8.47504)
