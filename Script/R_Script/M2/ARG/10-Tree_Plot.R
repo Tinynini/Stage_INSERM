@@ -143,8 +143,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   start <- 'Dist_'
   end_fr <- '_fr.png'
   end_en <- '_en.png'
-  path_fr = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/FR"
-  path_en = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/EN"
+  path_fr = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/Tot_distances/FR"
+  path_en = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/Tot_distances/EN"
   # Pour definir les titres de plots
   title_fr <- "Nombres d'occurrences des valeurs de distances inter-" 
   title_start_en <- "Inter-"
