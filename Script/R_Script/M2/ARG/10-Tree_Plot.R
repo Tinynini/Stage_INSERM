@@ -1,7 +1,7 @@
-#library(tidyverse)
-#library(tidytree)
-#library(ape)
-#library(ggtree)
+library(tidyverse)
+library(tidytree)
+library(ape)
+library(ggtree)
 
 ##############################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                       #
@@ -192,5 +192,5 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   min_length[[i]] <- min(uni_gene[, 2]) # On recupere la valeur de distance totale minimale dans la liste prevue pour ca
   max_length[[i]] <- max(uni_gene[, 2]) # On recupere la valeur de distance totale maximale dans la liste prevue pour ca
 }
-# On enregistre l environnement de travail dans un fichier pour sauvegarder l ensemble des listes 
-save(list = ls(), file = "W:/ninon-species/output/Output_M2/ARG/env_entier.RData")
+# On enregistre les listes de sous-arbres et de genes dans un fichier RData
+save(liste_uni_gene,  liste_tree_liste, file = "W:/ninon-species/output/Output_M2/ARG/listes.RData")
