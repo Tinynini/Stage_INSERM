@@ -82,7 +82,7 @@ for (j in 1:nrow(all_species)) # Certains noms d especes necessitent un traiteme
 
 #### 1er join au niveau des especes --> consequence : ajout de 6 nouvelles colonnes ('Genus' a 'Domain') ####
 all_species %>%
-  arrange(qseqid) %>%
+  arrange(Centroid) %>%
   identity() -> all_species
 
 all_species <- left_join(all_species, Parsed_taxonomy, by = c('species' = 'Species'))
