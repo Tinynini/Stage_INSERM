@@ -45,8 +45,8 @@ cat alt_bash_script/data/sort_DU.txt | sed -n '3p' | cut -f 2 > alt_bash_script/
 
 cat alt_bash_script/data/sort_DU.txt | sed -n '4,11p' | cut -f 2 > alt_bash_script/data/Parsed_species/1G.txt
 cat alt_bash_script/data/sort_DU.txt | sed -n '12,51p' | cut -f 2 > alt_bash_script/data/Parsed_species/100M.txt
-cat alt_bash_script/data/sort_DU.txt | sed -n '12,31p' | cut -f 2 > alt_bash_script/data/Parsed_species/100M-1.txt
-cat alt_bash_script/data/sort_DU.txt | sed -n '32,51p' | cut -f 2 > alt_bash_script/data/Parsed_species/100M-2.txt
+cat alt_bash_script/data/sort_DU.txt | sed -n '12,21p' | cut -f 2 > alt_bash_script/data/Parsed_species/100M-1.txt
+cat alt_bash_script/data/sort_DU.txt | sed -n '22,51p' | cut -f 2 > alt_bash_script/data/Parsed_species/100M-2.txt
 cat alt_bash_script/data/sort_DU.txt | sed -n '52,221p' | cut -f 2 > alt_bash_script/data/Parsed_species/10M.txt
 cat alt_bash_script/data/sort_DU.txt | sed -n '221,3133p' | cut -f 2 > alt_bash_script/data/Parsed_species/1M-100K.txt
 cat alt_bash_script/data/sort_DU.txt | sed -n '3134,11822p' | cut -f 2 > alt_bash_script/data/Parsed_species/10K-1K.txt
