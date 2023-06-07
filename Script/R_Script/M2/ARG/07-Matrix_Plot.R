@@ -12,7 +12,7 @@
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_species_taxo.tsv', col_types = "ccdddccccccc") %>% 
   as.data.frame() 
 
-uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes 
+uni_gene <- sort(unique(all_species$Centroid)) # On extrait la colonne des genes 
 
 #### Obtention de la liste des fichiers contenant nos matrices binaires et pseudo-binaires ####
 # On se rend dans le bon emplacement puis on recherche la parterne de nom de fichier 'Sliced_Matrix_.*.tsv' qui est commune aux 2 types de matrice 
