@@ -28,9 +28,9 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   
   #### Barplot de la presence d un gene donne (ici aac(3)-Xa_1_AB028210) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
-  deb_fr <- "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(6')-31_1_AM283489/FR/Partage_inter-" 
+  deb_fr <- "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(3)-Xa_1_AB028210/FR/Partage_inter-" 
   fin_fr <- "_fr.png" 
-  deb_en <- "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(6')-31_1_AM283489/EN/Partage_inter-" 
+  deb_en <- "W:/ninon-species/output/Output_M2/ARG/Plot/Matrice_plot/Barplot_Pres_ARG/aac(3)-Xa_1_AB028210/EN/Partage_inter-" 
   fin_en <- "_en.png"
   # Pour definir les titres de barplots
   debut <- "Partage inter-" 
