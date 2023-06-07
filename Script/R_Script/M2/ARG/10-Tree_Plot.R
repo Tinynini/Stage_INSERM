@@ -90,7 +90,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_tree <- read.tree(file_name_2) # Arbre avec le traitement supplementaire des labels de nodes
   tibble_tree <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
   other_tibble_tree <- as_tibble(other_tree) # On passe au format tibble plus pratique a manipuler
-  uni_gene <- sort(unique(all_species$qseqid)) # On extrait la colonne des genes
+  uni_gene <- sort(unique(all_species$Centroid)) # On extrait la colonne des genes
   n_gene <- length(uni_gene)
   uni_level <- as.data.frame(sort(unique(level[, i]))) # On extrait la colonne du niveau i
   colnames(uni_level) <- level_name[i]
