@@ -25,7 +25,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   gene_matrix <- as.matrix(gene_matrix) 
   rownames(gene_matrix) <- uni_gene 
   
-  #### Barplot de la presence d un gene donne (ici aac(3)-Xa_1_AB028210) ####
+  #### Barplot de la presence d un gene donne (ici ??) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   deb_fr <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Matrice_plot/Barplot_Pres_ARG/rep/FR/Partage_inter-" 
   fin_fr <- "_fr.png" 
