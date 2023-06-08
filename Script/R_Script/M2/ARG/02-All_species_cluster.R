@@ -1,4 +1,4 @@
-#library(tidyverse)
+library(tidyverse)
 
 #########################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                  #
@@ -16,8 +16,7 @@ all_species %>%
   arrange(qseqid, shared_by) %>% 
   identity() -> all_species
 
-#all_clusters <- read_tsv('W:/ninon-species/data/Cluster/Cluster_ARG/cluster_fast_all_0.95.txt', col_names = FALSE, show_col_types = FALSE) %>% 
-all_clusters <- read_tsv('W:/ninon-species/data/Cluster/Cluster_AV_AP_ARG/cluster_fast_gene_0.95.txt', col_names = FALSE, show_col_types = FALSE) %>% 
+all_clusters <- read_tsv('W:/ninon-species/data/Cluster/Cluster_ARG/cluster_fast_all_0.95.txt', col_names = FALSE, show_col_types = FALSE) %>% 
   as.data.frame()
 
 names(all_clusters) <- c('Type', 'Num_cluster', 'Length', '%_Similarity', 'Match_Orientation', 'Unused1', 'Unused2', 'Align_rep', 'Query', 'Centroid')
@@ -60,8 +59,7 @@ all_species %>%
 all_species <- as.data.frame(t(do.call(rbind, all_species)))
 
 #### Slice de la dataframe sur les especes par centroides de façon a n avoir plus que une seule occurrence par espece et par partage pour un centroid donne ####
-# Ca divise pratiquement par 10 le volume initial de la dataframe !! 
-all_species %>%
+all_species %>% # Ca divise pratiquement par 10 le volume initial de la dataframe !! 
   arrange(Centroid, species, shared_by) %>%
   group_by(Centroid, species) %>% 
   slice_tail() -> sliced_all_species
