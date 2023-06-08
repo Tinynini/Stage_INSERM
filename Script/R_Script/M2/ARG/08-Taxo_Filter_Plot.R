@@ -14,8 +14,8 @@ taxo <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_all_spe
 
 #### On genere 6 nouvelles colonnes des partages de genes du niveau 'species' au niveau 'Phylum' ####
 taxo %>% # Pour chaque partages de chaque centroids on regarde le nombre de representants distincts de chacuns des 6 niveaux taxonomiques
-  arrange(Centroid, shared_by) %>%
-  group_by(Centroid, shared_by) %>%
+  arrange(Centroid) %>%
+  group_by(Centroid) %>%
   mutate(species_shared_by = length(unique(species))) %>% # Partages inter-especes
   mutate(genus_shared_by = length(unique(Genus))) %>% # Partages inter-genus
   mutate(family_shared_by = length(unique(Family))) %>% # Partages inter-familles
@@ -32,7 +32,7 @@ write.table(taxo, "W:/ninon-species/output/Output_M2/ARG/Dataframe/Sliced_Taxo_R
 #### Slice de la dataframe sur les partages inter-especes des centroides de facon a n avoir plus qu une seule occurrence de chaques partages par centroides ####
 taxo %>% 
   ungroup() %>% 
-  group_by(Centroid, species_shared_by) %>%
+  group_by(Centroid) %>%
   arrange(pident, qcovhsp) %>%
   slice_tail() -> taxo_small
 # On rearrange les données en vue des plots
