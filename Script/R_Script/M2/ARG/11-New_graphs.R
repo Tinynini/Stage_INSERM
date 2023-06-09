@@ -5,7 +5,7 @@ library(ape)
 ############################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                     #
 # Utilite == generer les histogrammes de toutes les distances cophenetiques et les courbes #
-# de tendances des distances cophenetiques max et a E.coli à chaque niveaux taxonomiques   #
+# de tendances des distances cophenetiques max et a E.coli Ã  chaque niveaux taxonomiques   #
 # Input == Sliced_Taxo_Result.tsv, les 12 fichiers 'level_name[i]'*.tree, et le fichier    #
 # listes.RData contenant les listes des sous_arbres et des genes a tout les niveaux        #
 # Output == les 6 histogrammes des toutes les distances cophenentics (en FR et EN), et les #
@@ -26,7 +26,7 @@ load("W:/ninon-species/output/Output_M2/ARG/listes.RData")
 # Pour definir les titres de plots
 title_start <- "Inter-"
 
-title_all_fr <- "Nombres d'occurrences des valeurs de distances cophénétiques inter-"
+title_all_fr <- "Nombres d'occurrences des valeurs de distances cophÃ©nÃ©tiques inter-"
 title_max_fr <- "Distances cophenetiques en fonction des partages inter-"
 title_coli_fr <- "Distances cophenetiques en fonction des partages inter-"
 
@@ -47,7 +47,7 @@ path_all_en = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/All_dist
 path_max_en = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/Max_distances/EN"
 path_coli_en = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/Coli_distances/EN"
 
-#### Histogrammes des distances cophenetiques des sous-arbres ####
+#### Fonction de plot des histogrammes des distances cophenetiques des sous-arbres ####
 hist_plot <- function(dist_set, suffix, path_fr, path_en, title_fr, title_en) 
 {
   # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
@@ -57,7 +57,7 @@ hist_plot <- function(dist_set, suffix, path_fr, path_en, title_fr, title_en)
   ggsave(str_glue("{start}{suffix}{level_name[i]}{end_en}"), plot = last_plot(), device = "png", path = path_en, width = 16, height = 8.47504)
 }
 
-#### Scatter_plot avec courbes de tendance des distances cophenetics des sous-arbres en fonction des partages ####
+#### Fonction de plot des courbes de tendance des distances cophenetics en fonction des partages ####
 smooth_plot <- function(dist_set, suffix, path_fr, path_en, title_fr, title_en) 
 {
   # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
@@ -82,6 +82,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   tree <- read.tree(file_name) # Arbre sans le traitement supplementaire des labels de nodes
   tibble_tree <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
   
+  # Obtention de toutes les distances cophenetics dans dist_all
   uni_gene <- liste_uni_gene[[i]]
   tree_liste <- liste_tree_liste[[i]]
   
@@ -101,6 +102,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   all_dist <- as.data.frame(all_dist[c(which(is.na(all_dist) == FALSE))])
   colnames(all_dist) <- 'length'
 
+  # Obtention des distances cophenetics max dans dist_max
   level_share <- all_species[, c(2, i + 5, i + 11)]
   level_share <- unique(level_share)
 
@@ -144,6 +146,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
     arrange(length) %>%
     slice_tail() -> max_dist
   
+  # Obtention des distances cophenetics a E.coli dans dist_coli
   m_coph <- cbind(tibble_tree[c(1:nrow(m_coph)), 'label'], m_coph)
  
   m_coli <- as.data.frame(m_coph[, c('label', taxo_coli[i])])
@@ -156,7 +159,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
     arrange(length) %>%
     slice_tail() -> coli_dist
   
+  # Plot des histogrammes et des courbes de tendances
   hist_plot(all_dist, 'all_hist_', path_all_fr, path_all_en, title_all_fr, title_all_en)
   smooth_plot(max_dist, 'max_smooth_', path_max_fr, path_max_en, title_max_fr, title_max_en)
   smooth_plot(coli_dist, 'coli_smooth_', path_coli_fr, path_coli_en, title_coli_fr, title_coli_en)
-} # Max via all ou en tout cas plus simplement ??
+}
