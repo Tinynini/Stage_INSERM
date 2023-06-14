@@ -1,6 +1,6 @@
 # Explication sur le contenu de ce github :
 
-Ce github vous donne accès à l'ensemble des scripts R et bash (hors période d'entrainement) que j'ai codé lors de mes stages de M1 et de M2. La numérotation des scripts R permet de savoir dans quel ordre ils doivent être utilisés, ceux de M2 pouvants tous être lancés directement à partir du script 00-main.R.
+Ce github vous donne accès à l'ensemble des scripts R et bash (hors période d'entrainement) que j'ai codé lors de mes stages de M1 et de M2. La numérotation des scripts R permet de savoir dans quel ordre ils doivent être utilisés, les scripts 00-main.R des 3 jeus de spripts de M2 permettant de lancer directement les autres scripts du même jeu.
 
 En revanche, par respect de la confidentialité qu'implique toute recherche scientifique, les données de départ et les outputs n'y figurent pas. Vous ne pourrez donc pas tester les codes par vous-même. Les scripts sont duement légendés pour compenser cela. 
 
