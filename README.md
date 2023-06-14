@@ -13,7 +13,7 @@ Il y a 2 types de scripts, ceux de concaténation de fichier propres à l'étude
 
 **Les scripts bash de sélection de gènes pour l'étude de M2 :**
 
-Ces scripts sont propres à l'étude réalisée en M2. generater_liste_data.sh sert à prétraiter les données et doit donc être lancé en amont des autres. boss.sh permet d'effectuer d'un seul trait le travail sur les fichiers GFF et celui sur les fichiers FFN, tandis que boss_gff.sh et boss_ffn.sh permettent de les effectuer séparément. Dans la mesure où le travail sur les fichiers FFN utilise en input l'output du travail sur les fichiers GFF, boss_ffn.sh ne peut être lancé qu'après que boss_gff.sh ai fini de tourner. Le fichier ffn_parser.py est un script python qui permet de réaliser une étape du travail sur les fichier FFN qui n'étaient pas faisable en bash. Son lancement est effectué automatiquement à l'intérieur des scripts boss.sh et boss_ffn.sh lorsqu'on les fait tourner.
+Ces scripts sont propres à l'étude réalisée en M2. generater_liste_data.sh sert à prétraiter les données et doit donc être lancé en amont des autres. boss.sh permet d'effectuer d'un seul trait le travail sur les fichiers GFF et celui sur les fichiers FFN, tandis que boss_gff.sh et boss_ffn.sh permettent de les effectuer séparément. Dans la mesure où le travail sur les fichiers FFN utilise en input l'output du travail sur les fichiers GFF, boss_ffn.sh ne peut être lancé qu'après que boss_gff.sh ait fini de tourner. Le fichier ffn_parser.py est un script python qui permet de réaliser une étape du travail sur les fichier FFN qui n'étaient pas faisable en bash. Son lancement est effectué automatiquement à l'intérieur des scripts boss.sh et boss_ffn.sh lorsqu'on les fait tourner.
 
 **Les scripts bash de réduction des données de M2 :**
 
