@@ -29,7 +29,7 @@ Selon ce même principe, le script "03-Taxonomy_Parser.R" permet de travailler s
 
 **Les scripts R de M2 :**
 
-Le dossier 'ARG' contient un jeu de scripts qui est la version optimisée de celui de M1. On ne travaille plus qu'avec la version slicee de la dataframe puisque qu'on a eu la preuve avec les résultats obtenus en M1 que les 2 versions donnent bien les mêmes résultats de bout en bout. Par ailleurs, les 2 versions de la table de taxonomie sont à présent générées simultatnément. 
+Le dossier 'ARG' contient un jeu de scripts qui est la version optimisée de celui de M1. On ne travaille plus qu'avec la version réduite de la dataframe puisque qu'on a eu la preuve avec les résultats obtenus en M1 que les 2 versions donnent bien les mêmes résultats de bout en bout. Par ailleurs, les 2 versions de la table de taxonomie sont à présent générées simultatnément. 
 
 Le dossier 'AV_AP_ARG' contient 2 jeux de scripts tous 2 conçus pour travailler avec les données propre à l'étude de M2, autrement dit celles se rapportant aux gènes avant/après ceux de résistance. Les 2 premières étapes (celles réalisées par les 2 premiers scripts R pour les ARGs) sont à présent réalisées en bash puis finalisées dans un unique script R, là encore en raison du volume astronomique des données de M2. 
 
