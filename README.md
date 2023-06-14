@@ -1,6 +1,6 @@
 # Explication sur le contenu de ce github :
 
-Ce github vous donne accès à l'ensemble des scripts R et bash (hors période d'entrainement) que j'ai codé lors de mes stages de M1 et de M2. La numérotation des scripts R permet de savoir dans quel ordre ils doivent être utilisés, les scripts 00-main.R des 3 jeus de spripts de M2 permettant de lancer directement les autres scripts du même jeu.
+Ce github vous donne accès à l'ensemble des scripts R et bash (hors période d'entrainement) que j'ai codé lors de mes stages de M1 et de M2. La numérotation des scripts R permet de savoir dans quel ordre ils doivent être utilisés, les scripts 00-main.R des 3 jeux de spripts de M2 permettant de lancer directement les autres scripts du même jeu.
 
 En revanche, par respect de la confidentialité qu'implique toute recherche scientifique, les données de départ et les outputs n'y figurent pas. Vous ne pourrez donc pas tester les codes par vous-même. Les scripts sont duement légendés pour compenser cela. 
 
@@ -17,7 +17,7 @@ Ces scripts sont propres à l'étude réalisée en M2. generater_liste_data.sh s
 
 **Les scripts bash de réduction des données de M2 :**
 
-Ces scripts sont propres à l'étude réalisée en M2. En raison du volume astronimique des données de M2, ce qui était auparavant effectué par les 2 premiers scripts R doit à présent l'être en bash. De plus, le volume des données est tel qu'il n'est possible à ce stade de les manipuler que sous forme de matrice, le passage à la forme de dataframe pouvant être fait ultérieurement en R. Le script data_parser.sh sert à prétraiter les données. Le script puzzle_coli.sh sert au traitement isolé du fichier Escherichia_Coli.tsv, le plus volumineux (et de loin !) du dataset. Le script puzzle.sh perment d'effectuer le même traitement de façon générique, à la façon d'une fonction, l'input et les outputs devant être définis au lancement. Le script puzzle_launcher.sh sert à lancer le scripts puzzle.sh sur 9 jeus d'input et d'output correspondant à 9 fractions successives du dataset. Enfin, le script puzzle_solver.sh sert à assembler les outputs des 9 fractions et d'E.coli en une unique matrice.
+Ces scripts sont propres à l'étude réalisée en M2. En raison du volume astronimique des données de M2, ce qui était auparavant effectué par les 2 premiers scripts R doit à présent l'être en bash. De plus, le volume des données est tel qu'il n'est possible à ce stade de les manipuler que sous forme de matrice, le passage à la forme de dataframe pouvant être fait ultérieurement en R. Le script data_parser.sh sert à prétraiter les données. Le script puzzle_coli.sh sert au traitement isolé du fichier Escherichia_Coli.tsv, le plus volumineux (et de loin !) du dataset. Le script puzzle.sh perment d'effectuer le même traitement de façon générique, à la façon d'une fonction, l'input et les outputs devant être définis au lancement. Le script puzzle_launcher.sh sert à lancer le scripts puzzle.sh sur 9 jeux d'input et d'output correspondant à 9 fractions successives du dataset. Enfin, le script puzzle_solver.sh sert à assembler les outputs des 9 fractions et d'E.coli en une unique matrice.
 
 **Les scripts R de M1 :**
 
