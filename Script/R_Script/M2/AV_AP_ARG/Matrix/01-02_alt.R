@@ -8,7 +8,7 @@
 ##################################################################
 
 #### Ouverture de matrix.tsv & recuperation des donnees dans des dataframes ####
-matrix <- read.csv('W:/ninon-species/data/vib_matrix.tsv', header = TRUE, sep = ",")
+matrix <- read.csv('W:/ninon-species/data/matrix_ninon/full_matrix.tsv', header = TRUE, sep = ",")
 
 species <- colnames(matrix)
 
