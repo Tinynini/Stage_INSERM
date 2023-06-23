@@ -14,9 +14,8 @@ Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605),] # Suppression preventi
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv', show_col_types = FALSE) %>%
   as.data.frame()
 
-species <- colnames(all_species)
-species <- as.data.frame(species[-c(1,2)])
-colnames(species) <- 'species'
+species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/species.tsv', show_col_types = FALSE) %>%
+  as.data.frame()
 
 #### Fonction servant a effectuer un traitement supplementaire pour les noms d especes qui matchent 'pattern_1' ####
 special_treat <- function(df, j, pattern_1, pattern_2, replacement)
@@ -56,7 +55,6 @@ Genus_cleaning <- function(df)
   gene_Target <- gene_Clos[-c(double2),]
   
   df <- Genus_cleaner(df, 'species', gene_Target[, 'species'], 'Clostridiaceae')
-  
   df <- unique(df)
 }
 
