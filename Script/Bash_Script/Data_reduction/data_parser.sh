@@ -3,7 +3,8 @@
 cluster='/home/ninon.robin/Projet-Cluster/Output/cluster_fast_gene_0.95.txt'
 cat ${cluster} | grep -E -v '^C' > /home/ninon.robin/alt_bash_script/data/clust.txt
   
-IFS=$'\n'    
+IFS=$'\n' 
+
 for line in $(cat /home/ninon.robin/alt_bash_script/data/clust.txt)  
 do 
     if [ -n "$(echo ${line} | grep -E '^S')" ]
@@ -43,7 +44,6 @@ cat alt_bash_script/data/sort_DU.txt | sed -n '1p' | cut -f 2 > alt_bash_script/
 cat alt_bash_script/data/sort_DU.txt | sed -n '2p' | cut -f 2 > alt_bash_script/data/Parsed_species/Salm.enter.txt
 cat alt_bash_script/data/sort_DU.txt | sed -n '3p' | cut -f 2 > alt_bash_script/data/Parsed_species/Klebs.pneumo.txt
 cat alt_bash_script/data/sort_DU.txt | sed -n '4,11p' | cut -f 2 > alt_bash_script/data/Parsed_species/1G.txt
-#cat alt_bash_script/data/sort_DU.txt | sed -n '12,51p' | cut -f 2 > alt_bash_script/data/Parsed_species/100M.txt
 cat alt_bash_script/data/sort_DU.txt | sed -n '12,21p' | cut -f 2 > alt_bash_script/data/Parsed_species/100M-1.txt
 cat alt_bash_script/data/sort_DU.txt | sed -n '22,51p' | cut -f 2 > alt_bash_script/data/Parsed_species/100M-2.txt
 cat alt_bash_script/data/sort_DU.txt | sed -n '52,221p' | cut -f 2 > alt_bash_script/data/Parsed_species/10M.txt
