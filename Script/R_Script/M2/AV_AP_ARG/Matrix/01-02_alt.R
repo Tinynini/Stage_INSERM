@@ -11,7 +11,6 @@
 matrix <- read.csv('W:/ninon-species/data/matrix_ninon/100K_matrix.tsv', header = TRUE, sep = ",")
 
 keep_col <- rep(FALSE, ncol(matrix))
-
 keep_col[1] <- TRUE
 
 for (i in 2:ncol(matrix))
@@ -19,15 +18,14 @@ for (i in 2:ncol(matrix))
   keep_col[i] <- sum(matrix[,i]) > 0
 }
 
-matrix <- matrix[ ,keep_col]
+matrix <- matrix[, keep_col]
 
-species <- sort(colnames(matrix[- 1]))
+species <- as.data.frame(sort(colnames(matrix[- 1])))
+colnames(species) <- 'species'
 
 matrix %>%
-  relocate(all_of(species), .after = SPECIES) %>%
+  relocate(all_of(unlist(species)), .after = SPECIES) %>%
   identity() -> matrix
-
-species <- as.data.frame(species)
 
 for (l in nrow(species)) # Inversion des 2 parties de nom d'espece pour les especes 'UNVERIFIED_ORG' pour avoir la bonne nomenclature
 {
