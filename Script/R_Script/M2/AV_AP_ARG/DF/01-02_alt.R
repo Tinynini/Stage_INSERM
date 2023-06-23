@@ -10,6 +10,16 @@
 #### Ouverture de matrix.tsv & recuperation des donnees dans des dataframes ####
 matrix <- read.csv('W:/ninon-species/data/matrix_ninon/full_matrix.tsv', header = TRUE, sep = ",")
 
+keep_col <- rep(FALSE, ncol(matrix))
+keep_col[1] <- TRUE
+
+for (i in 2:ncol(matrix))
+{
+  keep_col[i] <- sum(matrix[,i]) == 0
+}
+
+matrix <- matrix[ ,keep_col]
+
 species <- colnames(matrix)
 species <- species[-1]
 
@@ -29,27 +39,23 @@ colnames(all_species) <- c('qseqid', 'shared_by', 'species')
 
 for (i in 1:length(gene))
 {
-  
   share <- sum(sharing[i,])
+
+  gene_species_share <- as.data.frame(matrix(data="0", nrow=share, ncol=3))
+  colnames(gene_species_share) <- c('qseqid', 'shared_by', 'species')
   
-  if (share > 0) # uniquement necessaire avec la matrice de test
+  k <- 0
+  
+  for (j in 1:length(species))
   {
-    gene_species_share <- as.data.frame(matrix(data="0", nrow=share, ncol=3))
-    colnames(gene_species_share) <- c('qseqid', 'shared_by', 'species')
-    
-    k <- 0
-    
-    for (j in 1:length(species))
+    if (sharing[i, j] == 1)
     {
-      if (sharing[i, j] == 1)
-      {
-        k <- k + 1
-        gene_species_share[k, c('qseqid', 'shared_by', 'species')] <- c(gene[i], share, species[j])
-      }
+      k <- k + 1
+      gene_species_share[k, c('qseqid', 'shared_by', 'species')] <- c(gene[i], share, species[j])
     }
-    
-    all_species <- rbind(all_species, gene_species_share)
   }
+  
+  all_species <- rbind(all_species, gene_species_share)
 }
 
 all_species <- all_species[-1,]
