@@ -1,9 +1,9 @@
-#library(tidyverse)
+library(tidyverse)
 
 ####################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                             #
 # Utilite == recuperer la taxonomie d un maximum d espece via des joins successifs #
-# Input == sliced_all_species_clust.tsv et Parsed_taxonomy.tsv (V1)                #
+# Input == sliced_all_species_clust.tsv, species_tsv et Parsed_taxonomy.tsv (V1)   #
 # Output == sliced_all_species_clust.tsv et taxo_species.tsv                       #
 ####################################################################################
 
@@ -80,7 +80,7 @@ for (j in 1:nrow(species)) # Certains noms d especes necessitent un traitement s
   species <- special_treat(species, j, 'Bacterium', "(.*) (.*)", "\\2\\ \\1")
 }
 
-colnames(all_species) <- c('qseqid', 'shared_by', unlist(species))
+colnames(all_species) <- c('qseqid', unlist(species))
 
 #### 1er join au niveau des especes --> consequence : ajout de 6 nouvelles colonnes ('Genus' a 'Domain') ####
 
