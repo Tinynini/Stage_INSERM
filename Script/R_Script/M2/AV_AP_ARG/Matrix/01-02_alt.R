@@ -1,4 +1,4 @@
-#library(tidyverse)
+library(tidyverse)
 
 ##################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                           #
@@ -10,18 +10,21 @@
 #### Ouverture de matrix.tsv & recuperation des donnees dans des dataframes ####
 matrix <- read.csv('W:/ninon-species/data/matrix_ninon/full_matrix.tsv', header = TRUE, sep = ",")
 
-species <- colnames(matrix)
+keep_col <- rep(FALSE, ncol(matrix))
+keep_col[1] <- TRUE
 
-matrix <- as.data.frame(t(matrix))
-colnames(matrix) <- matrix[1,]
-matrix <- cbind(species, matrix)
+for (i in 2:ncol(matrix))
+{
+  keep_col[i] <- sum(matrix[,i]) == 0
+}
+
+matrix <- matrix[ ,keep_col]
+
+species <- as.data.frame(sort(colnames(matrix[- 1])))
 
 matrix %>%
-  arrange(species) %>%
+  relocate(all_of(species), .after = SPECIES) %>%
   identity() -> matrix
-
-matrix <- as.data.frame(t(matrix[, -1]))
-species <- sort(species[-1])
 
 for (l in length(species)) # Inversion des 2 parties de nom d'espece pour les especes 'UNVERIFIED_ORG' pour avoir la bonne nomenclature
 {
@@ -33,24 +36,5 @@ for (l in length(species)) # Inversion des 2 parties de nom d'espece pour les es
 
 colnames(matrix) <- c('qseqid', species)
 
-sharing <- matrix[, -1] 
-all_species <- as.data.frame(matrix(data="0", nrow=1, ncol=(ncol(matrix) + 1)))
-colnames(all_species) <- c('qseqid', 'shared_by', species)
-
-for (i in 1:nrow(matrix))
-{
-  share <- sum(strtoi(sharing[i,]))
-  
-  if (share > 0) # uniquement necessaire avec la matrice de test
-  {
-    gene_species_share <- cbind(matrix[i, 1], share, sharing[i,])
-    colnames(gene_species_share) <- c('qseqid', 'shared_by', species)
-  
-    all_species <- rbind(all_species, gene_species_share)
-  }
-}
-
-all_species <- all_species[-1,]
-
-#### Enregistrement de la dataframe dans le fichier sliced_all_species_clust.tsv ####
+# #### Enregistrement de la dataframe dans le fichier sliced_all_species_clust.tsv ####
 write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
