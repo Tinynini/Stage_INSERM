@@ -26,12 +26,12 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
   {
     curr_level <- as.data.frame(unique(level[, c(j, i)])) # On extrait simultanement les colonnes des niveaux j et i 
     na_level_1 <- which(is.na(curr_level[, 1]) == TRUE) # On isole les lignes du niveau j contenant NA (== valeur non renseignee)
-    curr_level <- curr_level[-c(na_level_1),] # On supprimer ces lignes
+    curr_level <- curr_level[-c(na_level_1),] # On supprime ces lignes
 
     if (i > 1) # Si le niveau i n est pas celui des especes (le seul qui ne peut pas contenir de NA parce que provenant des donnees de depart)
     {
       na_level_2 <- which(is.na(curr_level[, 2]) == TRUE) # On isole les lignes du niveau i contenant NA (== valeur non renseignee)
-      curr_level <- curr_level[-c(na_level_2),] # On supprimer ces lignes
+      curr_level <- curr_level[-c(na_level_2),] # On supprime ces lignes
     }
 
     curr_level %>% # On reordonne a present les 2 colonnes en fonction de celle du niveau j
