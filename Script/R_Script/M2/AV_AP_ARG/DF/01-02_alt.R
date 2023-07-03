@@ -15,10 +15,10 @@ keep_col[1] <- TRUE
 
 for (i in 2:ncol(matrix))
 {
-  keep_col[i] <- sum(matrix[,i]) == 0
+  keep_col[i] <- sum(matrix[, i]) == 0
 }
 
-matrix <- matrix[ ,keep_col]
+matrix <- matrix[, keep_col]
 
 species <- colnames(matrix)
 species <- species[-1]
