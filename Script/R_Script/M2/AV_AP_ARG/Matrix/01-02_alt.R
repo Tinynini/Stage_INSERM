@@ -14,6 +14,7 @@ matrix <- read.csv('W:/ninon-species/data/matrix_ninon/100K_matrix.tsv', header 
 # LA TRANSPOSITION SERA FAITE EN AMONT PLUS TARD
 rownames(matrix) <- matrix[, 1]
 matrix <- matrix[, -1]
+
 matrix <- t(as.matrix(matrix))
 # FIN TRANSPOSITION
 
@@ -34,7 +35,6 @@ matrix <- as.data.frame(matrix)
 matrix %>%
   mutate(species = rownames(matrix), .before = matrix[, 1]) %>%
   arrange(species) %>%
-  select(-c(1)) %>%
   identity() -> matrix
 
 for (l in nrow(species)) # Inversion des 2 parties de nom d'espece pour les especes 'UNVERIFIED_ORG' pour avoir la bonne nomenclature
@@ -45,7 +45,7 @@ for (l in nrow(species)) # Inversion des 2 parties de nom d'espece pour les espe
   }
 }
 
-rownames(matrix) <- c(species[, 1])
+matrix[, 1] <- species[, 1]
 
 #### Enregistrement de la dataframe dans le fichier sliced_all_species_clust.tsv ####
 write.table(matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = TRUE, col.names = TRUE)
