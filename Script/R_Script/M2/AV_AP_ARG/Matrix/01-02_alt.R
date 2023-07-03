@@ -1,30 +1,40 @@
-#library(tidyverse)
+library(tidyverse)
 
 ##########################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                   #
 # Utilite == nettoyer la matrice et extraire les especes #
-# Input == matrix.tsv                                    #
+# Input == t_full_matrix.tsv                             #
 # Output == sliced_all_species_clust.tsv et species.tsv  #
 ##########################################################
 
 #### Ouverture de matrix.tsv & recuperation des donnees dans des dataframes ####
 matrix <- read.csv('W:/ninon-species/data/matrix_ninon/100K_matrix.tsv', header = TRUE, sep = ",")
+#matrix <- read.csv('W:/ninon-species/data/matrix_ninon/t_full_matrix.tsv', header = TRUE, sep = ",")
 
-keep_col <- rep(FALSE, ncol(matrix))
-keep_col[1] <- TRUE
+# LA TRANSPOSITION SERA FAITE EN AMONT PLUS TARD
+rownames(matrix) <- matrix[, 1]
+matrix <- matrix[, -1]
+matrix <- t(as.matrix(matrix))
+# FIN TRANSPOSITION
 
-for (i in 2:ncol(matrix))
+keep_row <- rep(FALSE, nrow(matrix))
+
+for (i in 1:nrow(matrix))
 {
-  keep_col[i] <- sum(matrix[,i]) > 0
+  keep_row[i] <- sum(matrix[i,]) > 0
 }
 
-matrix <- matrix[, keep_col]
+matrix <- matrix[keep_row,]
 
-species <- as.data.frame(sort(colnames(matrix[- 1])))
+species <- as.data.frame(sort(rownames(matrix)))
 colnames(species) <- 'species'
 
+matrix <- as.data.frame(matrix)
+
 matrix %>%
-  relocate(all_of(unlist(species)), .after = SPECIES) %>%
+  mutate(species = rownames(matrix), .before = matrix[, 1]) %>%
+  arrange(species) %>%
+  select(-c(1)) %>%
   identity() -> matrix
 
 for (l in nrow(species)) # Inversion des 2 parties de nom d'espece pour les especes 'UNVERIFIED_ORG' pour avoir la bonne nomenclature
@@ -35,7 +45,7 @@ for (l in nrow(species)) # Inversion des 2 parties de nom d'espece pour les espe
   }
 }
 
-colnames(matrix) <- c('qseqid', species[, 1])
+rownames(matrix) <- c(species[, 1])
 
 #### Enregistrement de la dataframe dans le fichier sliced_all_species_clust.tsv ####
 write.table(matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
