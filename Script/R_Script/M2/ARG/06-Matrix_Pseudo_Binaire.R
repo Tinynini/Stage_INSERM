@@ -73,7 +73,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
       to_set <- which(curr_level[, 1] %in% uni_level[k]) # On isole les occurrences du representant k au sein du bloc 'niveau j + niveau i'
       l <- length(to_set)
       m <- gene_matrix[, c(to_set)] # On extrait de notre matrice binaire les colonnes de meme indice que les occurences trouvees
-      # Pour la colonne associe au representant k dans la matrice pseudo-binaire :
+      # Pour la colonne associee au representant k dans la matrice pseudo-binaire :
       if (l > 1) # S il y a plus d une occurrence
       {
         cross_matrix[, k] <- rowSums(m) # On lui assigne comme contenu la somme des colonnes extraites si-avant de la matrice binaire
