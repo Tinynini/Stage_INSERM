@@ -18,6 +18,7 @@ matrix <- matrix[, -1]
 matrix <- t(as.matrix(matrix))
 # FIN TRANSPOSITION
 
+#### Suppression des fichier vides ####
 keep_row <- rep(FALSE, nrow(matrix))
 
 for (i in 1:nrow(matrix))
@@ -27,6 +28,7 @@ for (i in 1:nrow(matrix))
 
 matrix <- matrix[keep_row,]
 
+#### Extraction et pretraitement des noms d'especes ####
 species <- as.data.frame(sort(rownames(matrix)))
 colnames(species) <- 'species'
 
