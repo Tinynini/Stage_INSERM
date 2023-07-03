@@ -80,17 +80,15 @@ for (j in 1:nrow(species)) # Certains noms d especes necessitent un traitement s
   species <- special_treat(species, j, 'Bacterium', "(.*) (.*)", "\\2\\ \\1")
 }
 
-colnames(all_species) <- c('qseqid', species[, 1])
+all_species[, 1] <- species[, 1]
 
 species %>%
   arrange(species) %>%
   identity -> species
 
 all_species %>%
-  relocate(all_of(unlist(species)), .after = qseqid) %>%
+  arrange(species) %>%
   identity() -> all_species
-
-colnames(all_species) <- c('qseqid', species[, 1])
 
 #### 1er join au niveau des especes --> consequence : ajout de 6 nouvelles colonnes ('Genus' a 'Domain') ####
 
