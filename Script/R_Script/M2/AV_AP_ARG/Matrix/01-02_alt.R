@@ -48,5 +48,5 @@ for (l in nrow(species)) # Inversion des 2 parties de nom d'espece pour les espe
 matrix[, 1] <- species[, 1]
 
 #### Enregistrement de la dataframe dans le fichier sliced_all_species_clust.tsv ####
-write.table(matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = TRUE, col.names = TRUE)
+write.table(matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
 write.table(species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
