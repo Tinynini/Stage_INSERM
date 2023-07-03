@@ -18,7 +18,7 @@ matrix <- matrix[, -1]
 matrix <- t(as.matrix(matrix))
 # FIN TRANSPOSITION
 
-#### Suppression des fichier vides ####
+#### Suppression des fichiers vides ####
 keep_row <- rep(FALSE, nrow(matrix))
 
 for (i in 1:nrow(matrix))
