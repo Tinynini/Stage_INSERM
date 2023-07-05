@@ -1,4 +1,4 @@
-#library(tidyverse)
+library(tidyverse)
 
 ##################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                           #
@@ -14,36 +14,77 @@ all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Data
 species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
   as.data.frame()
 
-species_matrix <- as.matrix(all_species[, -1])
-rownames(species_matrix) <- c(all_species[, 1])
+curr_matrix <- as.matrix(all_species[, -1])
+rownames(curr_matrix) <- c(all_species[, 1])
 
-na_level_1 <- which(is.na(species[, 2]) == TRUE)
-
-for (i in 3:6) # Si le niveau i n est pas celui des especes (le seul qui ne peut pas contenir de NA parce que provenant des donnees de depart)
-{
-  na_level_2 <- which(is.na(species[, i]) == TRUE) # On isole les lignes du niveau i contenant NA (== valeur non renseignee)
-  na_level_1 <- unique(c(na_level_1, na_level_2))
-}
-
-species <- species[-c(na_level_1),] # On supprime ces lignes dans la dataframe
-species_matrix <- species_matrix[-c(na_level_1),] # On supprime ces lignes dans la matrice 
-
-write.table(species_matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice/Sliced_Matrix_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(curr_matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice/Sliced_Matrix_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexNiveau ####
 level_name <- unlist(colnames(species)) # On extrait les labels des 6 niveaux taxonomiques etudies pour pouvoir travailler a un niveau donne plus facilement
-curr_matrix <- species_matrix
+
 uni_gene <- sort(colnames(all_species[, -1])) # On extrait les genes
 n_gene <- length(uni_gene) 
 
 for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espece a classe)
 {
-  now_level <- as.data.frame(sort(unique(species[, i]))) # On extrait la colonne du niveau i 
-  colnames(now_level) <- level_name[i] 
-  
   for (j in (i + 1):6) # Permet de parcourir en parrallele du niveau i les j niveaux suivants
   {
     curr_level <- as.data.frame(unique(species[, c(j, i)])) # On extrait simultanement les colonnes des niveaux j et i 
+    
+    if (i == 5)
+    {
+      na_level_2 <- which(is.na(curr_level[, 2]) == TRUE) # On isole les lignes du niveau i contenant NA (== valeur non renseignee)
+      curr_level <- curr_level[-c(na_level_2),] # On supprimr ces lignes
+      
+      now_level <- as.data.frame(sort(unique(curr_level[, 2]))) # On extrait la colonne du niveau i 
+      colnames(now_level) <- level_name[i]
+    }
+    
+    else if (i == 4)
+    {
+      na_level_2 <- which(is.na(curr_level[, 2]) == TRUE) # On isole les lignes du niveau i contenant NA (== valeur non renseignee)
+      curr_level <- curr_level[-c(na_level_2),] # On supprimr ces lignes
+      
+      curr_level <- curr_level[-71,]
+      
+      now_level <- as.data.frame(sort(unique(curr_level[, 2]))) # On extrait la colonne du niveau i 
+      colnames(now_level) <- level_name[i]
+    }
+    
+    else if (i == 3)
+    {
+      na_level_2 <- which(is.na(curr_level[, 2]) == TRUE) # On isole les lignes du niveau i contenant NA (== valeur non renseignee)
+      curr_level <- curr_level[-c(na_level_2),] # On supprimr ces lignes
+      
+      na_level_1 <- which(is.na(curr_level[, 1]) == TRUE) # On isole les lignes du niveau j contenant NA (== valeur non renseignee)
+      curr_level <- curr_level[-c(na_level_1),] # On supprime ces lignes
+      
+      curr_level <- curr_level[-101,]
+      
+      now_level <- as.data.frame(sort(unique(curr_level[, 2]))) # On extrait la colonne du niveau i 
+      colnames(now_level) <- level_name[i]
+    }
+    
+    else if (i == 2) 
+    {
+      na_level_2 <- which(is.na(curr_level[, 2]) == TRUE) # On isole les lignes du niveau i contenant NA (== valeur non renseignee)
+      curr_level <- curr_level[-c(na_level_2),] # On supprimr ces lignes
+      
+      now_level <- as.data.frame(sort(unique(curr_level[, 2]))) # On extrait la colonne du niveau i 
+      colnames(now_level) <- level_name[i]
+      
+      na_level_1 <- which(is.na(curr_level[, 1]) == TRUE) # On isole les lignes du niveau j contenant NA (== valeur non renseignee)
+      curr_level <- curr_level[-c(na_level_1),] # On supprime ces lignes
+    }
+    
+    else 
+    {
+      now_level <- as.data.frame(sort(unique(curr_level[, 2]))) # On extrait la colonne du niveau i 
+      colnames(now_level) <- level_name[i]
+      
+      na_level_1 <- which(is.na(curr_level[, 1]) == TRUE) # On isole les lignes du niveau j contenant NA (== valeur non renseignee)
+      curr_level <- curr_level[-c(na_level_1),] # On supprime ces lignes
+    }
     
     curr_level %>% # On reordonne a present les 2 colonnes en fonction de celle du niveau j
       arrange(level_name[j]) %>%
@@ -52,7 +93,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     uni_level <- unlist(as.data.frame(sort(unique(curr_level[, 1])))) # On extrait la colonne du niveau j
     n_level <- length(uni_level)
     
-    # Obtention d une matrice temporaire formatee aux dimensions de curr_level
+    # Obtention d une matrice formatee aux dimensions de curr_level
     temp_matrix <- cbind(now_level, curr_matrix) # On fusionne la colonne du niveau i a notre matrice
     temp_matrix <- left_join(curr_level, temp_matrix, by = NULL) # On join les colonnes des niveaux j et i et la matrice sur les colonnes du niveau i de part et d autre
     temp_matrix <- as.matrix(temp_matrix[, -c(1,2)]) # On supprime les colonnes des niveaux j et i
@@ -101,6 +142,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
       }
 
       next_matrix <- cross_matrix
+      
       new_file_name <- str_glue("{path_start}{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
       write.table(cross_matrix, new_file_name, sep = '\t', row.names = FALSE, col.names = TRUE)
     }
