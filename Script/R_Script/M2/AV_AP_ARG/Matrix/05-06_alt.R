@@ -1,4 +1,4 @@
-library(tidyverse)
+#library(tidyverse)
 
 ##################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                           #
@@ -17,7 +17,7 @@ species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Datafram
 curr_matrix <- as.matrix(all_species[, -1])
 rownames(curr_matrix) <- c(all_species[, 1])
 
-write.table(curr_matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice/Sliced_Matrix_species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(curr_matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice/Sliced_Matrix_species.tsv", sep = '\t', row.names = TRUE, col.names = TRUE)
 
 #### Pretraitement des donnees en vue de la creation de matrices d absence/presence GenexNiveau ####
 level_name <- unlist(colnames(species)) # On extrait les labels des 6 niveaux taxonomiques etudies pour pouvoir travailler a un niveau donne plus facilement
@@ -125,7 +125,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice/Sliced_Matrix_"
     path_end <- ".tsv"
     file_name <- str_glue("{path_start}{level_name[i]}_{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
-    write.table(cross_matrix, file_name, sep = '\t', row.names = FALSE, col.names = TRUE)
+    write.table(cross_matrix, file_name, sep = '\t', row.names = TRUE, col.names = TRUE)
 
     #### Obtention & enregistrement de la matrice binaire au niveau j pour j = i + 1 dans un fichier nominatif ####
     if (j == i + 1)
@@ -144,7 +144,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
       next_matrix <- cross_matrix
       
       new_file_name <- str_glue("{path_start}{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
-      write.table(cross_matrix, new_file_name, sep = '\t', row.names = FALSE, col.names = TRUE)
+      write.table(cross_matrix, new_file_name, sep = '\t', row.names = TRUE, col.names = TRUE)
     }
   }
   
