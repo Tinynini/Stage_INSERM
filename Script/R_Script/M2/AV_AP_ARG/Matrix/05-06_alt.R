@@ -4,7 +4,7 @@
 # Ninon ROBIN -- ninon.robin@inserm.fr                           #
 # Utilite == generer des matrices d absence/presence GenexNiveau #
 # Input == sliced_all_species_taxo.tsv et taxo_species.tsv       #
-# Output == 21 fichiers Sliced_matrix_*.tsv                      #
+# Output == 21 fichiers Sliced_matrix_*.tsv et uni_gene.tsv      #
 ##################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv et taxo_species.tsv & recuperation des donnees dans une dataframe ####
