@@ -7,9 +7,12 @@
 # Output == les 15 barplots (en FR et EN)                                                         #
 ###################################################################################################
 
-#### Ouverture de taxo_species.tsv & recuperation des donnees ####
+#### Ouverture de taxo_species.tsv et uni_gene.tsv & recuperation des donnees ####
 
 species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
+  as.data.frame()
+
+uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/uni_gene.tsv', col_types = 'c') %>% 
   as.data.frame()
 
 #### Obtention de la liste des fichiers contenant nos matrices binaires et pseudo-binaires ####
@@ -18,9 +21,6 @@ all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/AV_AP_ARG/Mat
 n_matrix <- length(all_matrix) # On recupere le nombre de fichier contenus dans notre liste de fichier 
 
 matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3') # On recupere les noms de matrices a partir des noms de fichiers 
-
-uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/uni_gene.tsv', col_types = 'c') %>% 
-  as.data.frame()
 
 for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
 {
