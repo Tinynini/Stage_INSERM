@@ -3,7 +3,7 @@
 ###################################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                            #
 # Utilite == generer les barplot de presence d un gene donne avec les 15 matrices pseudo_binaires #
-# Input == taxo_species.tsv et 21 fichiers Sliced_matrix_*.tsv                                    #
+# Input == taxo_species.tsv, uni_gene.tsv et les 15 matrices pseudo-binaires                      #
 # Output == les 15 barplots (en FR et EN)                                                         #
 ###################################################################################################
 
