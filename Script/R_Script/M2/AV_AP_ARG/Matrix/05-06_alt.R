@@ -25,6 +25,11 @@ level_name <- unlist(colnames(species)) # On extrait les labels des 6 niveaux ta
 uni_gene <- sort(colnames(all_species[, -1])) # On extrait les genes
 n_gene <- length(uni_gene) 
 
+uni_genes <- as.data.frame(uni_gene)
+colnames(uni_genes) <- "qseqid"
+
+write.table(uni_genes, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/uni_gene.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+
 for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espece a classe)
 {
   for (j in (i + 1):6) # Permet de parcourir en parrallele du niveau i les j niveaux suivants
@@ -100,6 +105,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     
     #### Creaction d une matrice pseudo-binaire (0/1~n) d absence/presence des genes au niveau i au sein du niveau j ####
     cross_matrix <- matrix(data = 0, nrow = n_level, ncol = n_gene)
+    
     colnames(cross_matrix) <- uni_gene
     rownames(cross_matrix) <- uni_level
 
