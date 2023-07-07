@@ -16,7 +16,11 @@ species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Datafram
 # On se rend dans le bon emplacement puis on recherche la parterne de nom de fichier 'Sliced_Matrix_.*.tsv' qui est commune aux 2 types de matrice 
 all_matrix <- list.files(path = 'W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice', pattern = 'Sliced_Matrix_.*.tsv', full.names = TRUE) 
 n_matrix <- length(all_matrix) # On recupere le nombre de fichier contenus dans notre liste de fichier 
+
 matrix_name <- str_replace(all_matrix, '(.*)(Matrix)_(.*).(tsv)', '\\3') # On recupere les noms de matrices a partir des noms de fichiers 
+
+uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/uni_gene.tsv', col_types = 'c') %>% 
+  as.data.frame()
 
 for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
 {
@@ -24,8 +28,6 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   { 
     gene_matrix <- read.csv(file = all_matrix[i], header = TRUE, sep = "\t") # On ouvre la matrice depuis la liste de fichier
     gene_matrix <- as.matrix(gene_matrix)
-
-    uni_gene <- colnames(gene_matrix) # On extrait les genes
     
     #### Barplot de la presence d un gene donne (ici ??) ####
     # Pour definir les noms et destinations de fichiers pour l enregistrement
@@ -45,10 +47,10 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
     m <- gene_matrix[c(to_set), 341] # On extrait lesdites lignes
 
     png(str_glue("{deb_fr}{matrix_name[i]}{fin_fr}"), height = 1017, width = 1920, pointsize = 20)
-    barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_gene[341]}")) # Barblot de la presence du gene donne dans la matrice
+    barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_gene[341,]}")) # Barblot de la presence du gene donne dans la matrice
     dev.off()
     png(str_glue("{deb_en}{matrix_name[i]}{fin_en}"), height = 1017, width = 1920, pointsize = 20)
-    barplot(m, main = str_glue("{uni_gene[341]}{start}{matrix_name[i]}{end}")) # Barblot de la presence du gene donne dans la matrice
+    barplot(m, main = str_glue("{uni_gene[341,]}{start}{matrix_name[i]}{end}")) # Barblot de la presence du gene donne dans la matrice
     dev.off()
   }
 }
