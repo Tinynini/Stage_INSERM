@@ -9,7 +9,7 @@
 
 #### Ouverture de Parsed_taxonomy.tsv et de sliced_all_species_clust.tsv & recuperation des donnees ####
 Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv', col_types = "ccccccc")
-Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605, 14168),] # Suppression preventive de certaine lignes de la table de taxonomie pour eviter l apparition de certains doublons 
+Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605, 10249, 11930, 11932, 14168, 16358, 16359),] # Suppression preventive de certaine lignes de la table de taxonomie pour eviter l apparition de certains doublons 
 
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv', show_col_types = FALSE) %>%
   as.data.frame()
@@ -48,6 +48,9 @@ Genus_cleaning <- function(df)
   df <- Genus_cleaner(df, 'Genus', 'Ruminococcus', 'Lachnospiraceae')
   df <- Genus_cleaner(df, 'Genus', 'Eubacterium', 'Eubacteriaceae')
   df <- Genus_cleaner(df, 'Genus', 'Mycoplasma', 'Mycoplasmataceae')
+  df <- Genus_cleaner(df, 'Genus', 'Ruminiclostridium', 'Acetivibrionaceae')
+  df <- Genus_cleaner(df, 'Genus', 'Phormidium', 'Geitlerinemaceae')
+  df <- Genus_cleaner(df, 'Genus', 'Spirochaeta', 'Spirochaetaceae')
   
   double1 <- grep('Clostridium', df[, 'Genus'])
   gene_Clos <- df[c(double1),]
@@ -75,20 +78,11 @@ species[, 'species'] <- str_replace(species[, 'species'], pattern = '(.*)_(.*)',
 
 for (j in 1:nrow(species)) # Certains noms d especes necessitent un traitement supplementaire
 {
-  species <- special_treat(species, j, 'ORG-.', "(.*)_(.*) (.*)(..)", "\\1\\ \\2\\_\\3")
+  species <- special_treat(species, j, 'ORG.', "(.*)_(.*) (.*)(.)", "\\1\\ \\2\\_\\3")
+  species <- special_treat(species, j, 'CONTAM.', "(.*)_(.*) (.*)(.)", "\\1\\ \\2\\_\\3")
   species <- special_treat(species, j, 'symbiont', "(.*) (.*)", "\\2\\ \\1")
   species <- special_treat(species, j, 'Bacterium', "(.*) (.*)", "\\2\\ \\1")
 }
-
-all_species[, 1] <- species[, 1]
-
-species %>%
-  arrange(species) %>%
-  identity -> species
-
-all_species %>%
-  arrange(species) %>%
-  identity() -> all_species
 
 #### 1er join au niveau des especes --> consequence : ajout de 6 nouvelles colonnes ('Genus' a 'Domain') ####
 
@@ -98,7 +92,7 @@ species <- left_join(species, Parsed_taxonomy, by = c('species' = 'Species'))
 level_name <- unlist(colnames(Parsed_taxonomy[, c(1:4)]))
 level_name[1] <- 'species'
 # On liste les suffix des especes 'bacterium' pour pouvoir les traiter selon le niveau taxonomique a partir duquel elles sont referencees
-suffix <- c('', '(.*) (bacterium)', '(.*)(ceae) (bacterium)', '(.*)(ales) (bacterium)')
+suffix <- c('', '(.*) (bacterium)', '(.*)(ae) (bacterium)', '(.*)(ales) (bacterium)')
 cond <- c('', FALSE, TRUE, TRUE) # On adapte la condition de traitement selon le niveau taxonomique
 NA_level <- is.na(species[, level_name[2]]) # Extraction des especes qui n ont pas pu etre matchees lors du 1er join 
 
@@ -135,11 +129,29 @@ for (i in 2:4)
 # N.B. : On peut traiter plusieurs niveaux a la fois pour ce 1er traitement parce qu il ne concerne qu une seule ligne (== on n a pas le probleme du decalage a chaque nouvelle ligne)
 species <- except_treat(species, 'Bacillus bacterium', c('Genus', 'Family', 'Order'), 'Class', 'Phylum', c('Bacillus', 'Bacillaceae', 'Bacillales'), 'Bacilli', 'Firmicutes')
 species <- except_treat(species, 'Lachnospiraceae oral', 'Genus', 'Family', 'Order', NA, 'Lachnospiraceae', 'Lachnospirales')
+species <- except_treat(species, 'Sphingomonas.like bacterium', 'Genus', 'Family', 'Order', 'Sphingomonas.like', NA, NA)
+species <- except_treat(species, 'Corynebacterium.like bacterium', 'Genus', 'Family', 'Order', 'Corynebacterium.like', NA, NA)
 species <- except_treat(species, c('Clostridia bacterium', 'Lachnospiraceae oral'), 'Class', 'Phylum', 'Phylum', 'Clostridia', 'Firmicutes', 'Firmicutes')
-species <- except_treat(species, 'Firmicutes bacterium', 'Phylum', 'Phylum', 'Phylum', 'Firmicutes', 'Firmicutes', 'Firmicutes')
+species <- except_treat(species, 'Zetaproteobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Zetaproteobacteria', 'Pseudomonadota', 'Pseudomonadota')
+species <- except_treat(species, 'Betaproteobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Betaproteobacteria', 'Pseudomonadota', 'Pseudomonadota')
+species <- except_treat(species, 'Alphaproteobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Alphaproteobacteria', 'Pseudomonadota', 'Pseudomonadota')
+species <- except_treat(species, 'Flavobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Flavobacteria', 'Bacteroidota', 'Bacteroidota')
+species <- except_treat(species, 'Acidobacteriia bacterium', 'Class', 'Phylum', 'Phylum', 'Acidobacteriia', 'Acidobacteria', 'Acidobacteria')
+species <- except_treat(species, 'Bacilli bacterium', 'Class', 'Phylum', 'Phylum', 'Bacilli', 'Bacillota', 'Bacillota')
+
 # Traitement de 3 especes 'bacterium' ne pouvant etre fait avec la fonction except_treat()
-ex <- which(species[, 'species']  %in% c('Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium'))
+ex <- which(species[, 'species']  %in% c('Acidobacteria bacterium', 'Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium', 'Tenericutes bacterium', 'Verrucomicrobia bacterium', 'Proteobacteria bacterium', 'Planctomycetes bacterium', 'Gammaproteobacteria bacterium', 'Firmicutes bacterium'))
 species[ex, 'Phylum'] <- str_replace(species[ex, 'species'], '(.*) (.*)', '\\1')
+
+all_species[, 1] <- species[, 1]
+
+species %>%
+  arrange(species) %>%
+  identity -> species
+
+all_species %>%
+  arrange(species) %>%
+  identity() -> all_species
 
 #### Enregistrement de la dataframe slicee dans le fichier sliced_all_species_taxo.tsv et de 'species' dans taxo_species ####
 write.table(all_species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_taxo.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
