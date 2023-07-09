@@ -1,4 +1,4 @@
-#library(tidyverse)
+library(tidyverse)
 
 ##############################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                       #
@@ -10,6 +10,7 @@
 #### Ouverture de bac120_taxonomy_r95.tsv et de bac120_taxonomy_r95_new.tsv & recuperation des donnees ####
 taxonomy_V1 <- read.csv('W:/ninon-species/data/bac120/bac120_taxonomy_r95.tsv', sep = ';', header = FALSE)
 taxonomy_V2 <- read.csv('W:/ninon-species/data/bac120/bac120_taxonomy_r95_new.tsv', sep = ';', header = FALSE)
+
 colnames(taxonomy_V1) <- c('Occurrence', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species')
 colnames(taxonomy_V2) <- c('sseqid', 'Domain', 'Phylum', 'Class', 'Order', 'Family', 'Genus', 'Species')
 
@@ -69,6 +70,7 @@ prev_doublon_cleaner <- function(taxonomy) # Permet d'appliquer plusieurs fois s
   taxonomy <- sub_grep_level(taxonomy, 'Ruminococcus sp', 'Species', 'Ruminococcaceae', 'Oscillospirales')
   taxonomy <- sub_grep_level(taxonomy, 'Clostridium sp', 'Species', 'Clostridiaceae', 'Clostridiales')
   taxonomy <- sub_grep_level(taxonomy, 'Eubacterium sp', 'Species', 'Lachnospiraceae', 'Lachnospirales')
+  taxonomy <- sub_grep_level(taxonomy, 'Leptolyngbya ohadii', 'Species', 'Leptolyngbyaceae', 'Leptolyngbyales')
   
   taxonomy <- unique(taxonomy)
 }
