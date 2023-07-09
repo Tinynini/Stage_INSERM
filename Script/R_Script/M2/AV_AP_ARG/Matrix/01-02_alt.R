@@ -41,7 +41,7 @@ matrix %>%
 
 err <- startsWith(species[, 'species'], 'UNV')
 
-species[err, 'species'] <- str_replace(species[err, 'species'], pattern = "(.*)_(.*)_(.*)", replacement = "\\3\\_\\1\\_\\2.")
+species[err, 'species'] <- str_replace(species[err, 'species'], pattern = "(.*)_(.*)_(.*)", replacement = "\\3\\_\\1\\_\\2")
 
 matrix[, 1] <- species[, 1]
 
