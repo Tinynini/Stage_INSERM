@@ -9,7 +9,7 @@
 
 #### Ouverture de Parsed_taxonomy.tsv et de sliced_all_species_clust.tsv & recuperation des donnees ####
 Parsed_taxonomy <- read_tsv('W:/ninon-species/output/Table_taxonomie/Parsed_taxonomy.tsv', col_types = "ccccccc")
-Parsed_taxonomy <- Parsed_taxonomy[-c(2051, 4092, 9605, 10249, 11930, 11932, 14168, 16358, 16359),] # Suppression preventive de certaine lignes de la table de taxonomie pour eviter l apparition de certains doublons 
+Parsed_taxonomy <- Parsed_taxonomy[-c(11930, 11932, 10249, 14172, 16358, 16359),] # Suppression preventive de certaine lignes de la table de taxonomie pour eviter l apparition de certains doublons 
 
 all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv', show_col_types = FALSE) %>%
   as.data.frame()
@@ -51,14 +51,17 @@ Genus_cleaning <- function(df)
   df <- Genus_cleaner(df, 'Genus', 'Ruminiclostridium', 'Acetivibrionaceae')
   df <- Genus_cleaner(df, 'Genus', 'Phormidium', 'Geitlerinemaceae')
   df <- Genus_cleaner(df, 'Genus', 'Spirochaeta', 'Spirochaetaceae')
+  df <- Genus_cleaner(df, 'Genus', 'Bacteroides' , 'Bacteroidaceae')
+  df <- Genus_cleaner(df, 'Genus', 'Desulfotomaculum' , 'Desulfotomaculaceae')
+  df <- Genus_cleaner(df, 'Genus', 'Paenibacillus' , 'Paenibacillaceae')
+  df <- Genus_cleaner(df, 'Genus', 'Rhodospirillum' , 'Rhodospirillaceae')
   
   double1 <- grep('Clostridium', df[, 'Genus'])
   gene_Clos <- df[c(double1),]
   double2 <- which(gene_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
   gene_Target <- gene_Clos[-c(double2),]
-  
+
   df <- Genus_cleaner(df, 'species', gene_Target[, 'species'], 'Clostridiaceae')
-  df <- unique(df)
 }
 
 #### Fonction servant a recuperer manuellement la taxonomie des especes qui matchent 'wanted' ####
@@ -138,7 +141,6 @@ species <- except_treat(species, 'Alphaproteobacteria bacterium', 'Class', 'Phyl
 species <- except_treat(species, 'Flavobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Flavobacteria', 'Bacteroidota', 'Bacteroidota')
 species <- except_treat(species, 'Acidobacteriia bacterium', 'Class', 'Phylum', 'Phylum', 'Acidobacteriia', 'Acidobacteria', 'Acidobacteria')
 species <- except_treat(species, 'Bacilli bacterium', 'Class', 'Phylum', 'Phylum', 'Bacilli', 'Bacillota', 'Bacillota')
-
 # Traitement de 3 especes 'bacterium' ne pouvant etre fait avec la fonction except_treat()
 ex <- which(species[, 'species']  %in% c('Acidobacteria bacterium', 'Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium', 'Tenericutes bacterium', 'Verrucomicrobia bacterium', 'Proteobacteria bacterium', 'Planctomycetes bacterium', 'Gammaproteobacteria bacterium', 'Firmicutes bacterium'))
 species[ex, 'Phylum'] <- str_replace(species[ex, 'species'], '(.*) (.*)', '\\1')
