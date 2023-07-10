@@ -51,7 +51,7 @@ path_coli_en = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/Coli_di
 hist_plot <- function(dist_set, suffix, path_fr, path_en, title_fr, title_en) 
 {
   # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
-  plt_1 <- ggplot(dist_set, aes(length)) + geom_histogram(bins = nrow(unique(dist_set))/10)
+  plt_1 <- ggplot(dist_set, aes(length)) + geom_histogram(bins = 50)
   plt_2 <- ggplot(dist_set, aes(length)) + stat_density(trim = TRUE)
   plot_grid(plt_1, plt_2, align="hv") + ggtitle(label = str_glue("{title_fr}{level_name[i]}"))
   ggsave(str_glue("{start}{suffix}{level_name[i]}{end_fr}"), plot = last_plot(), device = "png", path = path_fr, width = 16, height = 8.47504)
@@ -156,7 +156,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
     slice_tail() -> coli_dist
   
   # Plot des histogrammes et des courbes de tendances
-  hist_plot(uni_gene, 'all_hist_', path_all_fr, path_all_en, title_all_fr, title_all_en)
+  hist_plot(all_dist, 'all_hist_', path_all_fr, path_all_en, title_all_fr, title_all_en)
   smooth_plot(max_dist, 'max_smooth_', path_max_fr, path_max_en, title_max_fr, title_max_en)
   smooth_plot(coli_dist, 'coli_smooth_', path_coli_fr, path_coli_en, title_coli_fr, title_coli_en)
 }
