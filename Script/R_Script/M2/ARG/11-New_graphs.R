@@ -1,6 +1,7 @@
 library(tidyverse)
 library(tidytree)
 library(ape)
+library(cowplot)
 
 ############################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                     #
@@ -18,8 +19,7 @@ all_species <- read_tsv('W:/ninon-species/output/Output_M2/ARG/Dataframe/sliced_
 
 # On est oblige de modifier la nomenclature des noms d especes pour coller avec celle de l arbre et de la matrice cophenetique des especes
 all_species[, 'species'] <- str_replace(all_species[, 'species'], '(.*) (.*)', '\\1\\_\\2')
-# On extrait aussi les labels des 6 niveaux pour pouvoir travailler a un niveau donne plus facilement
-level_name <- unlist(colnames(all_species[, c(6:11)])) 
+level_name <- unlist(colnames(all_species[, c(6:11)])) # On extrait aussi les labels des 6 niveaux taxonomiques
 # On recupere les listes de sous-arbres et de genes aux 6 niveaux taxonomiques
 load("W:/ninon-species/output/Output_M2/ARG/listes.RData")
 
@@ -51,9 +51,11 @@ path_coli_en = "W:/ninon-species/output/Output_M2/ARG/Plot/Distance_plot/Coli_di
 hist_plot <- function(dist_set, suffix, path_fr, path_en, title_fr, title_en) 
 {
   # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
-  ggplot(dist_set, aes(length)) + geom_histogram(bins = nrow(unique(dist_set))) + ggtitle(label = str_glue("{title_fr}{level_name[i]}")) + xlab("Valeurs des distances") + ylab("Nombres d'occurrences")
+  plt_1 <- ggplot(dist_set, aes(length)) + geom_histogram(bins = nrow(unique(dist_set))/10)
+  plt_2 <- ggplot(dist_set, aes(length)) + stat_density(trim = TRUE)
+  plot_grid(plt_1, plt_2, align="hv") + ggtitle(label = str_glue("{title_fr}{level_name[i]}"))
   ggsave(str_glue("{start}{suffix}{level_name[i]}{end_fr}"), plot = last_plot(), device = "png", path = path_fr, width = 16, height = 8.47504)
-  ggplot(dist_set, aes(length)) + geom_histogram(bins = nrow(unique(dist_set))) + ggtitle(label = str_glue("{title_start}{level_name[i]}{title_en}")) + xlab("Distances values") + ylab("Number of occurences")
+  plot_grid(plt_1, plt_2, align="hv") + ggtitle(label = str_glue("{title_start}{level_name[i]}{title_en}"))
   ggsave(str_glue("{start}{suffix}{level_name[i]}{end_en}"), plot = last_plot(), device = "png", path = path_en, width = 16, height = 8.47504)
 }
 
@@ -68,7 +70,7 @@ smooth_plot <- function(dist_set, suffix, path_fr, path_en, title_fr, title_en)
   plt + stat_smooth(method = "loess", n = 1000) 
   ggsave(str_glue("{start}{suffix}{level_name[i]}{end_en}"), plot = last_plot(), device = "png", path = path_en, width = 16, height = 8.47504)
 }
-
+ 
 ### Main ####
 taxo_coli <- c('Escherichia_coli', 'Escherichia', 'Enterobacteriaceae', 'Enterobacterales', 'Gammaproteobacteria', 'Proteobacteria')
 
@@ -82,41 +84,27 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   tree <- read.tree(file_name) # Arbre sans le traitement supplementaire des labels de nodes
   tibble_tree <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
   
-  # Obtention de toutes les distances cophenetics dans dist_all
   uni_gene <- liste_uni_gene[[i]]
   tree_liste <- liste_tree_liste[[i]]
-  
-  m_coph <- cophenetic.phylo(tree)
-  
-  all_dist <- m_coph
-  
-  p <- 1
-  
-  for (o in 1:nrow(all_dist))
-  {
-    all_dist[o, c(p:ncol(all_dist))] <- matrix(data = NA, nrow = 1, ncol = ncol(all_dist) - (p - 1))
-    p <- p + 1
-  }
-  
-  all_dist <- unlist(all_dist)
-  all_dist <- as.data.frame(all_dist[c(which(is.na(all_dist) == FALSE))])
-  colnames(all_dist) <- 'length'
 
-  # Obtention des distances cophenetics max dans dist_max
   level_share <- all_species[, c(2, i + 5, i + 11)]
   level_share <- unique(level_share)
 
   uni_level_share <- left_join(uni_gene, level_share, by = c('gene' = 'Centroid'))
   uni_level_share <- unique(uni_level_share[, -2])
   colnames(uni_level_share) <- c('gene', 'level', 'share')
+  uni_level_share <- unique(uni_level_share[-c(which(is.na(uni_level_share[, 'level']) == TRUE)),])
 
+  # Obtention des distances cophenetics dans dist_all et des distances cophenetics max dans dist_max
   if (Ntip(tree_liste[[1]]) > 1)
   {
+    all_dist <- unlist(as.data.frame(cophenetic.phylo(tree_liste[[1]])))
     max_dist <- cbind(uni_gene[1, 1], as.data.frame(max(cophenetic.phylo(tree_liste[[1]]))))
   }
 
   else
   {
+    all_dist <- unlist(uni_gene[1, 2])
     max_dist <- uni_gene[1,]
   }
 
@@ -126,18 +114,25 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   {
     if (Ntip(tree_liste[[j]]) > 1)
     {
+      new_all_dist <- unlist(as.data.frame(cophenetic.phylo(tree_liste[[j]])))
       new_max_dist <- cbind(uni_gene[j, 1], as.data.frame(max(cophenetic.phylo(tree_liste[[j]]))))
     }
 
     else
     {
+      new_all_dist <- unlist(uni_gene[j, 2])
       new_max_dist <- uni_gene[j,]
     }
 
+    all_dist <- c(all_dist, new_all_dist)
     colnames(new_max_dist) <- c('gene', 'length')
     max_dist <- rbind(max_dist, new_max_dist)
   }
 
+  all_dist <- all_dist[c(which(all_dist != 0))]
+  all_dist <- as.data.frame(all_dist)
+  colnames(all_dist) <- 'length'
+  
   max_dist <- left_join(max_dist, uni_level_share, by = c('gene' = 'gene'))
   max_dist <- max_dist[, -3]
 
@@ -145,14 +140,15 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
     group_by(gene) %>%
     arrange(length) %>%
     slice_tail() -> max_dist
-  
+
   # Obtention des distances cophenetics a E.coli dans dist_coli
+  m_coph <- cophenetic.phylo(tree)
   m_coph <- cbind(tibble_tree[c(1:nrow(m_coph)), 'label'], m_coph)
- 
+
   m_coli <- as.data.frame(m_coph[, c('label', taxo_coli[i])])
   coli_dist <- left_join(uni_level_share, m_coli, by = c('level' = 'label'))
   colnames(coli_dist) <- c('gene', 'level', 'share', 'length')
-  coli_dist <- coli_dist[-c(which(is.na(coli_dist[, 'length']) == TRUE)), -2]
+  coli_dist <- coli_dist[, -2]
 
   coli_dist %>%
     group_by(gene) %>%
@@ -160,7 +156,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
     slice_tail() -> coli_dist
   
   # Plot des histogrammes et des courbes de tendances
-  hist_plot(all_dist, 'all_hist_', path_all_fr, path_all_en, title_all_fr, title_all_en)
+  hist_plot(uni_gene, 'all_hist_', path_all_fr, path_all_en, title_all_fr, title_all_en)
   smooth_plot(max_dist, 'max_smooth_', path_max_fr, path_max_en, title_max_fr, title_max_en)
   smooth_plot(coli_dist, 'coli_smooth_', path_coli_fr, path_coli_en, title_coli_fr, title_coli_en)
 }
