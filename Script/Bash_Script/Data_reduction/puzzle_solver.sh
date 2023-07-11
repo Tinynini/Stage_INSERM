@@ -28,7 +28,5 @@ K_1_share='/home/ninon.robin/alt_bash_script/output/Puzzle_matrix/1K_share.tsv'
 
 paste ${Coli_species} ${Salm_species} ${Klebs_species} ${G_species} ${M_100_1_species} ${M_100_2_species} ${M_10_species} ${M_1_species} ${K_100_species} ${K_10_species} ${K_1_species} | sed 's/\t//g' > /home/ninon.robin/alt_bash_script/output/full_matrix.tsv
 paste ${centro} ${Coli_share} ${Salm_share} ${Klebs_share} ${G_share} ${M_100_1_share} ${M_100_2_share} ${M_10_share} ${M_1_share} ${K_100_share} ${K_10_share} ${K_1_share} | sed 's/\t//g' >> /home/ninon.robin/alt_bash_script/output/full_matrix.tsv
-#paste ${species} ${Salm_species} ${Klebs_species} ${G_species} ${M_100_1_species} ${M_100_2_species} ${M_10_species} ${M_1_species} ${K_100_species} ${K_10_species} | sed 's/\t//g' > /home/ninon.robin/alt_bash_script/output/pseudo_matrix.tsv
-#paste ${centro} ${Salm_share} ${Klebs_share} ${G_share} ${M_100_1_share} ${M_100_2_share} ${M_10_share} ${M_1_share} ${K_100_share} ${K_10_share} | sed 's/\t//g' >> /home/ninon.robin/alt_bash_script/output/pseudo_matrix.tsv
 #paste ${species} ${K_100_species} | sed 's/\t//g' > /home/ninon.robin/alt_bash_script/output/100K_matrix.tsv
 #paste ${centro} ${K_100_share} | sed 's/\t//g' >> /home/ninon.robin/alt_bash_script/output/100K_matrix.tsv
