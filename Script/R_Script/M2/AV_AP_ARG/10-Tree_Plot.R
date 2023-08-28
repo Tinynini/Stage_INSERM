@@ -1,7 +1,7 @@
-#library(tidyverse)
-#library(tidytree)
-#library(ape)
-#library(ggtree)
+library(tidyverse)
+library(tidytree)
+library(ape)
+library(ggtree)
 
 ##############################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                       #
@@ -13,10 +13,7 @@
 # et les sous-arbres (6 ou moins)                                                            #
 ##############################################################################################
 
-#### Ouverture de sliced_all_species_taxo.tsv et taxo_species.tsv & recuperation des donnees ####
-all_species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_taxo.tsv', show_col_types = FALSE) %>% 
-  as.data.frame()
-
+#### Ouverture de taxo_species.tsv & recuperation des donnees ####
 species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
   as.data.frame() 
 
@@ -26,7 +23,7 @@ level_name <- unlist(colnames(species)) # On extrait les labels des 6 niveaux ta
 
 #### Preparation des futures listes dans lesquels seront reunies celles obtenues aux 6 niveaux taxonomiques ####
 liste_uni_gene <- vector(mode = 'list', length = 6) # On prepare une liste des listes des genes et des distances totales de leurs sous-arbres aux 6 niveaux taxonomiques
-liste_tree_liste <- vector(mode = 'list', length = 6) # On prepare une liste des listes des sous-arbres aux 6 niveaux taxonomiques 
+liste_tree_liste <- vector(mode = 'list', length = 6) # On prepare une liste des listes des sous-arbres aux 6 niveaux taxonomiques
 min_length <- vector(mode = 'list', length = 6) # On prepare une liste des distances totales de sous-arbres minimales aux 6 niveaux taxonomiques
 max_length <- vector(mode = 'list', length = 6) # On prepare une liste des distances totales de sous-arbres maximales aux 6 niveaux taxonomiques
 
@@ -93,26 +90,34 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_tree <- read.tree(file_name_2) # Arbre avec le traitement supplementaire des labels de nodes
   tibble_tree <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
   other_tibble_tree <- as_tibble(other_tree) # On passe au format tibble plus pratique a manipuler
-  uni_gene <- sort(all_species$qseqid) # On extrait la colonne des genes
-  n_gene <- length(uni_gene)
-  uni_level <- as.data.frame(sort(unique(species[, i]))) # On extrait la colonne du niveau i
-  colnames(uni_level) <- level_name[i]
-  n_level <- nrow(uni_level)
   
-  ### Ouverture & traitement de la matrice binaire associee au niveau i ####
+  ### Ouverture & traitement de la matrice binaire associee au niveau i et de uni_level.tsv ####
   m_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice/Sliced_Matrix_"
   m_path_end <- ".tsv"
   m_file_name <- str_glue("{m_path_start}{level_name[i]}{m_path_end}") # Le nom de fichier est definit par une variable
-  gene_matrix <- read_tsv(m_file_name, show_col_types = FALSE)
-  rownames(gene_matrix) <- uni_gene
+  gene_matrix <- read.csv(file = m_file_name, header = TRUE, sep = "\t") # On ouvre la matrice depuis la liste de fichier
+
+  uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/uni_gene.tsv', col_types = 'c') %>% 
+    as.data.frame()
+  
+  n_gene <- nrow(uni_gene)
+  
+  uni_level <- as.data.frame(rownames(gene_matrix)) # On extrait la colonne du niveau i
+  
+  colnames(uni_level) <- level_name[i]
+  n_level <- nrow(uni_level)
   
   #### Join de l arbre et de la matrice & preparation de nouvelles listes ####
-  gene_matrix <- t(gene_matrix) # On transpose la matrice pour avoir les representants du niveau i en ligne
-  gene_matrix <- as.data.frame(gene_matrix) # On transforme la matrice en dataframe
   gene_matrix <- cbind(uni_level, gene_matrix) # On combine la colonne du niveau i a la matrice en vue du join avec l arbre du niveau i
+  
+  if (i == 1)
+  {
+    gene_matrix[, 'species'] <- str_replace(gene_matrix[, 'species'], '(.*) (.*)', '\\1\\_\\2')
+  }
+  
   tibble_tree <- left_join(tibble_tree, gene_matrix, by = c('label' = level_name[i])) # On join la matrice au 1er arbre sur les colonnes du niveau i et des labels
   other_tibble_tree <- left_join(other_tibble_tree, gene_matrix, by = c('label' = level_name[i])) # On join la matrice au 2nd arbre sur les colonnes du niveau i et des labels
-  
+
   #### Creation des listes des sous-arbres et de leurs distances totales par genes ####
   liste <- liste_generator(tree, tibble_tree) # On genere la listes de sous_arbres et la nouvelle colonne d uni_gene de leurs distances totales pour le 1er arbre
   other_liste <- liste_generator(other_tree, other_tibble_tree) # Idem pour le 2nd arbre
@@ -125,13 +130,13 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   #### Exemple de plot d un sous_arbre avec "blaNDM-9_1_KC999080" (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   debu <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Tree_plot/Sous_arbres/rep~blaNDM-18/Sub_tree_"
-  fine <- ".png" 
+  fine <- ".png"
   # N.B. : Il suffit de changer l index dans trees et uni_gene et d adapter le chemin d acces pour tester un autre gene
   # Index des 4 genes que j ai choisis comme representants : 178 - 297 - 358 - 1237 (meme ordre que dans le ppt)
   png(str_glue("{debu}{level_name[i]}{fine}"), height = 1017, width = 1920, pointsize = 20)
   plot.phylo(trees[[358]], show.node.label = TRUE, main = uni_gene[358, 1], sub = uni_gene[358, 2])
   dev.off()
-  
+
   #### Suppresion des sous_arbres vides et de leurs distances totales (genant pour la suite) ####
   err <- which(uni_gene[, 'length'] == 0.000) # On isole les lignes associees a des distances totales null (celles des sous-arbres vides) pour le 1er arbre
   other_err <- which(other_uni_gene[, 'length'] == 0.000) # Idem pour le 2nd arbre
@@ -139,7 +144,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_uni_gene <- other_uni_gene[-c(other_err),] # Idem pour le 2nd arbre
   tree_list <- liste_parser(trees, uni_gene) # On genere la nouvelle liste des sous-arbres sans ceux vides pour le 1er arbre
   other_tree_list <- liste_parser(other_trees, other_uni_gene) # Idem pour le 2nd arbre
-  
+
   #### Histogrammes des distances totales des sous-arbres (la encore c est identique pour les 2 arbres donc on le fait que pour le 1er) ####
   level_length <- uni_gene['length']
   # Pour definir les noms et destinations de fichiers pour l enregistrement
@@ -149,15 +154,15 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   path_fr = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Distance_plot/Tot_distances/FR"
   path_en = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Distance_plot/Tot_distances/EN"
   # Pour definir les titres de plots
-  title_fr <- "Nombres d'occurrences des valeurs de distances inter-" 
+  title_fr <- "Nombres d'occurrences des valeurs de distances inter-"
   title_start_en <- "Inter-"
-  title_end_en <- " distance value occurences" 
+  title_end_en <- " distance value occurences"
   # On fait un premier plot avec le titre et les legendes en francais puis un second avec le titre et les legendes en anglais
   ggplot(level_length, aes(length)) + geom_histogram(bins = n_gene) + ggtitle(label = str_glue("{title_fr}{level_name[i]}")) + xlab("Valeurs des distances") + ylab("Nombres d'occurrences")
   ggsave(str_glue("{start}{level_name[i]}{end_fr}"), plot = last_plot(), device = "png", path = path_fr, width = 16, height = 8.47504)
   ggplot(level_length, aes(length)) + geom_histogram(bins = n_gene) + ggtitle(label = str_glue("{title_start_en}{level_name[i]}{title_end_en}")) + xlab("Distances values") + ylab("Number of occurences")
   ggsave(str_glue("{start}{level_name[i]}{end_en}"), plot = last_plot(), device = "png", path = path_en, width = 16, height = 8.47504)
-  
+
   #### Plot des sous-arbres des especes par genes sur l arbre complet (Pour le 2nd arbre cette fois parce que ca ne peut pas fonctionner sans le traitement supplementaire des labels de nodes !!) ####
   liste <- vector(mode = 'list', length = length(other_tree_list)) # On prepare une nouvelle liste
   for (m in 1:length(other_tree_list)) # Permet de parcourir les m sous-arbre de la liste
@@ -172,7 +177,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   # N.B. : La colonne 'type' sert a donner des types distinct aux sous-arbres lors du plot via une numerotation pour pouvoir les coloriser tous differement sur l arbre complet
   liste <- cbind(liste, type) # On ajoute cette colonne a notre dataframe dedoublonnee
   names(liste) <- c('node', 'type')
-  
+
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   debut <- 'Tree_'
   fin_fr <- '_fr.png'
@@ -180,8 +185,8 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   dir_fr = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Tree_plot/Arbre_sous_arbres/FR"
   dir_en = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Tree_plot/Arbre_sous_arbres/EN"
   # Pour definir les titres de plots
-  titre_deb_fr <- "Sous-arbres " 
-  titre_fin_fr <- "/ARG" 
+  titre_deb_fr <- "Sous-arbres "
+  titre_fin_fr <- "/ARG"
   titre_fin_en <- "/ARG sub-trees"
   # On fait un premier plot avec le titre en francais puis un second avec le titre en anglais
   # N.B. : geom_highlight permet de coloriser les sous-arbres en fonction du type associe. Il fallait donc definir autant de types differents qu il y a de sous-arbres pour attribuer une teinte unique a chacun
@@ -189,12 +194,13 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   ggsave(str_glue("{debut}{level_name[i]}{fin_fr}"), plot = last_plot(), device = "png", path = dir_fr, width = 16, height = 8.47504)
   ggtree(other_tree) + geom_hilight(data = liste, mapping = aes(node = node, fill = type)) + ggtitle(str_glue("{level_name[i]}{titre_fin_en}"))
   ggsave(str_glue("{debut}{level_name[i]}{fin_en}"), plot = last_plot(), device = "png", path = dir_en, width = 16, height = 8.47504)
-  
+
   #### Stockages des listes obtenues au niveau taxonomique i dans les listes prevues a cet effet ####
   liste_uni_gene[[i]] <- uni_gene # On stock uni_gene dans la liste prevue pour ca
   liste_tree_liste[[i]] <- tree_list # On stock la liste des sous-arbre dans la liste prevue pour ca
   min_length[[i]] <- min(uni_gene[, 2]) # On recupere la valeur de distance totale minimale dans la liste prevue pour ca
   max_length[[i]] <- max(uni_gene[, 2]) # On recupere la valeur de distance totale maximale dans la liste prevue pour ca
 }
+
 # On enregistre les listes de sous-arbres et de genes dans un fichier RData
 save(liste_uni_gene,  liste_tree_liste, file = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/listes.RData")
