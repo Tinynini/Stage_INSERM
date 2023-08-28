@@ -127,7 +127,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   uni_gene <- liste[[2]]
   other_uni_gene <- other_liste[[2]]
   
-  #### Exemple de plot d un sous_arbre avec "blaNDM-9_1_KC999080" (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
+  #### Exemple de plot d un sous_arbre (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   debu <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Tree_plot/Sous_arbres/rep~blaNDM-18/Sub_tree_"
   fine <- ".png"
