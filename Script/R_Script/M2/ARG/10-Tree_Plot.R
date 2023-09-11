@@ -88,6 +88,12 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   file_name_2 <- str_glue("{path_start}{level_name[i]}{other_path_end}")
   tree <- read.tree(file_name_1) # Arbre sans le traitement supplementaire des labels de nodes
   other_tree <- read.tree(file_name_2) # Arbre avec le traitement supplementaire des labels de nodes
+  
+  ggtree(tree) + ggtitle(str_glue("Arbre des {level_name[i]}"))
+  ggsave(str_glue("tree_{level_name[i]}_fr.png"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Arbres/FR", width = 16, height = 8.47504)
+  ggtree(tree) + ggtitle(str_glue("{level_name[i]} tree"))
+  ggsave(str_glue("tree_{level_name[i]}_en.png"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/ARG/Plot/Tree_plot/Arbres/EN", width = 16, height = 8.47504)
+  
   tibble_tree <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
   other_tibble_tree <- as_tibble(other_tree) # On passe au format tibble plus pratique a manipuler
   uni_gene <- sort(unique(all_species$Centroid)) # On extrait la colonne des genes
