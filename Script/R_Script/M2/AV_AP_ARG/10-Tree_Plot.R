@@ -1,7 +1,7 @@
-library(tidyverse)
-library(tidytree)
-library(ape)
-library(ggtree)
+#library(tidyverse)
+#library(tidytree)
+#library(ape)
+#library(ggtree)
 
 ##############################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                       #
@@ -88,33 +88,39 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   file_name_2 <- str_glue("{path_start}{level_name[i]}{other_path_end}")
   tree <- read.tree(file_name_1) # Arbre sans le traitement supplementaire des labels de nodes
   other_tree <- read.tree(file_name_2) # Arbre avec le traitement supplementaire des labels de nodes
+  
+  ggtree(tree) + ggtitle(str_glue("Arbre des {level_name[i]}"))
+  ggsave(str_glue("tree_{level_name[i]}_fr.png"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Tree_plot/Arbres/FR", width = 16, height = 8.47504)
+  ggtree(tree) + ggtitle(str_glue("{level_name[i]} tree"))
+  ggsave(str_glue("tree_{level_name[i]}_en.png"), plot = last_plot(), device = "png", path = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Tree_plot/Arbres/EN", width = 16, height = 8.47504)
+  
   tibble_tree <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
   other_tibble_tree <- as_tibble(other_tree) # On passe au format tibble plus pratique a manipuler
-  
+
   ### Ouverture & traitement de la matrice binaire associee au niveau i et de uni_level.tsv ####
   m_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice/Sliced_Matrix_"
   m_path_end <- ".tsv"
   m_file_name <- str_glue("{m_path_start}{level_name[i]}{m_path_end}") # Le nom de fichier est definit par une variable
   gene_matrix <- read.csv(file = m_file_name, header = TRUE, sep = "\t") # On ouvre la matrice depuis la liste de fichier
 
-  uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/uni_gene.tsv', col_types = 'c') %>% 
+  uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/uni_gene.tsv', col_types = 'c') %>%
     as.data.frame()
-  
+
   n_gene <- nrow(uni_gene)
-  
+
   uni_level <- as.data.frame(rownames(gene_matrix)) # On extrait la colonne du niveau i
-  
+
   colnames(uni_level) <- level_name[i]
   n_level <- nrow(uni_level)
-  
+
   #### Join de l arbre et de la matrice & preparation de nouvelles listes ####
   gene_matrix <- cbind(uni_level, gene_matrix) # On combine la colonne du niveau i a la matrice en vue du join avec l arbre du niveau i
-  
+
   if (i == 1)
   {
     gene_matrix[, 'species'] <- str_replace(gene_matrix[, 'species'], '(.*) (.*)', '\\1\\_\\2')
   }
-  
+
   tibble_tree <- left_join(tibble_tree, gene_matrix, by = c('label' = level_name[i])) # On join la matrice au 1er arbre sur les colonnes du niveau i et des labels
   other_tibble_tree <- left_join(other_tibble_tree, gene_matrix, by = c('label' = level_name[i])) # On join la matrice au 2nd arbre sur les colonnes du niveau i et des labels
 
@@ -126,7 +132,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_trees <- other_liste[[1]]
   uni_gene <- liste[[2]]
   other_uni_gene <- other_liste[[2]]
-  
+
   #### Exemple de plot d un sous_arbre (pour le 1er arbre uniquement parce que c est pareil si on le fait avec l autre) ####
   # Pour definir les noms et destinations de fichiers pour l enregistrement
   debu <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Tree_plot/Sous_arbres/rep~blaNDM-18/Sub_tree_"
