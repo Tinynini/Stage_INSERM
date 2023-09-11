@@ -9,8 +9,8 @@
 # des sous-rabres et les arbres complets avec sous-arbres colorises dessus à chaque niveaux  #
 # Input == Sliced_Taxo_Result.tsv, les 12 fichiers 'level_name[i]'*.tree                     #
 # et les 6 fichiers Sliced_matrix_'level_name[i]'.tsv                                        #
-# Output == les 6 histogrammes (en FR et EN), les 6 arbres colorises (en FR et EN)           #
-# et les sous-arbres (6 ou moins)                                                            #
+# Output == les 6 histogrammes (en FR et EN), les 6 arbres en version normale (en FR et EN)  #
+# et en version colorisee (en FR et EN) et les sous-arbres (6 ou moins selon le gene teste)  #
 ##############################################################################################
 
 #### Ouverture de Sliced_Taxo_Result.tsv & recuperation des donnees ####
