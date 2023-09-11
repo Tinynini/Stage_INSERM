@@ -54,5 +54,5 @@ matrix %>%
   identity() -> matrix
 
 #### Enregistrement de la dataframe dans le fichier sliced_all_species_clust.tsv ####
-write.table(matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
-write.table(species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(matrix, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/sliced_all_species_clust.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
+write.table(species, "W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/species.tsv", sep = '\t', row.names = FALSE, col.names = TRUE)
