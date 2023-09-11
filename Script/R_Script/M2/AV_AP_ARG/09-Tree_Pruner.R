@@ -14,7 +14,7 @@ tree <- read.tree('W:/ninon-species/data/bac120/bac120_r95.tree')
 tree_df <- as_tibble(tree) # On passe au format tibble plus pratique a manipuler
 # N.B. : Les labels de tips et de nodes se suivent sur une meme colonne lorsqu un arbre est au format tibble !!
 
-species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
+species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
   as.data.frame()
 
 level_name <- unlist(colnames(species)) # On extrait les labels des 6 niveaux taxonomiques etudies pour pouvoir travailler a un niveau donne plus facilement
@@ -96,7 +96,7 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   other_tree <- as.phylo(new_phylo_tree) # On repasse au format phylo pour pouvoir enregistrer l arbre sans risquer de l abimer
 
   #### Enregistrement des arbres ainsi obtenus dans des fichiers nominatifs ####
-  path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Arbre/"
+  path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Arbre/"
   path_end <- ".tree"
   other_path_end <- "_version_alt.tree"
   # Les noms des fichiers sont definis par des variables
