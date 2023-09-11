@@ -9,16 +9,16 @@
 #########################################################################################
 
 #### Ouverture de taxo_species.tsv et uni_gene.tsv & recuperation des donnees ####
-species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
+species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
   as.data.frame() 
 
-uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/uni_gene.tsv', col_types = 'c') %>% 
+uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/uni_gene.tsv', col_types = 'c') %>% 
   as.data.frame()
   
 #### Recuperation des partages au 6 niveaux taxonomiques etudies ####
 level_name <- unlist(colnames(species)) # On extrait les labels des 6 niveaux taxonomiques etudies pour pouvoir travailler a un niveau donne plus facilement
 
-m_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Matrice/Sliced_Matrix_"
+m_path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_"
 m_path_end <- ".tsv"
 
 level_shared <- as.data.frame(matrix(data=0, nrow=nrow(uni_gene), ncol=6))
@@ -44,7 +44,7 @@ generate_plot_fr <- function(shared_by, level_name)
   start <- 'Taxo_'
   end <- '_fr.png'
   title_start <- "Nombres d'occurrences des valeurs de partages inter-"
-  path = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Taxo_plot/FR"
+  path = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Taxo_plot/FR"
   title <- str_glue("{title_start}{level_name}") # Le titre de l histogramme est definit par une variable
   ggplot(level_shared, aes(shared_by)) + geom_histogram(bins = max(shared_by)*2 - 1) + ggtitle(label = title) + xlab("Valeurs des partages") + ylab("Nombres d'occurences") 
   ggsave(str_glue("{start}{level_name}{end}"), plot = last_plot(), device = "png", path = path, width = 16, height = 8.47504)
@@ -57,7 +57,7 @@ generate_plot_en <- function(shared_by, level_name)
   end <- '_en.png'
   title_start <- "Inter-"
   title_end <- " sharing value occurences"
-  path = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Taxo_plot/EN"
+  path = "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Taxo_plot/EN"
   title <- str_glue("{title_start}{level_name}{title_end}") # Le titre de l histogramme est definit par une variable
   ggplot(level_shared, aes(shared_by)) + geom_histogram(bins = max(shared_by)*2 - 1) + ggtitle(label = title) + xlab("Sharing values") + ylab("Number of occurences") 
   ggsave(str_glue("{start}{level_name}{end}"), plot = last_plot(), device = "png", path = path, width = 16, height = 8.47504)
