@@ -9,10 +9,10 @@
 
 #### Ouverture de taxo_species.tsv et uni_gene.tsv & recuperation des donnees ####
 
-species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
+species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/taxo_species.tsv', col_types = 'cccccc') %>% 
   as.data.frame()
 
-uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Dataframe/uni_gene.tsv', col_types = 'c') %>% 
+uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/uni_gene.tsv', col_types = 'c') %>% 
   as.data.frame()
 
 #### Obtention de la liste des fichiers contenant nos matrices binaires et pseudo-binaires ####
@@ -31,9 +31,9 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
     
     #### Barplot de la presence d un gene donne (ici ??) ####
     # Pour definir les noms et destinations de fichiers pour l enregistrement
-    deb_fr <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Matrice_plot/Barplot_Pres_ARG/rep/FR/Partage_inter-"
+    deb_fr <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Matrice_plot/Barplot_Pres_ARG/rep/FR/Partage_inter-"
     fin_fr <- "_fr.png"
-    deb_en <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrix/Plot/Matrice_plot/Barplot_Pres_ARG/rep/EN/Partage_inter-"
+    deb_en <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Matrice_plot/Barplot_Pres_ARG/rep/EN/Partage_inter-"
     fin_en <- "_en.png"
 
     # Pour definir les titres de barplots
