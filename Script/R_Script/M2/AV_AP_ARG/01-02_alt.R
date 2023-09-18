@@ -10,18 +10,10 @@
 #### Ouverture de matrix.tsv & recuperation des donnees dans des dataframes ####
 matrix <- read.csv('W:/ninon-species/data/matrix_ninon/t_full_matrix.tsv', header = TRUE, sep = "\t")
 
-# LA TRANSPOSITION SERA FAITE EN AMONT PLUS TARD
-# rownames(matrix) <- matrix[, 1]
-# matrix <- matrix[, -1]
-# 
-# matrix <- t(as.matrix(matrix))
-# FIN TRANSPOSITION
-
 #### Suppression des fichiers vides ####
 keep_row <- rep(FALSE, nrow(matrix))
-keep_row[1] <- TRUE
 
-for (i in 2:nrow(matrix))
+for (i in 1:nrow(matrix))
 {
   keep_row[i] <- sum(matrix[i,]) > 0
 }
