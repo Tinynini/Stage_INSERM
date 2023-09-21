@@ -10,7 +10,6 @@ library(ggtree)
 # 3 (Optionnel) : tester existance fichiers pour plusieurs inputs ??
 
 #### Main : ####
-# N.B. : Verifier les graphs sur l ensemble des especes (pas possible juste avec les vibrio)
 
 source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/01-02_alt.R') 
 source('W:/ninon-species/script/Script_M2/AV_AP_ARG/Matrix/03-Taxonomy_parser.R')
