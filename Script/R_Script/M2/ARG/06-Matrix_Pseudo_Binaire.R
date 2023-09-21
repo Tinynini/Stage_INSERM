@@ -3,8 +3,8 @@
 ##############################################################################################
 # Ninon ROBIN -- ninon.robin@inserm.fr                                                       #
 # Utilite == generer des matrices pseudo-binaires d absence/presence GenexNiveau_i->Niveau_j #
-# Input == sliced_all_species_taxo.tsv et 6 fichiers Sliced_matrix_'level_name[i]'.tsv       #
-# Output == 15 fichiers Sliced_matrix_'level_name[i]'_'level_name[j]'.tsv                    #
+# Input == sliced_all_species_taxo.tsv et 6 fichiers Sliced_Matrix_'level_name[i]'.tsv       #
+# Output == 15 fichiers Sliced_Matrix_'level_name[i]'_'level_name[j]'.tsv                    #
 ##############################################################################################
 
 #### Ouverture de sliced_all_species_taxo.tsv & recuperation des donnees dans une dataframe ####
