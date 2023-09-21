@@ -14,7 +14,7 @@ species <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/taxo_
 
 uni_gene <- read_tsv('W:/ninon-species/output/Output_M2/AV_AP_ARG/Dataframe/uni_gene.tsv', col_types = 'c') %>% 
   as.data.frame()
-  
+
 #### Recuperation des partages au 6 niveaux taxonomiques etudies ####
 level_name <- unlist(colnames(species)) # On extrait les labels des 6 niveaux taxonomiques etudies pour pouvoir travailler a un niveau donne plus facilement
 
@@ -27,7 +27,7 @@ for (i in 1:6)
 {
   m_file_name <- str_glue("{m_path_start}{level_name[i]}{m_path_end}") # Le nom de fichier est definit par une variable
   matrix <- read.csv(file = m_file_name, header = TRUE, sep = "\t")
-
+  
   level_share <- as.data.frame(matrix(data=0, nrow=nrow(uni_gene), ncol=1))
   
   for (j in 1:ncol(matrix))
@@ -36,6 +36,18 @@ for (i in 1:6)
   }
   
   level_shared[, i] <- level_share
+}
+
+# Netoyage de certains partages sortis a 0 au lieu de 1
+for (i in 1:6)
+{
+  for (j in 1:nrow(level_shared))
+  {
+    if (level_shared[j, i] == 0)
+    {
+      level_shared[j, i] <- 1
+    }
+  }
 }
 
 #### Fonction pour generer les plots avec le titre et les labels en francais ####
