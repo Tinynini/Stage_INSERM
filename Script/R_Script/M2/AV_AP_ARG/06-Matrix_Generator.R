@@ -31,8 +31,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
       na_level_2 <- which(is.na(curr_level[, 2]) == TRUE) # On isole les lignes du niveau i contenant NA (== valeur non renseignee)
       curr_level <- curr_level[-c(na_level_2),] # On supprimr ces lignes
       
-      curr_level <- curr_level[-c(4, 16, 83),]
-      curr_level <- curr_level[-c(10, 23, 56),]
+      curr_level <- curr_level[-c(22, 63),]
       
       now_level <- as.data.frame(sort(unique(curr_level[, 2]))) # On extrait la colonne du niveau i 
       colnames(now_level) <- level_name[i]
@@ -42,11 +41,11 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     {
       na_level_2 <- which(is.na(curr_level[, 2]) == TRUE) # On isole les lignes du niveau i contenant NA (== valeur non renseignee)
       curr_level <- curr_level[-c(na_level_2),] # On supprimr ces lignes
-      
-      curr_level <- curr_level[-71,]
-      
+  
       na_level_1 <- which(is.na(curr_level[, 1]) == TRUE) # On isole les lignes du niveau j contenant NA (== valeur non renseignee)
       curr_level <- curr_level[-c(na_level_1),] # On supprime ces lignes
+      
+      curr_level <- curr_level[-155,]
       
       now_level <- as.data.frame(sort(unique(curr_level[, 2]))) # On extrait la colonne du niveau i 
       colnames(now_level) <- level_name[i]
@@ -60,7 +59,7 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
       na_level_1 <- which(is.na(curr_level[, 1]) == TRUE) # On isole les lignes du niveau j contenant NA (== valeur non renseignee)
       curr_level <- curr_level[-c(na_level_1),] # On supprime ces lignes
       
-      curr_level <- curr_level[-101,]
+      curr_level <- curr_level[-72,]
       
       now_level <- as.data.frame(sort(unique(curr_level[, 2]))) # On extrait la colonne du niveau i 
       colnames(now_level) <- level_name[i]
@@ -93,26 +92,27 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
     
     uni_level <- unlist(as.data.frame(sort(unique(curr_level[, 1])))) # On extrait la colonne du niveau j
     n_level <- length(uni_level)
-    
+
     # Obtention d une matrice formatee aux dimensions de curr_level
     path_start <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Matrice/Sliced_Matrix_"
     path_end <- ".tsv"
     file_name <- str_glue("{path_start}{level_name[i]}{path_end}") # Le nom de fichier est definit par une variable
-    
+
     curr_matrix <- read.csv(file_name, header = TRUE, sep = "\t") # On ouvre la matrice depuis la liste de fichier
-    
+
     temp_matrix <- cbind(now_level, curr_matrix) # On fusionne la colonne du niveau i a notre matrice
-    rm(curr_matrix) # On supprime curr_matrix desormais inutile pour faire de la place
     
+    rm(curr_matrix) # On supprime curr_matrix desormais inutile pour faire de la place
+
     temp_matrix <- left_join(curr_level, temp_matrix, by = NULL) # On join les colonnes des niveaux j et i et la matrice sur les colonnes du niveau i de part et d autre
     temp_matrix <- as.matrix(temp_matrix[, -c(1,2)]) # On supprime les colonnes des niveaux j et i
-    
+
     #### Creaction d une matrice pseudo-binaire (0/1~n) d absence/presence des genes au niveau i au sein du niveau j ####
     cross_matrix <- matrix(data = 0, nrow = n_level, ncol = n_gene)
-    
+
     colnames(cross_matrix) <- uni_gene
     rownames(cross_matrix) <- uni_level
-    
+
     for (k in 1:n_level) # On parcourt les k representants distincts du niveau j
     {
       # On va les chercher dans la colonne triee et dedoublonnee qu on a extrait precedement
@@ -124,19 +124,19 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
       {
         cross_matrix[k,] <- colSums(mat) # On lui assigne comme contenu la somme des lignes extraites si-avant de la matrice binaire
       }
-      
+
       else # Sinon
       {
         cross_matrix[k,] <- mat # On lui assigne comme contenu celui de l unique ligne extraite si-avant de la matrice binaire
       }
     } # N.B : Je sais c est un peu complique mais in fine ca donne un matrice Genex'Level j' avec 0 s il y a pas de match ou le nombre de representants du niveau i au sein du representant du niveau j se partageant le gene s il y a un match
-    
+
     rm(temp_matrix) # On supprime temp_matrix desormais inutile pour faire de la place
-    
+   
     #### Enregistrement de la matrice pseudo-binaire ainsi obtenue dans un fichier nominatif ####
     next_file_name <- str_glue("{path_start}{level_name[i]}_{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
     write.table(cross_matrix, next_file_name, sep = '\t', row.names = TRUE, col.names = TRUE)
-    
+
     #### Obtention & enregistrement de la matrice binaire au niveau j pour j = i + 1 dans un fichier nominatif ####
     if (j == i + 1)
     {
@@ -150,11 +150,11 @@ for (i in 1:5) # Permet de parcourir les 5 niveaux taxonomiques etudies (d espec
           }
         }
       }
-      
-      new_file_name <- str_glue("{path_start}{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
-      write.table(cross_matrix, new_file_name, sep = '\t', row.names = TRUE, col.names = TRUE)
+
+     new_file_name <- str_glue("{path_start}{level_name[j]}{path_end}") # Le nom de fichier est definit par une variable
+     write.table(cross_matrix, new_file_name, sep = '\t', row.names = TRUE, col.names = TRUE)
     }
-    
+
     rm(cross_matrix) # On supprime cross_matrix pour faire de la place a chaque fin de tour de la boucle j
   }
 }
