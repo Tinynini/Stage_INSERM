@@ -60,7 +60,7 @@ Genus_cleaning <- function(df)
   gene_Clos <- df[c(double1),]
   double2 <- which(gene_Clos[, 'species'] %in% c('Clostridium aldenense', 'Clostridium clostridioforme', 'Clostridium difficile', 'Clostridium phoceensis'))
   gene_Target <- gene_Clos[-c(double2),]
-
+  
   df <- Genus_cleaner(df, 'species', gene_Target[, 'species'], 'Clostridiaceae')
 }
 
@@ -135,12 +135,10 @@ species <- except_treat(species, 'Lachnospiraceae oral', 'Genus', 'Family', 'Ord
 species <- except_treat(species, 'Sphingomonas.like bacterium', 'Genus', 'Family', 'Order', 'Sphingomonas.like', NA, NA)
 species <- except_treat(species, 'Corynebacterium.like bacterium', 'Genus', 'Family', 'Order', 'Corynebacterium.like', NA, NA)
 species <- except_treat(species, c('Clostridia bacterium', 'Lachnospiraceae oral'), 'Class', 'Phylum', 'Phylum', 'Clostridia', 'Firmicutes', 'Firmicutes')
-species <- except_treat(species, 'Zetaproteobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Zetaproteobacteria', 'Pseudomonadota', 'Pseudomonadota')
-species <- except_treat(species, 'Betaproteobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Betaproteobacteria', 'Pseudomonadota', 'Pseudomonadota')
-species <- except_treat(species, 'Alphaproteobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Alphaproteobacteria', 'Pseudomonadota', 'Pseudomonadota')
-species <- except_treat(species, 'Flavobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Flavobacteria', 'Bacteroidota', 'Bacteroidota')
-species <- except_treat(species, 'Acidobacteriia bacterium', 'Class', 'Phylum', 'Phylum', 'Acidobacteriia', 'Acidobacteria', 'Acidobacteria')
-species <- except_treat(species, 'Bacilli bacterium', 'Class', 'Phylum', 'Phylum', 'Bacilli', 'Bacillota', 'Bacillota')
+species <- except_treat(species, 'Zetaproteobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Zetaproteobacteria', 'Proteobacteria', 'Proteobacteria')
+species <- except_treat(species, 'Betaproteobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Betaproteobacteria', 'Proteobacteria', 'Proteobacteria')
+species <- except_treat(species, 'Alphaproteobacteria bacterium', 'Class', 'Phylum', 'Phylum', 'Alphaproteobacteria', 'Proteobacteria', 'Proteobacteria')
+species <- except_treat(species, 'Bacilli bacterium', 'Class', 'Phylum', 'Phylum', 'Bacilli', 'Firmicutes', 'Firmicutes')
 # Traitement de 3 especes 'bacterium' ne pouvant etre fait avec la fonction except_treat()
 ex <- which(species[, 'species']  %in% c('Acidobacteria bacterium', 'Actinobacteria bacterium', 'Tissierellia bacterium', 'Bacteroidetes bacterium', 'Tenericutes bacterium', 'Verrucomicrobia bacterium', 'Proteobacteria bacterium', 'Planctomycetes bacterium', 'Gammaproteobacteria bacterium', 'Firmicutes bacterium'))
 species[ex, 'Phylum'] <- str_replace(species[ex, 'species'], '(.*) (.*)', '\\1')
