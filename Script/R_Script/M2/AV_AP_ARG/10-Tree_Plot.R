@@ -138,9 +138,9 @@ for (i in 1:6) # Permet de parcourir les 6 niveaux taxonomiques etudies (d espec
   debu <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Tree_plot/Sous_arbres/rep~blaNDM-18/Sub_tree_"
   fine <- ".png"
   # N.B. : Il suffit de changer l index dans trees et uni_gene et d adapter le chemin d acces pour tester un autre gene
-  # Index des 4 genes que j ai choisis comme representants : 178 - 297 - 358 - 1237 (meme ordre que dans le ppt)
+  # Index des 4 genes que j ai choisis comme representants : 13763 - 352 - 111 - 2 (meme ordre que dans le ppt)
   png(str_glue("{debu}{level_name[i]}{fine}"), height = 1017, width = 1920, pointsize = 20)
-  plot.phylo(trees[[358]], show.node.label = TRUE, main = uni_gene[358, 1], sub = uni_gene[358, 2])
+  plot.phylo(trees[[111]], show.node.label = TRUE, main = uni_gene[111, 1], sub = uni_gene[111, 2])
   dev.off()
 
   #### Suppresion des sous_arbres vides et de leurs distances totales (genant pour la suite) ####
