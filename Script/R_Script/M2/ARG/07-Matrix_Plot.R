@@ -39,16 +39,16 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   end <- " sharing"
   
   if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
-  { # N.B. : Il suffit de changer l index dans gene_matrix et uni_gene et d adapter les chemins d acces pour tester un autre gene
-    to_set <- which(gene_matrix[32,] != 0) # On isole les colonnes pour lesquelles le gene matche
-    m <- gene_matrix[32, c(to_set)] # On extrait lesdites colonnes
+  {# N.B. : Il suffit de changer l index dans gene_matrix et uni_gene dans les titres de graphs pour tester un autre gene
+    to_set <- which(gene_matrix[36,] != 0) # On isole les colonnes pour lesquelles le gene matche
+    m <- gene_matrix[36, c(to_set)] # On extrait lesdites colonnes
 
     png(str_glue("{deb_fr}{matrix_name[i]}{fin_fr}"), height = 1017, width = 1920, pointsize = 20)
-    barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_gene[32]}")) # Barblot de la presence du gene donne dans la matrice
+    barplot(m, main = str_glue("{debut}{matrix_name[i]}{fin}{uni_gene[36]}")) # Barblot de la presence du gene donne dans la matrice
     dev.off()
     
     png(str_glue("{deb_en}{matrix_name[i]}{fin_en}"), height = 1017, width = 1920, pointsize = 20)
-    barplot(m, main = str_glue("{uni_gene[32]}{start}{matrix_name[i]}{end}")) # Barblot de la presence du gene donne dans la matrice
+    barplot(m, main = str_glue("{uni_gene[36]}{start}{matrix_name[i]}{end}")) # Barblot de la presence du gene donne dans la matrice
     dev.off()
   }
   
