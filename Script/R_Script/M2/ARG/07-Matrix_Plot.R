@@ -39,7 +39,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
   end <- " sharing"
   
   if (grepl('(.*)_(.*)', matrix_name[i]) == TRUE) # On ne fait ce plot que pour les matrices pseudo-binaires
-  {# N.B. : Il suffit de changer l index dans gene_matrix et uni_gene dans les titres de graphs pour tester un autre gene
+  { # N.B. : Il suffit de changer l index dans gene_matrix et uni_gene dans les titres de graphs pour tester un autre gene
     to_set <- which(gene_matrix[36,] != 0) # On isole les colonnes pour lesquelles le gene matche
     m <- gene_matrix[36, c(to_set)] # On extrait lesdites colonnes
 
