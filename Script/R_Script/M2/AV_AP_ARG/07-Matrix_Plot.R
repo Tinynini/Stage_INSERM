@@ -29,7 +29,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
     gene_matrix <- read.csv(file = all_matrix[i], header = TRUE, sep = "\t") # On ouvre la matrice depuis la liste de fichier
     gene_matrix <- as.matrix(gene_matrix)
     
-    #### Barplot de la presence d un gene donne (ici ??) ####
+    #### Barplot de la presence d un gene donne ####
     # Pour definir les noms et destinations de fichiers pour l enregistrement
     deb_fr <- "W:/ninon-species/output/Output_M2/AV_AP_ARG/Plot/Matrice_plot/Barplot_Pres_ARG/rep/FR/Partage_inter-"
     fin_fr <- "_fr.png"
@@ -42,7 +42,7 @@ for (i in 1:n_matrix) # Permet de parcourir les matrices une par une
     start <- " inter-"
     end <- " sharing"
     
-    #N.B. : Il suffit de changer l index dans gene_matrix et uni_gene et d adapter les chemins d acces pour tester un autre gene
+    # N.B. : Il suffit de changer l index dans gene_matrix et uni_gene dans les titres de graphs pour tester un autre gene
     to_set <- which(gene_matrix[, 336] != 0) # On isole les lignes pour lesquelles le gene matche
     m <- gene_matrix[c(to_set), 336] # On extrait lesdites lignes
     
