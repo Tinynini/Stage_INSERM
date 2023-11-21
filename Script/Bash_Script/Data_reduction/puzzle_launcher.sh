@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #wanted="Salm.enter"
 #wanted="Klebs.pneumo"
 #wanted="1G"
