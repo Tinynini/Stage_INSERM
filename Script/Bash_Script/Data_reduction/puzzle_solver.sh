@@ -1,3 +1,5 @@
+#!/bin/bash
+
 centro='/home/ninon.robin/alt_bash_script/output/Puzzle_matrix/centro.tsv'
 #centro='/home/ninon.robin/alt_bash_script/output/vib_centro.tsv'
 
